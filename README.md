@@ -19,9 +19,13 @@ Please, fill the following sections about your project.
 
 ### Dataset
 
-> Find a dataset (or multiple) that you will explore. Assess the quality of the data it contains and how much preprocessing / data-cleaning it will require before tackling visualization. We recommend using a standard dataset as this course is not about scraping nor data processing.
->
-> Hint: some good pointers for finding quality publicly available datasets ([Google dataset search](https://datasetsearch.research.google.com/), [Kaggle](https://www.kaggle.com/datasets), [OpenSwissData](https://opendata.swiss/en/), [SNAP](https://snap.stanford.edu/data/) and [FiveThirtyEight](https://data.fivethirtyeight.com/)), you could use also the DataSets proposed by the ENAC (see the Announcements section on Zulip).
+Dataset
+Our topic is about coffee, and we will create 4 visualizations with these 4 dataset :
+1) A dataset about coffee beans’ production locations’ geographic datas, scores of several properties like aroma, aftertaste, acidity, balance and sweetness. The dataset is originated from Coffee Quality Institute(CQI), which is an organization inspecting coffee quality, so the data is clean and no need to be processed.
+2) A dataset about the import and export data, like the monetary flow and weight of beans being traded, among the globe, from 2000 to 2022. The dataset is created by resource trade.earth, which uses the Chatham House Resource Trade Database(CHRTD) as the original data source. Meanwhile, the original data source of CHRTD is collected by the United Nations Statistic Division, which indicates the reliability of the dataset, thus further data processing is not required.
+3) A dataset about the production of coffee beans among the world, from 2015 to 2024. The data is collected by the U.S. Department of Argriculture, implying that these data are clean.
+4) A dataset about the price of coffee bean per Lbs.
+
 
 ### Problematic
 
