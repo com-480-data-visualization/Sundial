@@ -32,9 +32,7 @@ Coffee Bean Prices: This dataset contains information on the price of coffee bea
 
 ### Problematic
 
-> Frame the general topic of your visualization and the main axis that you want to develop.
-> - What am I trying to show with my visualization?
-> - Think of an overview for the project, your motivation, and the target audience.
+Motivated by a passion for coffee, We aim to explore its production, trade, and pricing through engaging visualizations. We intend to showcase the geographic diversity of coffee cultivation by visualizing production locations and their associated quality attributes, highlighting how geographic conditions contribute to different flavor profiles. Additionally, we will illustrate global trade patterns using import and export data, demonstrating the interconnectedness of coffee markets and the significance of trade relationships. By analyzing production trends from 2015 to 2024, we will identify fluctuations in supply due to factors like climate change and consumer demand, while tracking price movements will provide insights into how market dynamics influence coffee prices. Motivated by a passion for coffee, we seek to educate coffee enthusiasts, consumers, and students about the complexities of the coffee market, making this information accessible and engaging through clear and informative visualizations.
 
 ### Exploratory Data Analysis
 
