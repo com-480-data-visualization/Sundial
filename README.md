@@ -36,8 +36,11 @@ Motivated by a passion for coffee, We aim to explore its production, trade, and 
 
 ### Exploratory Data Analysis
 
-> Pre-processing of the data set you chose
-> - Show some basic statistics and get insights about the data
+Our exploratory data analysis (EDA) starts by reviewing four key datasets to make sure they are clean and ready for visualization. Since these datasets come from reliable sources, they don’t require much fixing, but we still check for missing values and ensure everything is formatted correctly. The Coffee Bean Production and Quality dataset from the CORGIS Project includes information about where coffee is grown and how it scores in terms of aroma, acidity, sweetness, and more. We’ll use this to explore how geography affects coffee quality. The Global Trade Data from Resource Trade Earth tracks coffee imports and exports from 2000 to 2022, showing which countries buy and sell the most. We’ll clean and organize this data to highlight trade patterns. The Global Coffee Production dataset from the USDA covers coffee output from 2015 to 2024, giving us a clear view of how production has changed over time. Finally, the Coffee Price Data from Trading Economics shows how coffee prices have fluctuated over the years, helping us connect price trends with production and trade.
+
+From our initial analysis, we see that Brazil leads coffee production, supplying about 38% of the world’s coffee, followed by Vietnam and Colombia. Global trade data shows strong connections between coffee-producing countries and major buyers like the U.S., Germany, and Japan. The quality dataset reveals that high-altitude coffee farms tend to produce better-tasting beans, which explains why regions like Ethiopia are known for their rich coffee flavors. Meanwhile, price trends show coffee prices have been quite unstable, often influenced by weather, supply chain issues, and market demand.
+
+Existing visualizations usually focus on just one aspect of coffee—either production, trade, or pricing—but don’t show how they all connect. Our project aims to fill this gap by creating interactive visuals that let users explore these relationships. We’ll map out coffee-growing regions alongside their quality scores, helping users see how factors like altitude impact taste. For trade, we’ll build on Resource Trade Earth’s maps by linking coffee quality to global trade flows. Instead of just showing price trends, we’ll compare them with production and trade data to explain why prices rise and fall. By combining these insights, we’ll make it easier for coffee lovers, students, and researchers to understand the bigger picture of the coffee industry in a fun and interactive way.
 
 ### Related work
 
