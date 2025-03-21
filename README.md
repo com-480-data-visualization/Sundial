@@ -4,7 +4,7 @@
 | -------------- | ------ |
 | Lieu Kaixuan Ryan| 402630|
 | Kao Chi Yuk| 403931|
-| | |
+| Tsoi Chun Wong| 403911|
 
 [Milestone 1](#milestone-1) • [Milestone 2](#milestone-2) • [Milestone 3](#milestone-3)
 
@@ -27,7 +27,7 @@ Global Import and Export Data (https://resourcetrade.earth/?year=2017&category=9
 
 Global Coffee Bean Production (https://www.fas.usda.gov/data/production/commodity/0711100): This dataset covers coffee bean production worldwide from 2015 to 2024. The data is collected by the U.S. Department of Agriculture, indicating that it is clean and reliable.
 
-Coffee Bean Prices (https://tradingeconomics.com/commodity/coffee): This dataset contains information on the price of coffee beans per pound. The data is collected by the official trading organization, so no further data processing is needed.
+Coffee Prices (https://www.macrotrends.net/2535/coffee-prices-historical-chart-data): This dataset contains information on the price of coffee per pound. The data is collected from a trusted third-party statistics organization. It will be processed to be compared with the cumulation global inflation rate to calculate the real price value. 
 
 
 ### Problematic
@@ -41,6 +41,8 @@ Our exploratory data analysis (EDA) starts by reviewing four key datasets to mak
 From our initial analysis, we see that Brazil leads coffee production, supplying about 38% of the world’s coffee, followed by Vietnam and Colombia. Global trade data shows strong connections between coffee-producing countries and major buyers like the U.S., Germany, and Japan. The quality dataset reveals that high-altitude coffee farms tend to produce better-tasting beans, which explains why regions like Ethiopia are known for their rich coffee flavors. Meanwhile, price trends show coffee prices have been quite unstable, often influenced by weather, supply chain issues, and market demand.
 
 Existing visualizations usually focus on just one aspect of coffee—either production, trade, or pricing—but don’t show how they all connect. Our project aims to fill this gap by creating interactive visuals that let users explore these relationships. We’ll map out coffee-growing regions alongside their quality scores, helping users see how factors like altitude impact taste. For trade, we’ll build on Resource Trade Earth’s maps by linking coffee quality to global trade flows. Instead of just showing price trends, we’ll compare them with production and trade data to explain why prices rise and fall. By combining these insights, we’ll make it easier for coffee lovers, students, and researchers to understand the bigger picture of the coffee industry in a fun and interactive way.
+
+See basic data visualization results in our [Jupyter Notebook file](/milestone1.ipynb). 
 
 ### Related work
 
