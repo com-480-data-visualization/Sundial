@@ -27,7 +27,7 @@ Global Import and Export Data (https://resourcetrade.earth/?year=2017&category=9
 
 Global Coffee Bean Production (https://www.fas.usda.gov/data/production/commodity/0711100): This dataset covers coffee bean production worldwide from 2015 to 2024. The data is collected by the U.S. Department of Agriculture, indicating that it is clean and reliable.
 
-Coffee Bean Prices (https://tradingeconomics.com/commodity/coffee): This dataset contains information on the price of coffee beans per pound. The data is collected by the official trading organization, so no further data processing is needed.
+Coffee Prices (https://www.macrotrends.net/2535/coffee-prices-historical-chart-data): This dataset contains information on the price of coffee per pound. The data is collected from a trusted third-party statistics organization. It will be processed to be compared with the cumulation global inflation rate to calculate the real price value. 
 
 
 ### Problematic
@@ -36,8 +36,7 @@ Motivated by a passion for coffee, We aim to explore its production, trade, and 
 
 ### Exploratory Data Analysis
 
-> Pre-processing of the data set you chose
-> - Show some basic statistics and get insights about the data
+See basic data visualization results in our [Jupyter Notebook file](/milestone1.ipynb)
 
 ### Related work
 
