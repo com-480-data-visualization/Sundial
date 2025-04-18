@@ -58,7 +58,7 @@ Trading Economics has visualized coffee price trends using standard graphs. In c
 ## Milestone 2 (18th April, 5pm)
 
 [Page Prototype](https://com-480-data-visualization.github.io/Sundial/)
-[PDF](/COM-480 Milestone 2.pdf)
+[PDF](/COM480_Milestone_2.pdf)
 
 ## Milestone 3 (30th May, 5pm)
 
