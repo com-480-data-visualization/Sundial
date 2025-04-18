@@ -34,9 +34,17 @@
             height: 20px;
             margin-right: 10px;
         }
+        #boxplot {
+            width: 800px;
+            height: 400px;
+            }
+        #lineplot {
+            width: 800px;
+            height: 400px;
+            }
     </style>
 </head>
-<body style="font-family: fantasy; color:brown; background-color: bisque;">
+<body style="font-family: fantasy; color:brown; background-color: bisque; margin:100px">
 <p style="font-size: 50px;">Coffe Bean Scores</p>
 <div>
     <div style="padding: 10px;">
@@ -54,18 +62,23 @@
 <p style="font-size: 50px;">Coffe Bean Import</p>
 <div>
     <div style="padding: 10px;">
-    <button>Total Score</button>
-    <button>Aroma Score</button>
-    <button>Aftertaste Score</button>
-    <button>Balance Score</button>
-    <button>Uniformity Score</button>
-    <button>Sweetness Score</button>
-    <button>Moisture Score</button>
+    <input type="range" min="2000" max="2022" step="1" name="Year">
     </div>
     <div id="map_import"></div>
 </div>
 <p style="font-size: 40px;">United States</p>
+<p>Total Import</p>
+<div id="boxplot"></div>
+<div>
+    <span style="padding-left: 90px;">Brazil</span>
+    <span style="padding-left: 90px;">Colombia</span>
+    <span style="padding-left: 90px;">Vietnam</span>
+    <span style="padding-left: 76px;">Guatemala</span>
+    <span style="padding-left: 85px;">Mexico</span>
+</div>
 <p style="font-size: 50px;">Coffe Price Index</p>
+<div id="priceIndex"></div>
+<div id="lineplot"></div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://d3js.org/d3.v6.min.js"></script>
@@ -169,6 +182,7 @@
 
     // Create a legend
     const legend = L.control({ position: 'bottomleft' });
+    const importAmount = L.control({ position: 'bottomleft' });
 
     legend.onAdd = function () {
         const div = L.DomUtil.create('div', 'legend');
@@ -179,8 +193,137 @@
         div.innerHTML += '<div><div class="color-box" style="background:#00b500"></div> ≤ 80</div>';
         return div;
     };
+    importAmount.onAdd = function () {
+        const div = L.DomUtil.create('div', 'legend');
+        div.innerHTML += '<strong>Total Import Amount</strong><br>';
+        div.innerHTML += '<div><div class="color-box" style="background:#E80F38"></div> > 500kt</div>';
+        div.innerHTML += '<div><div class="color-box" style="background:#EBBD30"></div> > 100kt</div>';
+        div.innerHTML += '<div><div class="color-box" style="background:#167DE8"></div> < 100kt</div>';
+        div.innerHTML += '<div><div class="color-box" style="background:#D9E4E8"></div> No Data</div>';
+        return div;
+    };
 
     legend.addTo(map);
+    importAmount.addTo(map_import);
+
+    const importWeights = [
+        { country: "Brazil", weight: 80.7 },
+        { country: "Colombia", weight: 74.3 },
+        { country: "Vietnam", weight: 71.2 },
+        { country: "Guatemala", weight: 65.7 },
+        { country: "Mexico", weight: 62.6 }
+    ];
+
+    // Create box plot
+    const boxplotWidth = 800;
+    const boxplotHeight = 400;
+
+    const svg = d3.select("#boxplot")
+        .append("svg")
+        .attr("width", boxplotWidth)
+        .attr("height", boxplotHeight);
+
+    const x = d3.scaleBand()
+        .domain(importWeights.map(d => d.country))
+        .range([0, boxplotWidth])
+        .padding(0.5);
+
+    const y = d3.scaleLinear()
+        .domain([0, d3.max(importWeights, d => d.weight) + 10])
+        .range([boxplotHeight, 0]);
+
+    svg.selectAll(".bar")
+        .data(importWeights)
+        .enter()
+        .append("rect")
+        .attr("class", "bar")
+        .attr("x", d => x(d.country))
+        .attr("y", d => y(d.weight))
+        .attr("width", x.bandwidth())
+        .attr("height", d => boxplotHeight - y(d.weight))
+        .attr("fill", "#69b3a2");
+
+    // Add axes
+    svg.append("g")
+        .attr("transform", "translate(0," + boxplotHeight + ")")
+        .call(d3.axisBottom(x));
+
+    svg.append("g")
+        .call(d3.axisLeft(y));
+    
+        const priceIndexData = [
+        { year: 2000, index: 100 },
+        { year: 2001, index: 102 },
+        { year: 2002, index: 105 },
+        { year: 2003, index: 107 },
+        { year: 2004, index: 110 },
+        { year: 2005, index: 115 },
+        { year: 2006, index: 120 },
+        { year: 2007, index: 125 },
+        { year: 2008, index: 130 },
+        { year: 2009, index: 128 },
+        { year: 2010, index: 135 },
+        { year: 2011, index: 140 },
+        { year: 2012, index: 145 },
+        { year: 2013, index: 150 },
+        { year: 2014, index: 155 },
+        { year: 2015, index: 160 },
+        { year: 2016, index: 165 },
+        { year: 2017, index: 170 },
+        { year: 2018, index: 175 },
+        { year: 2019, index: 180 },
+        { year: 2020, index: 185 },
+        { year: 2021, index: 190 },
+        { year: 2022, index: 195 },
+        { year: 2023, index: 200 },
+        { year: 2024, index: 205 },
+        { year: 2025, index: 210 },
+    ];
+
+    // Create line plot
+    const lineplotWidth = 800;
+    const lineplotHeight = 400;
+
+    const svgLine = d3.select("#lineplot")
+        .append("svg")
+        .attr("width", lineplotWidth)
+        .attr("height", lineplotHeight);
+
+    const xLine = d3.scaleLinear()
+        .domain(d3.extent(priceIndexData, d => d.year))
+        .range([0, lineplotWidth]);
+
+    const yLine = d3.scaleLinear()
+        .domain([0, d3.max(priceIndexData, d => d.index) + 10])
+        .range([lineplotHeight, 0]);
+
+    const line = d3.line()
+        .x(d => xLine(d.year))
+        .y(d => yLine(d.index));
+
+    // Draw the line
+    svgLine.append("path")
+        .datum(priceIndexData)
+        .attr("fill", "none")
+        .attr("stroke", "#69b3a2")
+        .attr("stroke-width", 2)
+        .attr("d", line);
+
+    // Add axes
+    svgLine.append("g")
+        .attr("transform", "translate(0," + lineplotHeight + ")")
+        .call(d3.axisBottom(xLine).ticks(25).tickFormat(d3.format("d")));
+
+    svgLine.append("g")
+        .call(d3.axisLeft(yLine));
+
+    // Add title
+    svgLine.append("text")
+        .attr("x", lineplotWidth / 2)
+        .attr("y", 20)
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px")
+        .text("Price Index from 2000 to 2025");
 </script>
 
 </body>
