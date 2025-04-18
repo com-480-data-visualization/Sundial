@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coffee Bean Scores Visualization</title>
+    <title>Coffee Bean Data Visualization</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
-        #map {
+        #map_score {
             height: 600px;
             width: 800px; /* Fixed width */
-            margin: 0 auto; /* Center map */
-        }
+            }
+        #map_import {
+            height: 600px;
+            width: 800px; /* Fixed width */
+            }
         .legend {
             background: white;
             padding: 10px;
@@ -33,38 +36,85 @@
         }
     </style>
 </head>
-<body>
-<p>Coffe Bean Scores</p>
-<div id="map"></div>
+<body style="font-family: fantasy; color:brown; background-color: bisque;">
+<p style="font-size: 50px;">Coffe Bean Scores</p>
+<div>
+    <div style="padding: 10px;">
+    <button>Total Score</button>
+    <button>Aroma Score</button>
+    <button>Aftertaste Score</button>
+    <button>Balance Score</button>
+    <button>Uniformity Score</button>
+    <button>Sweetness Score</button>
+    <button>Moisture Score</button>
+    </div>
+    <div id="map_score"></div>
+</div>
 <div class="legend" id="legend"></div>
+<p style="font-size: 50px;">Coffe Bean Import</p>
+<div>
+    <div style="padding: 10px;">
+    <button>Total Score</button>
+    <button>Aroma Score</button>
+    <button>Aftertaste Score</button>
+    <button>Balance Score</button>
+    <button>Uniformity Score</button>
+    <button>Sweetness Score</button>
+    <button>Moisture Score</button>
+    </div>
+    <div id="map_import"></div>
+</div>
+<p style="font-size: 40px;">United States</p>
+<p style="font-size: 50px;">Coffe Price Index</p>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://d3js.org/d3.v6.min.js"></script>
 <script>
-    // Sample data: country scores (replace with your actual data)
+    // Sample data: country scores 
     const coffeeScores = {
         "Brazil": 85,
         "Colombia": 90,
         "Ethiopia": 95,
         "Vietnam": 80,
         "Costa Rica": 88,
-        // Add more countries and their scores
+        
+    };
+    const coffeeImport = {
+        "Brazil": 85,
+        "Colombia": 90,
+        "Ethiopia": 95,
+        "Vietnam": 80,
+        "Costa Rica": 88,
+        "United States": 1000,
+        "China": 146,
+        "Japan": 600,
+        "Russia": 150,
+        "Italy": 600,
+
+        
     };
 
     // Create a map
-    const map = L.map('map', {
-        zoomControl: false // Disable zoom control
+    const map = L.map('map_score', {
+        zoomControl: false 
     }).setView([20, 0], 2);
 
-    // Add a blank map (no labels)
+    const map_import = L.map('map_import', {
+        zoomControl: false 
+    }).setView([20, 0], 2);
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '© OpenStreetMap',
-        // Use a map style without labels
         noWrap: true
     }).addTo(map);
 
-    // Function to get color based on score
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap',
+        noWrap: true
+    }).addTo(map_import);
+
     function getColor(score) {
         return score > 90 ? '#005700' :
                score > 85 ? '#007500' :
@@ -72,7 +122,13 @@
                              '#00b500';
     }
 
-    // Function to style each country
+    function getImportColor(importBean) {
+        return importBean > 500 ? '#E80F38' :
+               importBean > 100 ? '#EBBD30' :
+               importBean > 0 ? '#167DE8' :
+               '#D9E4E8';
+    }
+
     function style(feature) {
         const country = feature.properties.name;
         const score = coffeeScores[country] || 0; // Default to 0 if not found
@@ -86,11 +142,29 @@
         };
     }
 
-    // Load GeoJSON data for countries
+    function styleImport(feature) {
+        const country = feature.properties.name;
+        const score = coffeeImport[country] || 0; // Default to 0 if not found
+        return {
+            fillColor: getImportColor(score),
+            weight: 1,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+        };
+    }
+
     d3.json('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson').then(data => {
         L.geoJSON(data, {
             style: style
         }).addTo(map);
+    });
+
+    d3.json('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson').then(data => {
+        L.geoJSON(data, {
+            style: styleImport
+        }).addTo(map_import);
     });
 
     // Create a legend
