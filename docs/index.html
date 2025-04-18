@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Bean Scores Visualization</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 600px;
+            width: 800px; /* Fixed width */
+            margin: 0 auto; /* Center map */
+        }
+        .legend {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            bottom: 30px;
+            left: 10px;
+            z-index: 1000;
+        }
+        .legend div {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .color-box {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<p>Coffe Bean Scores</p>
+<div id="map"></div>
+<div class="legend" id="legend"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<script>
+    // Sample data: country scores (replace with your actual data)
+    const coffeeScores = {
+        "Brazil": 85,
+        "Colombia": 90,
+        "Ethiopia": 95,
+        "Vietnam": 80,
+        "Costa Rica": 88,
+        // Add more countries and their scores
+    };
+
+    // Create a map
+    const map = L.map('map', {
+        zoomControl: false // Disable zoom control
+    }).setView([20, 0], 2);
+
+    // Add a blank map (no labels)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap',
+        // Use a map style without labels
+        noWrap: true
+    }).addTo(map);
+
+    // Function to get color based on score
+    function getColor(score) {
+        return score > 90 ? '#005700' :
+               score > 85 ? '#007500' :
+               score > 80 ? '#009500' :
+                             '#00b500';
+    }
+
+    // Function to style each country
+    function style(feature) {
+        const country = feature.properties.name;
+        const score = coffeeScores[country] || 0; // Default to 0 if not found
+        return {
+            fillColor: getColor(score),
+            weight: 1,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+        };
+    }
+
+    // Load GeoJSON data for countries
+    d3.json('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson').then(data => {
+        L.geoJSON(data, {
+            style: style
+        }).addTo(map);
+    });
+
+    // Create a legend
+    const legend = L.control({ position: 'bottomleft' });
+
+    legend.onAdd = function () {
+        const div = L.DomUtil.create('div', 'legend');
+        div.innerHTML += '<strong>Coffee Bean Score</strong><br>';
+        div.innerHTML += '<div><div class="color-box" style="background:#005700"></div> > 90</div>';
+        div.innerHTML += '<div><div class="color-box" style="background:#007500"></div> 86 - 90</div>';
+        div.innerHTML += '<div><div class="color-box" style="background:#009500"></div> 81 - 85</div>';
+        div.innerHTML += '<div><div class="color-box" style="background:#00b500"></div> ≤ 80</div>';
+        return div;
+    };
+
+    legend.addTo(map);
+</script>
+
+</body>
+</html>
