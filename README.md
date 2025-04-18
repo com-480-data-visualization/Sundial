@@ -56,9 +56,9 @@ The USDA has effectively visualized coffee production data using a global map fo
 Trading Economics has visualized coffee price trends using standard graphs. In contrast, we plan to enhance this analysis by integrating price data with production and trade data to explore the correlations between prices, production levels, and trade volumes. Our visualization will not only show price trends over time but also allow users to analyze how changes in production and trade impact coffee prices. By providing interactive tools to filter and compare different datasets, we aim to create a more in-depth understanding of the factors influencing coffee prices.
 
 ## Milestone 2 (18th April, 5pm)
+The pdf file: [PDF](/COM480_Milestone_2.pdf)
+The website prototype: [Page Prototype](https://com-480-data-visualization.github.io/Sundial/)
 
-[Page Prototype](https://com-480-data-visualization.github.io/Sundial/)
-[PDF](/COM480_Milestone_2.pdf)
 
 ## Milestone 3 (30th May, 5pm)
 
