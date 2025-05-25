@@ -67,6 +67,7 @@ async function loadTradeData() {
             d3.csv('data/Exporters.csv')
         ]);
         tradeData = processTradeData(trade, commodities, exporters);
+        console.log('test')
         initializeTradeViz(tradeData);
     } catch (error) {
         console.error('Error loading trade data:', error);
