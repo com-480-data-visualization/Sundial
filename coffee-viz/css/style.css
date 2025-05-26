@@ -17,11 +17,7 @@ body {
     background-color: #f8f9fa;
 }
 
-.country {
-    fill: #e0e0e0;
-    stroke: #fff;
-    stroke-width: 0.5;
-}
+
 
 .country:hover {
     fill: #c0c0c0;

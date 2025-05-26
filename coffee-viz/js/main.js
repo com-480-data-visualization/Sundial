@@ -30,7 +30,7 @@ async function loadData() {
 
         const processedProduction = processProductionData(production);
 
-        initializeMapViz(processedCoffee);
+        loadCoffeeData();
         initializeTradeViz(processedTrade);
         initializeProductionViz(processedProduction);
         initializePriceViz(generatePlaceholderPriceData());
@@ -43,15 +43,32 @@ async function loadData() {
 // Load coffee quality data
 async function loadCoffeeData() {
     try {
-        const coffee = await d3.csv('data/coffee.csv');
-        coffeeData = coffee.map(d => ({
-            ...d,
-            latitude: +d.latitude,
-            longitude: +d.longitude,
-            altitude: +d.altitude_mean_meters,
-            score_total: +d.total_cup_points
-        }));
-        initializeMapViz(coffeeData);
+        d3.csv('data/coffee.csv').then(data => {
+        // Convert scores to numbers
+        data.forEach(d => {
+            d['Data.Scores.Aroma'] = +d['Data.Scores.Aroma'];
+            d['Data.Scores.Flavor'] = +d['Data.Scores.Flavor'];
+            d['Data.Scores.Aftertaste'] = +d['Data.Scores.Aftertaste'];
+            d['Data.Scores.Acidity'] = +d['Data.Scores.Acidity'];
+            d['Data.Scores.Body'] = +d['Data.Scores.Body'];
+            d['Data.Scores.Balance'] = +d['Data.Scores.Balance'];
+            d['Data.Scores.Uniformity'] = +d['Data.Scores.Uniformity'];
+            d['Data.Scores.Sweetness'] = +d['Data.Scores.Sweetness'];
+            d['Data.Scores.Moisture'] = +d['Data.Scores.Moisture'];
+            d['Data.Scores.Total'] = +d['Data.Scores.Total'];
+        });
+
+        // Set up button event listeners
+        const buttons = document.querySelectorAll('.button');
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const scoreType = button.id;
+                const averageScores = calculateAverageScores(data, scoreType);
+                updateMapWithScores(averageScores);
+            });
+        });
+    });
+        initializeMapViz();
     } catch (error) {
         console.error('Error loading coffee data:', error);
         displayErrorMessage('Coffee quality data could not be loaded', 'map-viz');
@@ -148,6 +165,30 @@ function displayErrorMessage(message, containerId) {
         errorDiv.innerHTML = `<strong>Error:</strong> ${message}. <br>Please check the browser's console for more details.`;
         container.prepend(errorDiv);
     }
+}
+
+function calculateAverageScores(data, scoreType) {
+    const countryScores = {};
+
+    data.forEach(d => {
+        const country = d['Location.Country'];
+        const score = d[scoreType];
+
+        if (!countryScores[country]) {
+            countryScores[country] = { total: 0, count: 0 };
+        }
+
+        countryScores[country].total += score;
+        countryScores[country].count += 1;
+    });
+
+    // Calculate averages
+    const averages = {};
+    for (const country in countryScores) {
+        averages[country] = countryScores[country].total / countryScores[country].count;
+    }
+
+    return averages;
 }
 
 // Initialize when DOM is loaded
