@@ -123,16 +123,12 @@ function getColorForCountryScore(averageScores, countryScore) {
     return colorScale(countryScore);
 }
 
-function updateMapWithScores(averageScores) {
+function updateMapWithScores(averageScores,property) {
   const svg = d3.select('#map-viz-svg-g'); // Select the existing SVG
     // Load world map data again if necessary (or cache it)
   d3.json('https://unpkg.com/world-atlas@2/countries-110m.json')
       .then(world => {
           const countries = topojson.feature(world, world.objects.countries).features;
-          console.log(countries)
-          const colorScale = d3.scaleThreshold()
-                              .domain([0, 100])
-                              .range(d3.schemeBlues[7]);
 
           // Update countries' fill based on average scores
           svg.selectAll('.country')
@@ -144,8 +140,72 @@ function updateMapWithScores(averageScores) {
                     return '#e0e0e0'
                   }
                   return getColorForCountryScore(averageScores, avgScore)
-              });
+              })
+              .on('click', function(event, d) {
+                    const countryName = d.properties.name; // Get the country name
+                    displayCountryScore(countryName, averageScores, property); // Call the display function
+                })
           
       });
     createOrUpdateLegend(averageScores);
+}
+
+function displayCountryScore(countryName, averageScores, property) {
+    // Select the div where we want to append the sector
+    const container = d3.select('#country-score');
+
+    // Clear previous content for the country
+    container.selectAll(`.country-score`).remove();
+
+    // Create a new div for this country's score
+    const countryDiv = container.append('div')
+        .attr('class', `country-score`)
+        .style('margin', '10px');
+
+    // Get the score for the specified property
+    const score = averageScores[countryName] || 0;
+
+    // Calculate max score among averageScores for the arc
+    const maxScore = Math.round(d3.max(Object.values(averageScores))*10)/10;
+    const minScore = Math.round(d3.min(Object.values(averageScores))*10)/10
+    // Create an SVG for the arc
+    countryDiv.append('p')
+    .text(countryName)
+    .attr('class','country-score-name')
+
+    countryDiv.append('p')
+      .text(`The ${property} Score`)
+      .attr('class','country-score-property')
+    
+    const svg = countryDiv.append('svg')
+        .attr('width', 400)
+        .attr('height', 200);
+  
+    // Create a group for the arc
+    const arcGroup = svg.append('g')
+        .attr('transform', 'translate(100, 100)'); // Move to the center
+
+    // Define the arc
+    const arc = d3.arc()
+        .innerRadius(30*2) // Inner radius for the arc
+        .outerRadius(40*2) // Outer radius for the arc
+        .startAngle(0) // Starting angle
+        .endAngle(((score - minScore)/ (maxScore - minScore)) * 2 * Math.PI); // End angle based on score
+
+    // Append the arc
+    arcGroup.append('path')
+        .attr('d', arc)
+        .attr('fill', '#ffcc00') // Color of the arc
+        .attr('id', 'score-chart')
+    
+    arcGroup.append('text')
+        .attr("dx", "-30")
+        .attr('dy','20')
+        .text((Math.round(score*10)/10))
+        .style('font-weight', 'bold')
+        .style('font-size', '50')
+        
+
+    // Add the text label
+    
 }

@@ -150,3 +150,17 @@ body {
     display:inline-block;
 }
 
+.country-score-name{
+    font-size: 40px;
+    font-weight: bolder;
+}
+
+.country-score-property{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#score-chart{
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+}

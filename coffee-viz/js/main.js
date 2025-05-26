@@ -64,7 +64,7 @@ async function loadCoffeeData() {
             button.addEventListener('click', () => {
                 const scoreType = button.id;
                 const averageScores = calculateAverageScores(data, scoreType);
-                updateMapWithScores(averageScores);
+                updateMapWithScores(averageScores,button.getHTML());
             });
         });
     });
