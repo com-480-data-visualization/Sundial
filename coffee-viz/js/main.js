@@ -9,7 +9,7 @@ async function loadData() {
             d3.csv('data/Trade.csv'),
             d3.csv('data/Commodities.csv'),
             d3.csv('data/Exporters.csv'),
-            d3.csv('data/psd_coffee.csv')
+            d3.csv('data/coffee_production.csv')
         ]);
 
         // Process and initialize visualizations
@@ -95,7 +95,7 @@ async function loadTradeData() {
 // Load production data
 async function loadProductionData() {
     try {
-        const production = await d3.csv('data/psd_coffee.csv');
+        const production = await d3.csv('data/coffee_production.csv');
         productionData = processProductionData(production);
         initializeProductionViz(productionData);
     } catch (error) {
@@ -119,29 +119,48 @@ async function loadPriceData() {
 
 // Process trade data
 function processTradeData(trade, commodities, exporters) {
-    // Filter for coffee-related commodities
-    const coffeeCommodities = commodities.filter(d => d.name.toLowerCase().includes('coffee'));
-    const coffeeIds = new Set(coffeeCommodities.map(d => d.id));
+    try {
+        const coffeeCommodities = commodities.filter(d => 
+            d.name.toLowerCase().includes('coffee')
+        );
+        
+        if(coffeeCommodities.length === 0) {
+            console.error('No coffee commodities found');
+            return [];
+        }
 
-    return trade.filter(d => coffeeIds.has(d.commodity_id))
-        .map(d => ({
-            year: +d.year,
-            exporter: d.exporter,
+        const coffeeIds = new Set(coffeeCommodities.map(d => d.id));
+        const validTrade = trade.filter(d => coffeeIds.has(d.commodity_id));
+
+        console.log('Processed trade data:', validTrade); // Debug log
+        
+        return validTrade.map(d => ({
+            year: +d.year || new Date().getFullYear(),
+            exporter: exporters.find(e => e.id === d.exporter_id)?.name || 'Unknown',
             importer: d.importer,
-            value: +d.value,
-            weight: +d.weight
+            value: +d.value || 0,
+            weight: +d.weight || 0
         }));
+    } catch (error) {
+        console.error('Trade processing failed:', error);
+        return [];
+    }
 }
+
+
 
 // Process production data
 function processProductionData(production) {
-    return production.map(d => ({
-        year: +d.year,
-        country: d.country,
-        production: +d.production || 0, // Convert to number and handle null/undefined
-        exports: +d.exports || 0,
-        domesticConsumption: +d.domestic_consumption || 0
-    })).filter(d => !isNaN(d.production) && d.production > 0); // Remove invalid entries
+    return production.flatMap(country => {
+        const countryName = country.Country;
+        return Object.keys(country)
+            .filter(key => key.includes('/') && !key.includes('Change'))
+            .map(year => ({
+                country: countryName,
+                year: parseInt(year.split('/')[0]),
+                production: parseFloat(country[year].replace(/,/g, '')) || 0
+            }));
+    }).filter(d => !isNaN(d.year) && d.production > 0);
 }
 
 // Generate placeholder price data
