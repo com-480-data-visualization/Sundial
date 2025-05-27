@@ -169,3 +169,33 @@ body {
     justify-content: center;
     
 }
+
+/* Price Visualization Styles */
+.price-line {
+    transition: stroke-width 0.2s ease;
+}
+
+.price-area {
+    transition: opacity 0.2s ease;
+}
+
+.price-tooltip {
+    font-family: Arial, sans-serif;
+    min-width: 120px;
+}
+
+.tooltip-date {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.tooltip-price {
+    color: #2196F3;
+    font-size: 1.1em;
+}
+
+.annotations text {
+    font-family: Arial, sans-serif;
+    font-weight: 500;
+}

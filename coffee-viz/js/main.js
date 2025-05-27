@@ -4,12 +4,13 @@ let coffeeData, tradeData, productionData, priceData;
 // Load all data files
 async function loadData() {
     try {
-        const [coffee, trade, commodities, exporters, production] = await Promise.all([
+        const [coffee, trade, commodities, exporters, production, priceData] = await Promise.all([
             d3.csv('data/coffee.csv'),
             d3.csv('data/Trade.csv'),
             d3.csv('data/Commodities.csv'),
             d3.csv('data/Exporters.csv'),
-            d3.csv('data/coffee_production.csv')
+            d3.csv('data/coffee_production.csv'),
+            d3.csv('data/coffee-prices-historical-chart-data.csv')
         ]);
 
         // Process and initialize visualizations
@@ -30,10 +31,17 @@ async function loadData() {
 
         const processedProduction = processProductionData(production);
 
+        const processedPrice = priceData
+            .map(d => ({
+                date: new Date(d.Date),
+                price: +d.Price
+            }))
+            .filter(d => !isNaN(d.date.getTime()) && !isNaN(d.price));
+
         loadCoffeeData();
         initializeTradeViz(processedTrade);
         initializeProductionViz(processedProduction);
-        initializePriceViz(generatePlaceholderPriceData());
+        initializePriceViz(processedPrice);
     } catch (error) {
         console.error('Error loading data:', error);
         displayErrorMessage('Failed to load data. Please check the console for details.');
