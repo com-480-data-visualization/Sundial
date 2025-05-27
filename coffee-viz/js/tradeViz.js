@@ -5,20 +5,24 @@ function initializeTradeViz(data) {
         return;
     }
 
+    // TODO: width & height should be dynamically updated!
     const width = document.getElementById('trade-viz').clientWidth;
-    const height = 500;
+    const height = width * 0.65;
+    const map_scale_factor = (width - 3) / (2 * Math.PI)
+    const map_translate_factor = [width / 2, height / 1.6]
     const margin = { top: 20, right: 20, bottom: 30, left: 40 };
 
     // Create SVG
     const svg = d3.select('#trade-viz')
         .append('svg')
         .attr('width', width)
-        .attr('height', height);
+        .attr('height', height)
+        .attr('id', 'trade-viz-svg');
 
     // Create map projection
     const projection = d3.geoMercator()
-        .scale((width - 3) / (2 * Math.PI))
-        .translate([width / 2, height / 2]);
+        .scale(map_scale_factor)
+        .translate(map_translate_factor);
 
     const path = d3.geoPath()
         .projection(projection);
@@ -33,12 +37,14 @@ function initializeTradeViz(data) {
         .then(world => {
             // Draw base map
             svg.append('g')
+                .attr('id', 'trade-viz-svg-g')
                 .selectAll('path')
                 .data(topojson.feature(world, world.objects.countries).features)
                 .enter()
                 .append('path')
                 .attr('class', 'country')
-                .attr('d', path);
+                .attr('d', path)
+                .attr('fill', '#e0e0e0'); // Default fill color for countries
 
             // Process trade data for the latest year
             const latestYear = d3.max(data, d => d.year);
@@ -257,3 +263,6 @@ function addTradeLegend(svg, width) {
         .attr('y', (d, i) => i * 25 + 4)
         .text(d => `$${d3.format('.0s')(d)}`);
 } 
+
+
+

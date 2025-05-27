@@ -4,11 +4,11 @@ let coffeeData, tradeData, productionData, priceData;
 // Load all data files
 async function loadData() {
     try {
-        const [coffee, trade, commodities, exporters, production, priceData] = await Promise.all([
+        const [coffee, trade, exports, imports, production, priceData] = await Promise.all([
             d3.csv('data/coffee.csv'),
-            d3.csv('data/Trade.csv'),
-            d3.csv('data/Commodities.csv'),
-            d3.csv('data/Exporters.csv'),
+            d3.csv('data/trades_full.csv'),
+            d3.csv('data/exports_full.csv'),
+            d3.csv('data/imports_full.csv'),
             d3.csv('data/coffee_production.csv'),
             d3.csv('data/coffee-prices-historical-chart-data.csv')
         ]);
@@ -23,11 +23,13 @@ async function loadData() {
         })).filter(d => d.latitude && d.longitude); // Remove entries without coordinates
 
         const processedTrade = trade.map(d => ({
-            ...d,
-            value: +d.value || 0,
-            weight: +d.weight || 0,
-            year: +d.year
-        })).filter(d => d.value > 0); // Remove entries without valid trade value
+            year: +d.Year,
+            exporter: d.Exporter, 
+            importer: d.Importer,
+            resource_type: d.Resource,
+            value: +d["Value (1000USD)"] || +d["Export value, where quarantined"] || +d["Import value, where quarantined"] || 0,
+            weight: +d["Weight (1000kg)"] || +d["Export weight, where quarantined"] || +d["Import weight, where quarantined"] || 0,
+        })).filter(d => d.value > 0 && d.weight > 0 && d.exporter && d.importer == 'Japan'); // Remove entries without valid trade value
 
         const processedProduction = processProductionData(production);
 
@@ -218,5 +220,13 @@ function calculateAverageScores(data, scoreType) {
     return averages;
 }
 
+
+function adjustDimensions() {
+    // This does not seem like the right way to dynamically adjust item sizes
+
+}
+
+
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', loadData); 
+document.addEventListener()
