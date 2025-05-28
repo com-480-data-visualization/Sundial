@@ -297,6 +297,7 @@ function displayBarChart(averageScores, property) {
         .selectAll("rect")
         .data(data)
         .join("rect")
+            .attr('fill',d=>getColorForCountryScore(averageScores, d.score))
             .attr("x", d => x(d.country))
             .attr("width", x.bandwidth())
             .attr("y", height - marginBottom) // Start from bottom
