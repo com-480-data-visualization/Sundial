@@ -244,7 +244,7 @@ function displayBarChart(averageScores, property) {
         .map(([country, scores]) => ({ country, score: scores }))
         .sort((a, b) => b.score - a.score); // Sort by score descending
 
-    // Specify the chart’s dimensions.
+    // Specify the chart's dimensions
     const width = 1000;
     const height = 400;
     const marginTop = 20;
@@ -252,60 +252,59 @@ function displayBarChart(averageScores, property) {
     const marginBottom = 30;
     const marginLeft = 40;
     const minScore = d3.min(data, d => d.score);
-    const yAxisStart = minScore *0.9;
+    const yAxisStart = minScore * 0.9;
 
-    // Create the SVG container.
+    // Create the SVG container
     d3.select("#score-ranking").selectAll("*").remove();
     const svg = d3.select("#score-ranking")
-    .append('svg')
-    .attr('width', 1000)
-    .attr('height', 500); // Assuming there's a div with id="bar-chart"
-     // Declare the x (horizontal position) scale and the corresponding axis generator.
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height + 100); // Extra space for labels
+
+    // Declare the scales
     const x = d3.scaleBand()
         .domain(data.map(d => d.country))
         .range([marginLeft, width - marginRight])
         .padding(0.1);
 
-    const xAxis = d3.axisBottom(x).tickSizeOuter(0);
-
-    // Declare the y (vertical position) scale.
     const y = d3.scaleLinear()
-    .domain([yAxisStart, d3.max(data, d => d.score)]).nice() // Updated domain
-    .range([height - marginBottom, 0]);
+        .domain([yAxisStart, d3.max(data, d => d.score)]).nice()
+        .range([height - marginBottom, marginTop]);
 
-    // Append the SVG container
-    svg.attr("viewBox", [0, 0, width, height])
-        .attr("style", `max-width: ${width}px; height: auto; font: 10px sans-serif; overflow: visible;`);
+    // Create axes
+    const xAxis = d3.axisBottom(x).tickSizeOuter(0);
+    const yAxis = d3.axisLeft(y).tickFormat(d => d.toFixed(2));
 
-    // Create a bar for each country.
-    const bar = svg.append("g")
+    // Append axes to SVG
+    svg.append("g")
+        .attr("transform", `translate(0,${height - marginBottom})`)
+        .call(xAxis)
+        .selectAll("text")
+            .attr("transform", "rotate(90)")
+            .attr("text-anchor", "end")
+            .attr("dy", "-0.5em")
+            .attr("dx", "-0.5em")
+            .attr('fill','#e0e0e0');
+
+    svg.append("g")
+        .attr("transform", `translate(${marginLeft},0)`)
+        .call(yAxis)
+        .call(g => g.select(".domain").remove());
+
+    // Create bars with animation
+    svg.append("g")
         .attr("fill", "steelblue")
         .selectAll("rect")
         .data(data)
         .join("rect")
-            .style("mix-blend-mode", "multiply") // Darker color when bars overlap during the transition.
             .attr("x", d => x(d.country))
+            .attr("width", x.bandwidth())
+            .attr("y", height - marginBottom) // Start from bottom
+            .attr("height", 0) // Start with zero height
+            .transition()
+            .duration(800)
+            .delay((d, i) => i * 50) // Staggered animation
             .attr("y", d => y(d.score))
             .attr("height", d => height - marginBottom - y(d.score))
-            .attr("width", x.bandwidth())
-            .transition() // Animate the bars
-            .duration(750)
-            .delay((d, i) => i * 20);
-    console.log(y(yAxisStart))
-    // Create the axes.
-    const gx = svg.append("g")
-        .attr("transform", `translate(0,${height - marginBottom})`)
-        .call(xAxis);
-
-    const gy = svg.append("g")
-        .attr("transform", `translate(${marginLeft},0)`)
-        .call(d3.axisLeft(y).tickFormat(d => d.toFixed(2))) // Format y-axis ticks
-        .call(g => g.select(".domain").remove());
-    
-        gx.selectAll("text")
-        .attr("transform", "rotate(90)")
-        .attr("text-anchor", "end")
-        .attr("dy", "-0.5em")
-        .attr("dx", "-0.5em")
-        .attr('fill','#e0e0e0'); // Adjust the position of the text
+            .style("mix-blend-mode", "multiply");
 }
