@@ -1,6 +1,5 @@
 // Global variables for storing data
 let coffeeData, tradeData, productionData, priceData;
-
 // Load all data files
 async function loadData() {
     try {
@@ -77,8 +76,13 @@ async function loadCoffeeData() {
                 updateMapWithScores(averageScores,button.getHTML());
             });
         });
-    });
-        initializeMapViz();
+        initializeMapViz().then( () =>{
+            const scoreType = 'Data.Scores.Total';
+            const averageScores = calculateAverageScores(data, scoreType);
+            updateMapWithScores(averageScores,'Total Score');})
+        });
+   
+        
     } catch (error) {
         console.error('Error loading coffee data:', error);
         displayErrorMessage('Coffee quality data could not be loaded', 'map-viz');

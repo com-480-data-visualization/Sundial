@@ -1,4 +1,4 @@
-function initializeMapViz() {
+async function initializeMapViz() {
     const width = document.getElementById('map-viz').clientWidth;
     const height = 500;
     const margin = { top: 20, right: 20, bottom: 30, left: 40 };
@@ -28,7 +28,7 @@ function initializeMapViz() {
         .style('opacity', 0);
 
     // Load world map data
-    d3.json('https://unpkg.com/world-atlas@2/countries-110m.json')
+    await d3.json('https://unpkg.com/world-atlas@2/countries-110m.json')
         .then(world => {
             // Draw base map
             svg.append('g')
@@ -41,6 +41,9 @@ function initializeMapViz() {
                 .attr('d', path)
                 .attr('fill', '#e0e0e0'); // Default fill color for countries
         });
+
+    console.log('check pt x')
+    return 0
 }
 
 function createOrUpdateLegend(averageScores) {
@@ -123,17 +126,18 @@ function getColorForCountryScore(averageScores, countryScore) {
     return colorScale(countryScore);
 }
 
-function updateMapWithScores(averageScores,property) {
+async function updateMapWithScores(averageScores,property) {
   const svg = d3.select('#map-viz-svg-g'); // Select the existing SVG
     // Load world map data again if necessary (or cache it)
   d3.json('https://unpkg.com/world-atlas@2/countries-110m.json')
       .then(world => {
           const countries = topojson.feature(world, world.objects.countries).features;
-
+        console.log('check pt 1')
           // Update countries' fill based on average scores
           svg.selectAll('.country')
               .data(countries)
               .attr('fill', d => {
+                console.log('check pt 2')
                   const countryName = d.properties.name; // Adjust based on your GeoJSON structure
                   const avgScore = averageScores[countryName] || 0; // Get average score or default to 0
                   if(avgScore == 0){
@@ -149,6 +153,7 @@ function updateMapWithScores(averageScores,property) {
       });
     createOrUpdateLegend(averageScores);
     displayBarChart(averageScores, property)
+    displayCountryScore('Brazil', averageScores, property);
 }
 
 function displayCountryScore(countryName, averageScores, property) {
