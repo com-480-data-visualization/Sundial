@@ -28,7 +28,7 @@ async function loadData() {
             resource_type: d.Resource,
             value: +d["Value (1000USD)"] || +d["Export value, where quarantined"] || +d["Import value, where quarantined"] || 0,
             weight: +d["Weight (1000kg)"] || +d["Export weight, where quarantined"] || +d["Import weight, where quarantined"] || 0,
-        })).filter(d => d.value > 0 && d.weight > 0 && d.exporter && d.importer == 'Japan'); // Remove entries without valid trade value
+        })).filter(d => d.value > 0 && d.weight > 0 && d.exporter); // Remove entries without valid trade value
 
         const processedProduction = processProductionData(production);
 
