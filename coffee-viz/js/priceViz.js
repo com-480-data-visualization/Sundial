@@ -204,6 +204,69 @@ function addEventMarkers(g, xScale, yScale, data, tooltip, hoverLine, hoverPoint
             endYear: 1978,
             type: "max"
         },
+        // New event 1
+        {
+            title: "1979-1980 Brazilian Frost & Central American Turmoil",
+            description: "1979 frost in Brazil damaged crops while political instability (e.g., Nicaragua's Sandinista Revolution) disrupted exports. Prices surged due to tightened supply.",
+            startYear: 1979,
+            endYear: 1980,
+            type: "max"
+        },
+        // Existing 1980s event
+        {
+            title: "Market Instability",
+            description: "Price volatility from Central American droughts, African political conflicts, and dissolution of global coffee quotas (1989).",
+            startYear: 1980,
+            endYear: 1992,
+            type: "max"
+        },
+        // New event 2
+        {
+            title: "1985-1986 Droughts and Economic Shifts",
+            description: "Severe droughts in Brazil (1985) reduced yields. Currency devaluations in African nations incentivized rapid exports, creating price swings.",
+            startYear: 1985,
+            endYear: 1986,
+            type: "max"
+        },
+        // New event 3
+        {
+            title: "1994-1995 Brazilian Real Plan Devaluation",
+            description: "Brazil's 1994 'Plano Real' devaluation made coffee cheaper globally. Increased exports from Brazil/Colombia pressured prices downward.",
+            startYear: 1994,
+            endYear: 1995,
+            type: "max"
+        },
+        // New event 4
+        {
+            title: "1997 Asian Financial Crisis",
+            description: "Currency collapse in key robusta consumers (Indonesia/Thailand) slashed demand. Vietnam's rising output intensified oversupply.",
+            startYear: 1997,
+            endYear: 1997,
+            type: "max"
+        },
+        // Existing 2002 event
+        {
+            title: "Vietnam’s Coffee Boom",
+            description: "Vietnam’s rapid robusta production surge flooded markets, driving prices to a historic low ($0.42).",
+            startYear: 2000,
+            endYear: 2003,
+            type: "min"
+        },
+        // New event 5
+        {
+            title: "2022 Post-Pandemic Surge & Climate Shocks",
+            description: "Global reopening spiked demand while Brazilian droughts (2021-2022) and Russia-Ukraine war fertilizer shortages strained supply.",
+            startYear: 2022,
+            endYear: 2022,
+            type: "max"
+        },
+        {
+            title: "Brazilian Frost",
+            description: "Severe frost in Brazil destroyed coffee crops, causing global supply shortages and price spikes.",
+            startYear: 1977,
+            endYear: 1978,
+            type: "max"
+        },
         {
             title: "Market Instability",
             description: "Price volatility from Central American droughts, African political conflicts, and dissolution of global coffee quotas (1989).",
