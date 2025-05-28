@@ -10,12 +10,12 @@ function initializeProductionViz(data) {
         .slice(0, 10)
         .map(d => d[0]);
 
-    // Create reversed copy for stack order
+    let excludedCountries = [];
     const reversedCountries = [...topCountries].reverse();
 
     // Calculate annual data with rest of world
     const years = Array.from(new Set(data.map(d => d.year))).sort();
-    const annualData = years.map(year => {
+    let annualData = years.map(year => {
         const yearData = { year };
         let total = 0;
         
@@ -55,64 +55,46 @@ function initializeProductionViz(data) {
         .style('pointer-events', 'none')
         .style('display', 'none');
 
-// Create scales with extended y-domain
+    // Create scales
     const xScale = d3.scaleLinear()
         .domain(d3.extent(years))
         .range([margin.left, width - margin.right]);
 
     const yScale = d3.scaleLinear()
-        .domain([0, 200000]) // Extended to 200M
+        .domain([0, 200000])
         .range([height - margin.bottom, margin.top]);
 
-    // Updated color scheme
+    // Color scale with brand colors
     const colorScale = d3.scaleOrdinal()
         .domain([...topCountries, 'Rest of World'])
         .range([
-            '#00865A', // Brazil
-            '#0171BC', // Vietnam
-            '#FDCD01', // Colombia
-            '#E54E26', // Indonesia
-            '#008BAC', // Ethiopia
-            '#93D500', // Honduras
-            '#BC1B8D', // India
-            '#88A6CA', // Uganda
-            '#503795', // Peru
-            '#3AB54B', // Mexico
-            '#DCDEE1'  // Rest of World
+            '#00865A', '#0171BC', '#FDCD01', '#E54E26',
+            '#008BAC', '#93D500', '#BC1B8D', '#88A6CA',
+            '#503795', '#3AB54B', '#DCDEE1'
         ]);
 
-    // Create stack generator with reversed order
-    const stack = d3.stack()
+    // Stack generator
+    let stack = d3.stack()
         .keys(['Rest of World', ...reversedCountries])
         .order(d3.stackOrderNone)
         .offset(d3.stackOffsetNone);
 
-    const stackedData = stack(annualData);
-
-    // Create area generator
+    // Area generator
     const area = d3.area()
         .x(d => xScale(d.data.year))
         .y0(d => yScale(d[0]))
         .y1(d => yScale(d[1]))
         .curve(d3.curveMonotoneX);
 
-    // Draw areas
+    // Draw initial chart
+    let stackedData = stack(annualData);
     svg.selectAll('path')
         .data(stackedData)
         .enter().append('path')
         .attr('fill', d => colorScale(d.key))
         .attr('d', area);
-    
-    // Update y-axis with original tick values
-    svg.append('g')
-        .attr('transform', `translate(${margin.left},0)`)
-        .call(d3.axisLeft(yScale)
-            .tickValues([50000, 100000, 150000]) // Maintain original ticks
-            .tickFormat(d => `${d3.format(".0f")(d/1000)}M`)
-        )
-        .call(g => g.select('.domain').remove());
 
-    // Add hover interaction
+    // Hover interaction
     const hoverLine = svg.append('line')
         .attr('stroke', '#333')
         .attr('stroke-width', 1)
@@ -125,25 +107,64 @@ function initializeProductionViz(data) {
         .attr('pointer-events', 'all')
         .attr('width', width)
         .attr('height', height)
-        .on('mousemove', (event) => {
+        .on('mousemove', function(event) {
             const [x] = d3.pointer(event);
             const year = Math.round(xScale.invert(x));
             const closest = annualData.find(d => d.year === year);
             
             if (!closest) return;
 
-            hoverLine.attr('x1', xScale(year)).attr('x2', xScale(year)).style('display', null);
-            
+            // Update hover line
+            hoverLine.attr('x1', xScale(year))
+                    .attr('x2', xScale(year))
+                    .style('display', null);
+
+            // Remove previous circles
+            svg.selectAll('.hover-circle').remove();
+
+            // Create new interaction circles
+            let totalProduction = 0;
+            const activeCountries = [...topCountries, 'Rest of World']
+                .filter(c => !excludedCountries.includes(c));
+
+            activeCountries.forEach(country => {
+                const production = closest[country];
+                totalProduction += production;
+                
+                // Find y-position based on stack height
+                const stackLayer = stackedData.find(d => d.key === country);
+                if (stackLayer) {
+                    const stackValue = stackLayer.find(d => d.data.year === year);
+                    const yPos = yScale(stackValue[1]);
+
+                    svg.append('circle')
+                        .attr('class', 'hover-circle')
+                        .attr('cx', xScale(year))
+                        .attr('cy', yPos)
+                        .attr('r', 4)
+                        .attr('fill', colorScale(country))
+                        .attr('stroke', '#000')
+                        .attr('stroke-width', 1);
+                }
+            });
+
+            // Update tooltip
             tooltip.style('display', 'block')
                 .html(`
-                    <div style="margin-bottom: 8px; font-weight: bold">Marketing Year ${year}</div>
-                    ${[...topCountries, 'Rest of World'].map(country => `
-                        <div style="display: flex; align-items: center; margin: 2px 0">
-                            <div style="width: 12px; height: 12px; background: ${colorScale(country)}; margin-right: 8px"></div>
-                            <div style="flex: 1">${country}</div>
-                            <div>${Math.round(closest[country]/1000)}M</div>
+                    <div style="margin-bottom: 8px; font-weight: bold; border-bottom: 1px solid #ddd;">
+                        Marketing Year ${year}
+                    </div>
+                    ${activeCountries.map(country => `
+                        <div style="display: flex; align-items: center; margin: 3px 0;">
+                            <div style="width: 14px; height: 14px; background: ${colorScale(country)}; 
+                                 border: 1px solid #000; margin-right: 8px;"></div>
+                            <div style="flex: 1; margin-right: 20px;">${country}</div>
+                            <div style="font-weight: 500;">${Math.round(closest[country]/1000)}M</div>
                         </div>
                     `).join('')}
+                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd;">
+                        Total: ${Math.round(totalProduction/1000)}M
+                    </div>
                 `)
                 .style('left', `${x + 20}px`)
                 .style('top', `${margin.top}px`);
@@ -151,48 +172,105 @@ function initializeProductionViz(data) {
         .on('mouseout', () => {
             hoverLine.style('display', 'none');
             tooltip.style('display', 'none');
+            svg.selectAll('.hover-circle').remove();
         });
 
-    // Add x-axis with year labels
-    const xAxis = d3.axisBottom(xScale)
-        .tickFormat(d3.format('d'))
-        .tickSizeOuter(0);
-
+    // Axes and Grid Lines
+    // X-axis with black line
     svg.append('g')
         .attr('transform', `translate(0,${height - margin.bottom})`)
-        .call(xAxis)
-        .call(g => g.select('.domain').remove());
+        .call(d3.axisBottom(xScale).tickFormat(d3.format('d')))
+        .call(g => g.select('.domain')
+            .attr('stroke', '#000')
+            .attr('stroke-width', 1))
+        .call(g => g.selectAll('.tick line').remove());
 
-    // Add color legend below x-axis
-    const legend = svg.append('g')
-        .attr('transform', `translate(${margin.left},${height - margin.bottom + 40})`)
-        .selectAll('g')
-        .data([...topCountries, 'Rest of World'])
-        .enter().append('g')
-        .attr('transform', (d, i) => `translate(${i * 120}, 0)`);
-
-    legend.append('rect')
-        .attr('width', 12)
-        .attr('height', 12)
-        .attr('fill', d => colorScale(d));
-
-    legend.append('text')
-        .attr('x', 18)
-        .attr('y', 9)
-        .attr('dy', '0.32em')
-        .style('font-size', '13px')
-        .text(d => d);
-
-    // Add y-axis
+    // Y-axis with light grey line
     svg.append('g')
         .attr('transform', `translate(${margin.left},0)`)
         .call(d3.axisLeft(yScale)
             .tickValues([50000, 100000, 150000])
             .tickFormat(d => `${d3.format(".0f")(d/1000)}M`)
         )
-        .call(g => g.select('.domain').remove());
+        .call(g => g.select('.domain')
+            .attr('stroke', '#ddd')
+            .attr('stroke-width', 1))
+        .call(g => g.selectAll('.tick line').remove());
 
-    // Add y-axis label
+    // Horizontal grid lines
+    [50000, 100000, 150000].forEach(value => {
+        svg.append('line')
+            .attr('x1', margin.left)
+            .attr('x2', width - margin.right)
+            .attr('y1', yScale(value))
+            .attr('y2', yScale(value))
+            .attr('stroke', '#eee')
+            .attr('stroke-width', 1)
+            .lower();
+    });
+
+    // Legend with toggle functionality
+    const legend = svg.append('g')
+        .attr('transform', `translate(${margin.left},${height - margin.bottom + 40})`)
+        .selectAll('g')
+        .data([...topCountries, 'Rest of World'])
+        .enter().append('g')
+        .attr('transform', (d, i) => `translate(${i * 120}, 0)`)
+        .style('cursor', 'pointer')
+        .on('click', function(event, d) {
+            excludedCountries = excludedCountries.includes(d) 
+                ? excludedCountries.filter(c => c !== d)
+                : [...excludedCountries, d];
+            updateChart();
+            updateLegend();
+        });
+
+    legend.append('rect')
+        .attr('width', 12)
+        .attr('height', 12)
+        .attr('fill', d => colorScale(d));
+
+    const legendText = legend.append('text')
+        .attr('x', 18)
+        .attr('y', 9)
+        .attr('dy', '0.32em')
+        .style('font-size', '13px')
+        .text(d => d);
+
+    legend.append('line')
+        .attr('x1', -4)
+        .attr('x2', d => d.length * 6 + 20)
+        .attr('y1', 9)
+        .attr('y2', 9)
+        .attr('stroke', '#999')
+        .attr('stroke-width', 1)
+        .style('opacity', 0);
+
+    // Update functions
+    function updateChart() {
+        const activeCountries = [...topCountries, 'Rest of World'].filter(c => !excludedCountries.includes(c));
+        const reversedActive = activeCountries.filter(c => c !== 'Rest of World').reverse();
+        
+        stack.keys(['Rest of World', ...reversedActive]);
+        stackedData = stack(annualData);
+
+        svg.selectAll('path')
+            .data(stackedData)
+            .join('path')
+            .attr('fill', d => colorScale(d.key))
+            .transition().duration(300)
+            .attr('d', area);
+    }
+
+    function updateLegend() {
+        legend.selectAll('line')
+            .style('opacity', d => excludedCountries.includes(d) ? 1 : 0);
+        
+        legendText
+            .style('fill', d => excludedCountries.includes(d) ? '#999' : '#000');
+    }
+
+    // Y-axis label
     svg.append('text')
         .attr('transform', 'rotate(-90)')
         .attr('x', -height/2)
