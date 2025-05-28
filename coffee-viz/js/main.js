@@ -65,6 +65,18 @@ async function loadCoffeeData() {
             d['Data.Scores.Sweetness'] = +d['Data.Scores.Sweetness'];
             d['Data.Scores.Moisture'] = +d['Data.Scores.Moisture'];
             d['Data.Scores.Total'] = +d['Data.Scores.Total'];
+            
+            if(d['Location.Country'] === 'United States'){
+                d['Location.Country'] = 'United States of America';
+            }
+
+            if(d['Location.Country'] === 'Tanzania, United Republic Of'){
+                d['Location.Country'] = 'Tanzania';
+            }
+
+            if(d['Location.Country'] === 'Cote d?Ivoire'){
+                d['Location.Country'] = 'Côte d\'Ivoire';
+            }
         });
 
         // Set up button event listeners
