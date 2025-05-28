@@ -57,9 +57,9 @@ function createOrUpdateLegend(averageScores) {
   const maxScore = Math.round(d3.max(Object.values(averageScores))*10)/10; // Round up the max score
 
   // Create color scale from light yellow to deep brown
-  const colorScale = d3.scaleSequential()
-      .domain([minScore, maxScore])
-      .interpolator(d3.interpolateYlOrBr); // YlOrBr is a yellow to brown color scale
+  const colorScale = d3.scaleLinear()
+        .domain([maxScore, minScore])
+        .range(["#733001","#d1b19b"]); // YlOrBr is a yellow to brown color scale
 
   // Remove existing legend if it exists
   svg.selectAll('.legend').remove();
@@ -114,17 +114,36 @@ function createOrUpdateLegend(averageScores) {
 
 function getColorForCountryScore(averageScores, countryScore) {
     // Calculate min and max scores from averageScores
-    const minScore = (d3.min(Object.values(averageScores))); // Minimum score
-    const maxScore = (d3.max(Object.values(averageScores))); // Round up the max score
+    const minScore = d3.min(Object.values(averageScores));
+    const maxScore = d3.max(Object.values(averageScores));
 
-    // Create color scale from light yellow to deep brown
-    const colorScale = d3.scaleSequential()
-        .domain([minScore, maxScore])
-        .interpolator(d3.interpolateYlOrBr); // Use YlOrBr for yellow to brown
+    // Custom brown to yellow colors
+    const colorScale = d3.scaleLinear()
+        .domain([maxScore, minScore])
+        .range(["#733001","#d1b19b"]); // Dark brown to light yellow
 
-    // Return the color based on the countryScore
     return colorScale(countryScore);
 }
+function barColor(averageScores, countryScore){
+    const minScore = d3.min(Object.values(averageScores));
+    const maxScore = d3.max(Object.values(averageScores));
+    const colorScale = d3.scaleSequential()
+      .domain([minScore, maxScore])
+      .interpolator(d3.interpolateYlOrBr);
+    return colorScale(countryScore);
+}
+function bar_textcolor(averageScores, countryScore) {
+    const minScore = d3.min(Object.values(averageScores));
+    const maxScore = d3.max(Object.values(averageScores));
+
+    // Custom brown to yellow colors
+    const colorScale = d3.scaleLinear()
+        .domain([minScore, maxScore])
+        .range(["#8c510a", "#f6e8c3"]); // Dark brown to light yellow
+
+    return colorScale(countryScore);
+}
+
 
 async function updateMapWithScores(averageScores,property) {
   const svg = d3.select('#map-viz-svg-g'); // Select the existing SVG
@@ -276,15 +295,9 @@ function displayBarChart(averageScores, property) {
     const yAxis = d3.axisLeft(y).tickFormat(d => d.toFixed(2));
 
     // Append axes to SVG
-    svg.append("g")
-        .attr("transform", `translate(0,${height - marginBottom})`)
-        .call(xAxis)
-        .selectAll("text")
-            .attr("transform", "rotate(90)")
-            .attr("text-anchor", "end")
-            .attr("dy", "-0.5em")
-            .attr("dx", "-0.5em")
-            .attr('fill','#e0e0e0');
+
+    // Apply custom color to country labels
+
 
     svg.append("g")
         .attr("transform", `translate(${marginLeft},0)`)
@@ -297,7 +310,7 @@ function displayBarChart(averageScores, property) {
         .selectAll("rect")
         .data(data)
         .join("rect")
-            .attr('fill',d=>getColorForCountryScore(averageScores, d.score))
+            .attr('fill',d=>barColor(averageScores, d.score))
             .attr("x", d => x(d.country))
             .attr("width", x.bandwidth())
             .attr("y", height - marginBottom) // Start from bottom
@@ -307,5 +320,24 @@ function displayBarChart(averageScores, property) {
             .delay((d, i) => i * 50) // Staggered animation
             .attr("y", d => y(d.score))
             .attr("height", d => height - marginBottom - y(d.score))
-            .style("mix-blend-mode", "multiply");
+            
+    const xAxisGroup = svg.append("g")
+        .attr("transform", `translate(0,${height - marginBottom})`)
+        .call(xAxis);
+
+    xAxisGroup.selectAll("text")
+    .attr("transform", "rotate(90)")
+    .attr("text-anchor", "end")
+    .attr("dy", "-0.5em")
+    .attr("dx", "-0.5em")
+    .attr("color", function(d) {
+        try {
+            const dataPoint = data.find(item => item.country == d);
+            console.log(bar_textcolor(averageScores, dataPoint.score))
+            return bar_textcolor(averageScores, dataPoint.score);
+        } catch (error) {
+            console.error("Error in textcolor:", error);
+            return "#e0e0e0"; // fallback color
+        }
+    });
 }
