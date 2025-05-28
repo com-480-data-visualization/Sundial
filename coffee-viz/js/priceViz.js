@@ -64,8 +64,8 @@ function initializePriceViz(data) {
         .datum(data)
         .attr('class', 'price-line')
         .attr('d', line)
-        .style('stroke', '#2196F3')
-        .style('stroke-width', 2)
+        .style('stroke', '#0072FF')
+        .style('stroke-width', 1.5)
         .style('fill', 'none');
 
     // Create area generator
@@ -79,7 +79,7 @@ function initializePriceViz(data) {
         .datum(data)
         .attr('class', 'price-area')
         .attr('d', area)
-        .style('fill', '#2196F3')
+        .style('fill', '#0072FF')
         .style('opacity', 0.1);
 
     // Tooltip setup
@@ -102,8 +102,8 @@ function initializePriceViz(data) {
         .style('opacity', 0);
 
     const hoverPoint = g.append('circle')
-        .attr('r', 5)
-        .style('fill', '#2196F3')
+        .attr('r', 4)
+        .style('fill', '#0D0D0D')
         .style('opacity', 0);
 
     // Mouse interaction
@@ -172,10 +172,13 @@ function initializePriceViz(data) {
     addAnnotations(g, xScale, yScale, data);
 }
 
+// Update the addAnnotations function in priceViz.js
+
 function addAnnotations(g, xScale, yScale, data) {
     if (data.length === 0) return;
 
     const annotationGroup = g.append('g').attr('class', 'annotations');
+    const innerWidth = xScale.range()[1]; // Get the actual rendered width
     
     // Find key price points
     const maxPrice = d3.max(data, d => d.price);
@@ -186,19 +189,26 @@ function addAnnotations(g, xScale, yScale, data) {
     [maxEntry, minEntry].forEach((entry, i) => {
         if (!entry) return;
 
+        const xPos = xScale(entry.date);
+        const yPos = yScale(entry.price);
+        const isRightEdge = xPos > innerWidth * 0.9; // Check if near right edge
+
         const annotation = annotationGroup.append('g')
-            .attr('transform', `translate(${xScale(entry.date)},${yScale(entry.price)})`);
+            .attr('transform', `translate(${xPos},${yPos})`);
 
+        // Add dot
         annotation.append('circle')
-            .attr('r', 5)
-            .style('fill', i === 0 ? '#ff4081' : '#4CAF50');
+            .attr('r', 4)
+            .style('fill', i === 0 ? '#FB313C' : '#1FA764');
 
+        // Add text with dynamic positioning
         annotation.append('text')
-            .attr('x', i === 0 ? 10 : -10)
+            .attr('x', isRightEdge ? -10 : 10) // Flip position if near edge
             .attr('y', i === 0 ? -15 : 25)
-            .attr('text-anchor', i === 0 ? 'start' : 'end')
+            .attr('text-anchor', isRightEdge ? 'end' : 'start')
             .text(`${i === 0 ? 'All-time High' : 'Record Low'}: $${d3.format('.2f')(entry.price)}`)
             .style('font-size', '12px')
-            .style('fill', i === 0 ? '#ff4081' : '#4CAF50');
+            .style('fill', i === 0 ? '#FB313C' : '#1FA764')
+            .style('font-weight', '500');
     });
 }
