@@ -229,6 +229,8 @@ function displayBarChart(averageScores, property) {
     const marginRight = 0;
     const marginBottom = 30;
     const marginLeft = 40;
+    const minScore = d3.min(data, d => d.score);
+    const yAxisStart = minScore *0.9;
 
     // Create the SVG container.
     d3.select("#score-ranking").selectAll("*").remove();
@@ -246,8 +248,8 @@ function displayBarChart(averageScores, property) {
 
     // Declare the y (vertical position) scale.
     const y = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.score)]).nice()
-        .range([height - marginBottom, marginTop]);
+    .domain([yAxisStart, d3.max(data, d => d.score)]).nice() // Updated domain
+    .range([height - marginBottom, 0]);
 
     // Append the SVG container
     svg.attr("viewBox", [0, 0, width, height])
@@ -262,12 +264,12 @@ function displayBarChart(averageScores, property) {
             .style("mix-blend-mode", "multiply") // Darker color when bars overlap during the transition.
             .attr("x", d => x(d.country))
             .attr("y", d => y(d.score))
-            .attr("height", d => y(0) - y(d.score))
+            .attr("height", d => height - marginBottom - y(d.score))
             .attr("width", x.bandwidth())
             .transition() // Animate the bars
             .duration(750)
             .delay((d, i) => i * 20);
-
+    console.log(y(yAxisStart))
     // Create the axes.
     const gx = svg.append("g")
         .attr("transform", `translate(0,${height - marginBottom})`)
