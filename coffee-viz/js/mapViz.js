@@ -189,7 +189,8 @@ function displayCountryScore(countryName, averageScores, property) {
   
     // Create a group for the arc
     const arcGroup = svg.append('g')
-        .attr('transform', 'translate(100, 100)'); // Move to the center
+        .attr('transform', 'translate(100, 100)')
+        .attr('display','center'); // Move to the center
 
     // Define the arc
     const arc = d3.arc()
@@ -199,17 +200,20 @@ function displayCountryScore(countryName, averageScores, property) {
         .endAngle(((score - minScore)/ (maxScore - minScore)) * 2 * Math.PI); // End angle based on score
 
     // Append the arc
-    arcGroup.append('path')
+    p = arcGroup.append('path')
         .attr('d', arc)
         .attr('fill', '#ffcc00') // Color of the arc
         .attr('id', 'score-chart')
+        .attr("text-anchor", "middle") // Horizontally centers text
+        .attr("dominant-baseline", "middle");
     
     arcGroup.append('text')
-        .attr("dx", "-30")
-        .attr('dy','20')
         .text((Math.round(score*10)/10))
         .style('font-weight', 'bold')
         .style('font-size', '50')
+        .attr("text-anchor", "middle") // Horizontally centers text
+        .attr("dominant-baseline", "middle")
+        .attr('dy',5);
 }
 
 function displayBarChart(averageScores, property) {
