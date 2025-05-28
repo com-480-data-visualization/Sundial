@@ -173,15 +173,16 @@ function displayCountryScore(countryName, averageScores, property) {
 
     // Calculate max score among averageScores for the arc
     const maxScore = Math.round(d3.max(Object.values(averageScores))*10)/10;
-    const minScore = Math.round(d3.min(Object.values(averageScores))*10)/10
-    // Create an SVG for the arc
+    const minScore = Math.round(d3.min(Object.values(averageScores))*10)/10;
+    
+    // Create text elements
     countryDiv.append('p')
-    .text(countryName)
-    .attr('class','country-score-name')
+        .text(countryName)
+        .attr('class','country-score-name');
 
     countryDiv.append('p')
-      .text(`The ${property} Score`)
-      .attr('class','country-score-property')
+        .text(`The ${property} Score`)
+        .attr('class','country-score-property');
     
     const svg = countryDiv.append('svg')
         .attr('width', 200)
@@ -192,28 +193,49 @@ function displayCountryScore(countryName, averageScores, property) {
         .attr('transform', 'translate(100, 100)')
         .attr('display','center'); // Move to the center
 
-    // Define the arc
+    // Define the arc generator
     const arc = d3.arc()
-        .innerRadius(30*2) // Inner radius for the arc
-        .outerRadius(40*2) // Outer radius for the arc
-        .startAngle(0) // Starting angle
-        .endAngle(((score - minScore)/ (maxScore - minScore)) * 2 * Math.PI); // End angle based on score
-
-    // Append the arc
-    p = arcGroup.append('path')
-        .attr('d', arc)
-        .attr('fill', '#ffcc00') // Color of the arc
-        .attr('id', 'score-chart')
-        .attr("text-anchor", "middle") // Horizontally centers text
-        .attr("dominant-baseline", "middle");
+        .innerRadius(30*2)
+        .outerRadius(40*2)
+        .startAngle(0);
     
-    arcGroup.append('text')
-        .text((Math.round(score*10)/10))
+    // Calculate the final end angle
+    const finalEndAngle = ((score - minScore) / (maxScore - minScore)) * 2 * Math.PI;
+    
+    // Create the arc path with initial end angle of 0
+    const path = arcGroup.append('path')
+        .attr('d', arc.endAngle(0))
+        .attr('fill', '#ffcc00')
+        .attr('id', 'score-chart');
+    
+    // Add the text element (initially showing 0)
+    const scoreText = arcGroup.append('text')
+        .text('0.0')
         .style('font-weight', 'bold')
         .style('font-size', '50')
-        .attr("text-anchor", "middle") // Horizontally centers text
+        .attr("text-anchor", "middle")
         .attr("dominant-baseline", "middle")
-        .attr('dy',5);
+        .attr('dy', 5);
+    
+    // Animate the arc and the text
+    path.transition()
+        .duration(1500) // Animation duration in milliseconds
+        .attrTween('d', function() {
+            const interpolate = d3.interpolate(0, finalEndAngle);
+            return function(t) {
+                return arc.endAngle(interpolate(t))();
+            };
+        });
+    
+    // Animate the text to count up
+    scoreText.transition()
+        .duration(1500)
+        .tween("text", function() {
+            const interpolate = d3.interpolate(0, Math.round(score*10)/10);
+            return function(t) {
+                this.textContent = interpolate(t).toFixed(1);
+            };
+        });
 }
 
 function displayBarChart(averageScores, property) {
