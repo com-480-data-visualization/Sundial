@@ -215,7 +215,7 @@ function initializeProductionViz(data) {
     .selectAll('g')
     .data([...topCountries, 'Rest of World'])
     .enter().append('g')
-    .attr('transform', (d, i) => `translate(${i * 90}, 0)`)  // Reduced gap between tags
+    .attr('transform', (d, i) => `translate(${i * 108}, 0)`)  // Reduced gap between tags
     .style('cursor', 'pointer')
     .on('click', function(event, d) {
         excludedCountries = excludedCountries.includes(d) 
@@ -250,14 +250,21 @@ function initializeProductionViz(data) {
     .attr('stroke-width', 1)
     .style('opacity', 0);
 
-    // Update functions
     function updateChart() {
         const activeCountries = [...topCountries, 'Rest of World'].filter(c => !excludedCountries.includes(c));
-        const reversedActive = activeCountries.filter(c => c !== 'Rest of World').reverse();
         
-        stack.keys(['Rest of World', ...reversedActive]);
+        // Corrected stack key handling
+        const countriesWithoutRoW = activeCountries.filter(c => c !== 'Rest of World');
+        const reversedActive = countriesWithoutRoW.reverse();
+        
+        // Only include 'Rest of World' if it's still active
+        const stackKeys = activeCountries.includes('Rest of World') 
+            ? ['Rest of World', ...reversedActive] 
+            : [...reversedActive];
+    
+        stack.keys(stackKeys);
         stackedData = stack(annualData);
-
+    
         svg.selectAll('path')
             .data(stackedData)
             .join('path')
