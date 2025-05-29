@@ -11,7 +11,25 @@ async function loadData() {
             d3.csv('data/coffee_production.csv'),
             d3.csv('data/coffee-prices-historical-chart-data.csv')
         ]);
-
+        const buttons = document.querySelectorAll('#score_buttons .button');
+    
+    // Initialize - set first button as selected by default (optional)
+    if (buttons.length > 0) {
+        buttons[0].classList.add('selected');
+    }
+    
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            // If already selected, do nothing
+            if (this.classList.contains('selected')) return;
+            
+            // Remove selected class from all buttons
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            
+            // Add selected class to clicked button
+            this.classList.add('selected');
+        });
+    });
         // Process and initialize visualizations
         const processedCoffee = coffee.map(d => ({
             ...d,
@@ -245,4 +263,3 @@ function adjustDimensions() {
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', loadData); 
-document.addEventListener()

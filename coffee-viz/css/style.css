@@ -141,8 +141,16 @@ body {
   background-color: #434443;
   box-shadow: 0 5px #666;
   transform: translateY(4px);
-  color: #fdfcfc;
+  color: #5d2323;
 }
+
+#score_buttons .button.selected {
+        /* Selected state - stays this color */
+        background-color: #d1b19b; /* Blue */
+        color: white;
+        box-shadow: 0 2px #999;
+        font-weight: bold;
+    }
 
 .divider{
     width:1px;

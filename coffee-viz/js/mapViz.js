@@ -39,10 +39,27 @@ async function initializeMapViz() {
                 .append('path')
                 .attr('class', 'country')
                 .attr('d', path)
-                .attr('fill', '#e0e0e0'); // Default fill color for countries
+                .attr('fill', '#e0e0e0')
+                .on('mouseover', function(event, d) {
+                    // Get country name (use the index to match with countryNames array)
+                    const countryName = d.properties.name;
+                    
+                    // Show tooltip
+                    tooltip.transition()
+                        .duration(200)
+                        .style('opacity', 0.9);
+                    tooltip.html(countryName)
+                        .style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 28) + 'px');
+                })
+                .on('mouseout', function() {
+                    // Hide tooltip
+                    tooltip.transition()
+                        .duration(500)
+                        .style('opacity', 0);
+                });; // Default fill color for countries
         });
 
-    console.log('check pt x')
     return 0
 }
 
@@ -151,12 +168,10 @@ async function updateMapWithScores(averageScores,property) {
   d3.json('https://unpkg.com/world-atlas@2/countries-110m.json')
       .then(world => {
           const countries = topojson.feature(world, world.objects.countries).features;
-        console.log('check pt 1')
           // Update countries' fill based on average scores
           svg.selectAll('.country')
               .data(countries)
               .attr('fill', d => {
-                console.log('check pt 2')
                   const countryName = d.properties.name; // Adjust based on your GeoJSON structure
                   const avgScore = averageScores[countryName] || 0; // Get average score or default to 0
                   if(avgScore == 0){
@@ -333,7 +348,6 @@ function displayBarChart(averageScores, property) {
     .attr("color", function(d) {
         try {
             const dataPoint = data.find(item => item.country == d);
-            console.log(bar_textcolor(averageScores, dataPoint.score))
             return bar_textcolor(averageScores, dataPoint.score);
         } catch (error) {
             console.error("Error in textcolor:", error);
