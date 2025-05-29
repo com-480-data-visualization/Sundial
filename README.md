@@ -62,7 +62,9 @@ The website prototype: [Page Prototype](https://com-480-data-visualization.githu
 
 ## Milestone 3 (30th May, 5pm)
 
-**80% of the final grade**
+The Final Webpage:[Web](https://com-480-data-visualization.github.io/Sundial/)
+The Process Book:
+The Screencast:
 
 
 ## Late policy
