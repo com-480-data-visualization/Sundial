@@ -119,7 +119,7 @@ body {
     padding: 1.5rem;
 } 
 
-#score_buttons .button {
+.button {
   display: inline-block;
   padding: 6px 12px;
   font-size: 12px;
@@ -135,16 +135,16 @@ body {
   margin-right:10px
 }
 
-#score_buttons .button:hover {background-color: #b8b9b8}
+.button:hover { background-color: #b8b9b8 }
 
-#score_buttons .button:active {
+.button:active {
   background-color: #434443;
   box-shadow: 0 5px #666;
   transform: translateY(4px);
   color: #5d2323;
 }
 
-#score_buttons .button.selected {
+.button.selected {
         /* Selected state - stays this color */
         background-color: #d1b19b; /* Blue */
         color: white;
@@ -152,28 +152,28 @@ body {
         font-weight: bold;
     }
 
-.divider{
+.divider {
     width:1px;
     height:auto;
     display:inline-block;
 }
 
-.country-score-name{
+.country-score-name {
     font-size: 40px;
     font-weight: bolder;
 }
 
-.country-score-property{
+.country-score-property {
     font-size: 20px;
     font-weight: bold;
 }
 
-#score-chart{
+#score-chart {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     transition: box-shadow 0.3s ease;
 }
 
-#country-score-and-ranking{
+#country-score-and-ranking {
     justify-content: center;
     
 }

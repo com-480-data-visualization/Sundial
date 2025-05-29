@@ -1,4 +1,4 @@
-var showExporters = true;
+var showExporters = false;
 var hoveredCountry = null;
 var hoveredArrowCountries = [null, null];
 var hoverlessShowCount = 2;
@@ -11,6 +11,31 @@ function initializeTradeViz(data) {
         return;
     }
 
+    // Check import / export mode
+    const button = document.querySelector('#import_export_buttons .selected');
+    if (!button) {
+        console.error('No button selected');
+        return;
+    }
+
+    switch (button.id) {
+        case "display_import":
+            showExporters = false;
+            console.log("Display Importers Selected");
+            break;
+        case "display_export":
+            showExporters = true;
+            console.log("Display Exporters Selected");
+            break;
+        default:
+            console.error("Unknown button selected:", button.id);
+            return;
+    }
+
+    // Reset hoveredCountry & hoveredArrowCountries
+    hoveredCountry = null;
+    hoveredArrowCountries = [null, null];
+
     // TODO: width & height should be dynamically updated!
     const width = document.getElementById('trade-viz').clientWidth;
     const height = width * 0.65;
@@ -18,12 +43,15 @@ function initializeTradeViz(data) {
     const map_translate_factor = [width / 2, height / 1.6]
     const margin = { top: 20, right: 20, bottom: 30, left: 40 };
 
-    // Create SVG
-    const svg = d3.select('#trade-viz')
-        .append('svg')
-        .attr('width', width)
-        .attr('height', height)
-        .attr('id', 'trade-viz-svg');
+    // Select existing SVG or create a new one
+    var svg = d3.select('#trade-viz-svg');
+    if (svg.empty()) {
+        svg = d3.select('#trade-viz')
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height)
+            .attr('id', 'trade-viz-svg');
+    }
 
     // Create map projection
     const projection = d3.geoMercator()
@@ -42,7 +70,6 @@ function initializeTradeViz(data) {
     // Load world map data
     d3.json('https://unpkg.com/world-atlas@2/countries-110m.json')
         .then(world => {
-            showExporters = true;
             // Process trade data for selected year
             const year = d3.max(data, d => d.year);
             const tradeFlows = data.filter(d => d.year === year);
@@ -80,6 +107,9 @@ function drawMap(world, projection, contours, tradeFlows) {
         .append('path')
         .attr('class', 'country')   
         .attr('d', contours)
+        .attr('stroke', '#ffffff') // Default fill color for countries
+        .attr('stroke-width', 0.5)
+        .attr('stroke-opacity', 0.5)
         .attr('fill', '#e0e0e0') // Default fill color for countries
         .on('mouseover', function(event, d) {
             d3.select(this)
@@ -111,8 +141,8 @@ function drawMap(world, projection, contours, tradeFlows) {
             // .style('top', (event.pageY - 28) + 'px');
         })
         .on('mouseout', function() {
-            d3.select(this)
-                .style('stroke-opacity', 0.6);
+            // d3.select(this)
+            //     .style('stroke-opacity', 0.6);
             
             if (!hoveredCountry in hoveredArrowCountries) {
                 console.log("Hovered Country Reset:", hoveredCountry);
@@ -132,20 +162,7 @@ function drawMap(world, projection, contours, tradeFlows) {
 }
 
 
-function  getTrades(hoveredCountry, tradeFlows, showExporters, showCount = 5) {
-    const exportList = d3.rollups(
-        tradeFlows, t => d3.sum(t, d => d.value), d => d.exporter, d => d.importer
-    ).map(d => ({
-        country: d[0], 
-        destinations: showCount == "all"
-            ? d[1].sort(
-                (a, b) => d3.descending(a[1], b[1]) || d3.ascending(a[0], b[0])
-            )
-            : d[1].sort(
-                (a, b) => d3.descending(a[1], b[1]) || d3.ascending(a[0], b[0])
-            ).slice(0, showCount)
-    })).filter((d, i) => (hoveredCountry == null || hoveredCountry == d.country))
-    console.log('Export List:', exportList);
+function getTrades(hoveredCountry, tradeFlows, showExporters, showCount = 5) {
     const exporters = d3.rollups(
         tradeFlows, t => d3.sum(t, d => d.value), d => d.exporter, d => d.importer
     ).map(d => ({
@@ -172,6 +189,9 @@ function  getTrades(hoveredCountry, tradeFlows, showExporters, showCount = 5) {
             ).slice(0, showCount)
     })).filter((d, i) => (hoveredCountry == null || hoveredCountry == d.country));
 
+    console.log('Exporters:', exporters);
+    console.log('Importers:', importers);
+    console.log('Show Exporters:', showExporters);
     return showExporters ? exporters : importers;
 }
 
@@ -186,8 +206,8 @@ function getFlows(topTrades, showExporters) {
             const target = getCountryCoordinates(d);
             if (!target) return;
             allFlows.push({
-                source: [source[1], source[0]],
-                target: [target[1], target[0]],
+                source: (showExporters && [source[1], source[0]] || [target[1], target[0]]),
+                target: (showExporters && [target[1], target[0]] || [source[1], source[0]]),
                 value: value,
                 exporter: (showExporters && trader.country || d),
                 importer: (showExporters && d || trader.country)

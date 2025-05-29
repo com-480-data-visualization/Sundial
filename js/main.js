@@ -11,42 +11,38 @@ async function loadData() {
             d3.csv('data/coffee_production.csv'),
             d3.csv('data/coffee-prices-historical-chart-data.csv')
         ]);
-        const buttons = document.querySelectorAll('#score_buttons .button');
-    
-    // Initialize - set first button as selected by default (optional)
-    if (buttons.length > 0) {
-        buttons[0].classList.add('selected');
-    }
-    
-    buttons.forEach(button => {
-        button.addEventListener('click', function() {
-            // If already selected, do nothing
-            if (this.classList.contains('selected')) return;
-            
-            // Remove selected class from all buttons
-            buttons.forEach(btn => btn.classList.remove('selected'));
-            
-            // Add selected class to clicked button
-            this.classList.add('selected');
-        });
-    });
-        // Process and initialize visualizations
-        const processedCoffee = coffee.map(d => ({
-            ...d,
-            latitude: +d.latitude || 0,
-            longitude: +d.longitude || 0,
-            altitude: +d.altitude_mean_meters || 0,
-            total_cup_points: +d.total_cup_points || 0
-        })).filter(d => d.latitude && d.longitude); // Remove entries without coordinates
 
-        const processedTrade = trade.map(d => ({
-            year: +d.Year,
-            exporter: d.Exporter, 
-            importer: d.Importer,
-            resource_type: d.Resource,
-            value: +d["Value (1000USD)"] || +d["Export value, where quarantined"] || +d["Import value, where quarantined"] || 0,
-            weight: +d["Weight (1000kg)"] || +d["Export weight, where quarantined"] || +d["Import weight, where quarantined"] || 0,
-        })).filter(d => d.value > 0 && d.weight > 0 && d.exporter); // Remove entries without valid trade value
+        const score_buttons = document.querySelectorAll('#score_buttons .button');
+        // Initialize - set first button as selected by default (optional)
+        if (score_buttons.length > 0) {
+            score_buttons[0].classList.add('selected');
+        }
+        
+
+        const import_export_buttons = document.querySelectorAll('#import_export_buttons .button');
+        // Initialize - set first button as selected by default (optional)
+        if (import_export_buttons.length > 0) {
+            import_export_buttons[0].classList.add('selected');
+        }
+        // import_export_buttons.forEach(button => {
+        //     button.addEventListener('click', function() {
+        //         if (this.classList.contains('selected')) return;
+
+        //         import_export_buttons.forEach(btn => btn.classList.remove('selected'));
+        //         this.classList.add('selected');
+        //     });
+        // });
+        
+        // // Process and initialize visualizations
+        // const processedCoffee = coffee.map(d => ({
+        //     ...d,
+        //     latitude: +d.latitude || 0,
+        //     longitude: +d.longitude || 0,
+        //     altitude: +d.altitude_mean_meters || 0,
+        //     total_cup_points: +d.total_cup_points || 0
+        // })).filter(d => d.latitude && d.longitude); // Remove entries without coordinates
+
+        
 
         const processedProduction = processProductionData(production);
 
@@ -58,7 +54,7 @@ async function loadData() {
             .filter(d => !isNaN(d.date.getTime()) && !isNaN(d.price));
 
         loadCoffeeData();
-        initializeTradeViz(processedTrade);
+        loadTradeData();
         initializeProductionViz(processedProduction);
         initializePriceViz(processedPrice);
     } catch (error) {
@@ -97,16 +93,25 @@ async function loadCoffeeData() {
             }
         });
 
-        // Set up button event listeners
-        const buttons = document.querySelectorAll('.button');
-        buttons.forEach(button => {
-            button.addEventListener('click', () => {
+        // Set up score button event listeners
+        const score_buttons = document.querySelectorAll('#score_buttons .button');
+        score_buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                // If already selected, do nothing
+                if (this.classList.contains('selected')) return;
+
+                // Remove selected class from all buttons
+                score_buttons.forEach(btn => btn.classList.remove('selected'));
+                
+                // Add selected class to clicked button
+                this.classList.add('selected');
                 const scoreType = button.id;
                 const averageScores = calculateAverageScores(data, scoreType);
                 updateMapWithScores(averageScores,button.getHTML());
             });
         });
-        initializeMapViz().then( () =>{
+
+        initializeMapViz().then( () => {
             const scoreType = 'Data.Scores.Total';
             const averageScores = calculateAverageScores(data, scoreType);
             updateMapWithScores(averageScores,'Total Score');})
@@ -122,14 +127,38 @@ async function loadCoffeeData() {
 // Load trade data
 async function loadTradeData() {
     try {
-        const [trade, commodities, exporters] = await Promise.all([
-            d3.csv('data/Trade.csv'),
-            d3.csv('data/Commodities.csv'),
-            d3.csv('data/Exporters.csv')
+        const [exports, imports, trades] = await Promise.all([
+            d3.csv('data/exports_full.csv'),
+            d3.csv('data/imports_full.csv'),
+            d3.csv('data/trades_full.csv')
         ]);
-        tradeData = processTradeData(trade, commodities, exporters);
-        console.log('test')
-        initializeTradeViz(tradeData);
+
+        const processedTrade = trades.map(d => ({
+            year: +d.Year,
+            exporter: d.Exporter, 
+            importer: d.Importer,
+            // resource_type: d.Resource,
+            value: +d["Value (1000USD)"] || +d["Export value, where quarantined"] || +d["Import value, where quarantined"] || 0,
+            weight: +d["Weight (1000kg)"] || +d["Export weight, where quarantined"] || +d["Import weight, where quarantined"] || 0,
+        })).filter(d => d.value > 0 && d.weight > 0 && d.exporter); // Remove entries without valid trade value
+
+        // Set up import/export button event listeners
+        const import_export_buttons = document.querySelectorAll('#import_export_buttons .button');
+        import_export_buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                // If already selected, do nothing
+                if (this.classList.contains('selected')) return;
+
+                // Change selected state
+                import_export_buttons.forEach(btn => btn.classList.remove('selected'));
+                this.classList.add('selected');
+
+                // Reload trade data based on selection
+                initializeTradeViz(processedTrade);
+            });
+        });
+
+        initializeTradeViz(processedTrade);
     } catch (error) {
         console.error('Error loading trade data:', error);
         displayErrorMessage('Trade data could not be loaded', 'trade-viz');

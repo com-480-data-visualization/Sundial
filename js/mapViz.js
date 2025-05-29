@@ -162,7 +162,7 @@ function bar_textcolor(averageScores, countryScore) {
 }
 
 
-async function updateMapWithScores(averageScores,property) {
+async function updateMapWithScores(averageScores, property) {
   const svg = d3.select('#map-viz-svg-g'); // Select the existing SVG
     // Load world map data again if necessary (or cache it)
   d3.json('https://unpkg.com/world-atlas@2/countries-110m.json')
