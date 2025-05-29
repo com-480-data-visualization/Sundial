@@ -16,7 +16,9 @@ countryNameEdits = {
         "Solomon Islands",
         "Central African Republic",
         "Falkland Islands (Malvinas)",
-        "South Sudan"
+        "South Sudan",
+        "Congo, Republic",
+        "Congo, Democratic Republic",
     ],
     "new": [
         "Russia",
@@ -27,7 +29,9 @@ countryNameEdits = {
         "Solomon Is.",
         "Central African Rep.",
         "Falkland Is.",
-        "S. Sudan"
+        "S. Sudan",
+        "Congo",
+        "Dem. Rep. Congo",
     ]
 }
 

@@ -1,5 +1,6 @@
 var showExporters = true;
 var hoveredCountry = null;
+var hoveredArrowCountries = [null, null];
 var hoverlessShowCount = 2;
 var hoveredShowCount = 10;
 
@@ -45,6 +46,7 @@ function initializeTradeViz(data) {
             // Process trade data for selected year
             const year = d3.max(data, d => d.year);
             const tradeFlows = data.filter(d => d.year === year);
+            console.log('Trade data for Year:', year, tradeFlows);
             // console.log('Trade Flows for Year:', year, tradeFlows);
 
             let result = drawMap(world, projection, path, tradeFlows);
@@ -59,7 +61,7 @@ function initializeTradeViz(data) {
             const allFlows = getFlows(topTrades, showExporters);
             // console.log('All Flows:', allFlows);
 
-            getTradeArrows(allFlows, maxTradeValue, projection, showExporters)
+            getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
 
             // Add legend
             addTradeLegend(svg, width);
@@ -83,12 +85,14 @@ function drawMap(world, projection, contours, tradeFlows) {
             d3.select(this)
                 .style('fill', "c0c0c0");
             hoveredCountry = d.properties.name;
+            hoveredArrowCountries = [null, null];
             console.log("Hovered Country:", hoveredCountry);
+            console.log("Hovered Arrow Countries:", hoveredArrowCountries);
 
             const topTrades = getTrades(hoveredCountry, tradeFlows, showExporters, hoveredShowCount);
             const maxTradeValue = d3.max(topTrades, d => d3.max(d.destinations, e => e[1]));
             const allFlows = getFlows(topTrades, showExporters);
-            getTradeArrows(allFlows, maxTradeValue, projection, showExporters)
+            getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
 
             
             // Update tooltip with country name
@@ -96,7 +100,7 @@ function drawMap(world, projection, contours, tradeFlows) {
             // tooltip.transition()
             //     .duration(200)
             //     .style('opacity', .9);
-            // getTradeArrows(allFlows, maxTradeValue, projection, showExporters)
+            // getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
             // tooltip.html(`
             //     <strong>Trade Flow</strong><br/>
             //     From: ${showExporters ? d.exporter : d.importer}<br/>
@@ -109,12 +113,16 @@ function drawMap(world, projection, contours, tradeFlows) {
         .on('mouseout', function() {
             d3.select(this)
                 .style('stroke-opacity', 0.6);
-            hoveredCountry = null;
+            
+            if (!hoveredCountry in hoveredArrowCountries) {
+                console.log("Hovered Country Reset:", hoveredCountry);
+                hoveredCountry = null;
+            }
 
-            const topTrades = getTrades(hoveredCountry, tradeFlows, showExporters, hoverlessShowCount);
+            const topTrades = getTrades(hoveredCountry, tradeFlows, showExporters, hoveredShowCount);
             const maxTradeValue = d3.max(topTrades, d => d3.max(d.destinations, e => e[1]));
             const allFlows = getFlows(topTrades, showExporters);
-            getTradeArrows(allFlows, maxTradeValue, projection, showExporters)
+            getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
 
             // tooltip.transition()
             // .duration(500)
@@ -124,7 +132,20 @@ function drawMap(world, projection, contours, tradeFlows) {
 }
 
 
-function getTrades(hoveredCountry, tradeFlows, showExporters, showCount = 5) {
+function  getTrades(hoveredCountry, tradeFlows, showExporters, showCount = 5) {
+    const exportList = d3.rollups(
+        tradeFlows, t => d3.sum(t, d => d.value), d => d.exporter, d => d.importer
+    ).map(d => ({
+        country: d[0], 
+        destinations: showCount == "all"
+            ? d[1].sort(
+                (a, b) => d3.descending(a[1], b[1]) || d3.ascending(a[0], b[0])
+            )
+            : d[1].sort(
+                (a, b) => d3.descending(a[1], b[1]) || d3.ascending(a[0], b[0])
+            ).slice(0, showCount)
+    })).filter((d, i) => (hoveredCountry == null || hoveredCountry == d.country))
+    console.log('Export List:', exportList);
     const exporters = d3.rollups(
         tradeFlows, t => d3.sum(t, d => d.value), d => d.exporter, d => d.importer
     ).map(d => ({
@@ -177,7 +198,7 @@ function getFlows(topTrades, showExporters) {
 }
 
 
-function getTradeArrows(allFlows, maxTradeValue, projection, showExporters) {
+function getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters) {
     const svg = d3.select('#trade-viz-svg')
     // Clear arrows
     svg.selectAll('.trade-flow-group').remove();
@@ -221,6 +242,9 @@ function getTradeArrows(allFlows, maxTradeValue, projection, showExporters) {
             .style('marker-end', `url(#triangle-${d.exporter.replace(/\s/g, '')}-${d.importer.replace(/\s/g, '')})`)
             .style('fill', 'none')
             .on('mouseover', function(event) {
+                hoveredArrowCountries = [d.exporter, d.importer];
+                console.log("Hovered Arrow Countries:", hoveredArrowCountries);
+
                 d3.select(this)
                     .style('stroke-opacity', 1);
 
@@ -233,12 +257,20 @@ function getTradeArrows(allFlows, maxTradeValue, projection, showExporters) {
                     <strong>Trade Flow</strong><br/>
                     From: ${showExporters ? d.exporter : d.importer}<br/>
                     To: ${showExporters ? d.importer : d.exporter}<br/>
-                    Value: $${formatValue(d.value)}<br/>
+                    Value: ${formatValue(d.value)} USD<br/>
                 `)
                 .style('left', (event.pageX + 10) + 'px')
                 .style('top', (event.pageY - 28) + 'px');
             })
             .on('mouseout', function() {
+                hoveredArrowCountries = [null, null];
+                console.log("Hovered Arrow Countries Reset:", hoveredArrowCountries);
+                
+                // const topTrades = getTrades(hoveredCountry, tradeFlows, showExporters, hoverlessShowCount);
+                // const maxTradeValue = d3.max(topTrades, d => d3.max(d.destinations, e => e[1]));
+                // const allFlows = getFlows(topTrades, showExporters);
+                // getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
+
                 d3.select(this)
                     .style('stroke-opacity', 0.6);
 
@@ -311,7 +343,11 @@ function getTradeValueWidth(value, maxValue = 1e8, minValue = 1) {
 }
 
 function formatValue(value) {
-    return value > 10 ? d3.format(',.0f')(value) : value > 1 ? d3.format('.1f')(value) : d3.format('.2f')(value);
+    return value > 1000 ? 
+        d3.format(',.2f')(value/1000) + 'M' : 
+        value > 1 ? 
+        d3.format('.2f')(value) + 'K' : 
+        d3.format('.1f')(value * 1000);
 }
 
 function formatWeight(weight) {
@@ -404,10 +440,10 @@ function getCoordinates() {
     17.060816,
     -61.796428
   ],
-  "Areas, nes": [
-    0.0,
-    0.0
-  ],
+//   "Areas, nes": [
+//     0.0,
+//     0.0
+//   ],
   "Argentina": [
     -38.416097,
     -63.616672
@@ -544,7 +580,7 @@ function getCoordinates() {
     19.3133,
     -81.2546
   ],
-  "Central African Republic": [
+  "Central African Rep.": [
     6.611111,
     20.939444
   ],
@@ -584,11 +620,11 @@ function getCoordinates() {
     -11.875001,
     43.872219
   ],
-  "Congo, Democratic Republic": [
+  "Dem. Rep. Congo": [
     -4.038333,
     21.758664
   ],
-  "Congo, Republic": [
+  "Congo": [
     -0.228021,
     15.827659
   ],
@@ -600,7 +636,7 @@ function getCoordinates() {
     9.748917,
     -83.753428
   ],
-  "Cote d'Ivoire": [
+  "Côte d'Ivoire": [
     7.539989,
     -5.54708
   ],
@@ -676,7 +712,7 @@ function getCoordinates() {
     62.0,
     -6.783333
   ],
-  "Falkland Islands (Malvinas)": [
+  "Falkland Is.": [
     -51.796253,
     -59.523613
   ],
@@ -696,10 +732,10 @@ function getCoordinates() {
     46.603354,
     1.888334
   ],
-  "Free Zones": [
-    0.0,
-    0.0
-  ],
+//   "Free Zones": [
+//     0.0,
+//     0.0
+//   ],
   "French Polynesia": [
     -17.679742,
     -149.406843
@@ -840,11 +876,11 @@ function getCoordinates() {
     -3.370417,
     -168.734039
   ],
-  "Korea, Democratic People’s Republic": [
+  "North Korea": [
     40.339852,
     127.510093
   ],
-  "Korea, Republic": [
+  "South Korea": [
     35.907757,
     127.766922
   ],
@@ -861,8 +897,8 @@ function getCoordinates() {
     102.495496
   ],
   "Latin American Integration Association, nes": [
-    0.0,
-    0.0
+    -13.235004,
+    -50.92528
   ],
   "Latvia": [
     56.879635,
@@ -1017,8 +1053,8 @@ function getCoordinates() {
     167.954712
   ],
   "North America and Central America, nes": [
-    0.0,
-    0.0
+    22.634501,
+    -101.552784
   ],
   "North Macedonia": [
     41.608635,
@@ -1033,25 +1069,25 @@ function getCoordinates() {
     8.468946
   ],
   "Oceania, nes": [
-    0.0,
-    0.0
+    -24.274398,
+    134.775136
   ],
   "Oman": [
     21.512583,
     55.923255
   ],
-  "Other Africa, nes": [
-    0.0,
-    0.0
-  ],
-  "Other Asia, nes": [
-    0.0,
-    0.0
-  ],
-  "Other Europe, nes": [
-    0.0,
-    0.0
-  ],
+//   "Other Africa, nes": [
+//     0.0,
+//     0.0
+//   ],
+//   "Other Asia, nes": [
+//     0.0,
+//     0.0
+//   ],
+//   "Other Europe, nes": [
+//     0.0,
+//     0.0
+//   ],
   "Pakistan": [
     30.375321,
     69.345116
@@ -1100,7 +1136,7 @@ function getCoordinates() {
     45.943161,
     24.96676
   ],
-  "Russian Federation": [
+  "Russia": [
     61.52401,
     105.318756
   ],
@@ -1184,7 +1220,7 @@ function getCoordinates() {
     46.151241,
     14.995463
   ],
-  "Solomon Islands": [
+  "Solomon Is.": [
     -9.64571,
     160.156194
   ],
@@ -1200,7 +1236,7 @@ function getCoordinates() {
     -54.429579,
     -36.587909
   ],
-  "South Sudan": [
+  "S. Sudan": [
     6.876991,
     31.306978
   ],
@@ -1208,10 +1244,10 @@ function getCoordinates() {
     40.463667,
     -3.74922
   ],
-  "Special Categories": [
-    0.0,
-    0.0
-  ],
+//   "Special Categories": [
+//     0.0,
+//     0.0
+//   ],
   "Sri Lanka": [
     7.873054,
     80.771797
@@ -1308,14 +1344,14 @@ function getCoordinates() {
     55.378051,
     -3.435973
   ],
-  "United States": [
+  "United States of America": [
     37.09024,
     -95.712891
   ],
-  "United States Minor Outlying Islands": [
-    0.0,
-    0.0
-  ],
+//   "United States Minor Outlying Islands": [
+//     0.0,
+//     0.0
+//   ],
   "Uruguay": [
     -32.522779,
     -55.765835

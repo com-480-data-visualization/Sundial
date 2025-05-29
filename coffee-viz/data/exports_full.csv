@@ -936,52 +936,52 @@ Exporter M.49,Exporter ISO3,Exporter,Exporter region,Resource,Year,Value (1000US
 174,COM,Comoros,Sub-Saharan Africa,Coffee,2022,0.105315,0.00333
 175,MYT,Mayotte,Sub-Saharan Africa,Coffee,2008,0.013,0.01
 175,MYT,Mayotte,Sub-Saharan Africa,Coffee,2013,19.63,0.405
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2000,10302.757,7921.43428
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2001,7633.083676,6883.001
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2002,7043.472846,7153.9665
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2003,8772.35106,7995.488
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2004,7139.128,7040.143
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2005,6660.27514,4256.401
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2006,7387.265154,4077.651
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2007,19019.50407,8788.764377
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2008,19959.95338,8128.185789
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2009,12316.74472,5439.25674
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2010,12092.00505,4758.053273
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2011,12900.84689,3559.88426
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2012,15385.57393,4772.1314
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2013,12337.54717,4528.89
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2014,15071.77942,5135.209
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2015,10518.13759,3656.305538
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2016,12759.76083,4799.49126
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2017,12779.99933,4563.373855
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2018,16630.12172,6354.391451
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2019,10972.28573,4791.348595
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2020,10132.7436,4444.668088
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2021,13760.2563,4582.18187
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2022,13083.06104,3186.669704
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2000,29831.08018,20960.807
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2001,13143.59357,11084.94
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2002,5179.51755,4966.45
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2003,5820.979914,5474.874
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2004,10791.2504,7953.701
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2005,11143.25885,7698.026
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2006,11197.31824,6225.329
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2007,8833.18907,4497.583
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2008,18280.47624,7221.363
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2009,16117.41435,7112.487
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2010,14156.71854,5566.5695
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2011,16161.00619,4136.27835
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2012,15442.96057,4081.241
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2013,10479.01642,3451.1624
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2014,14922.82655,4298.656
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2015,19099.52766,6776.633389
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2016,16220.84906,6904.872344
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2017,23543.36894,9146.703588
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2018,19537.84368,8598.541157
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2019,19443.99526,9536.534665
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2020,19611.28787,9684.649145
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2021,21446.4262,8686.356463
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2022,32119.61418,7948.971628
+178,COG,Congo,Sub-Saharan Africa,Coffee,2000,10302.757,7921.43428
+178,COG,Congo,Sub-Saharan Africa,Coffee,2001,7633.083676,6883.001
+178,COG,Congo,Sub-Saharan Africa,Coffee,2002,7043.472846,7153.9665
+178,COG,Congo,Sub-Saharan Africa,Coffee,2003,8772.35106,7995.488
+178,COG,Congo,Sub-Saharan Africa,Coffee,2004,7139.128,7040.143
+178,COG,Congo,Sub-Saharan Africa,Coffee,2005,6660.27514,4256.401
+178,COG,Congo,Sub-Saharan Africa,Coffee,2006,7387.265154,4077.651
+178,COG,Congo,Sub-Saharan Africa,Coffee,2007,19019.50407,8788.764377
+178,COG,Congo,Sub-Saharan Africa,Coffee,2008,19959.95338,8128.185789
+178,COG,Congo,Sub-Saharan Africa,Coffee,2009,12316.74472,5439.25674
+178,COG,Congo,Sub-Saharan Africa,Coffee,2010,12092.00505,4758.053273
+178,COG,Congo,Sub-Saharan Africa,Coffee,2011,12900.84689,3559.88426
+178,COG,Congo,Sub-Saharan Africa,Coffee,2012,15385.57393,4772.1314
+178,COG,Congo,Sub-Saharan Africa,Coffee,2013,12337.54717,4528.89
+178,COG,Congo,Sub-Saharan Africa,Coffee,2014,15071.77942,5135.209
+178,COG,Congo,Sub-Saharan Africa,Coffee,2015,10518.13759,3656.305538
+178,COG,Congo,Sub-Saharan Africa,Coffee,2016,12759.76083,4799.49126
+178,COG,Congo,Sub-Saharan Africa,Coffee,2017,12779.99933,4563.373855
+178,COG,Congo,Sub-Saharan Africa,Coffee,2018,16630.12172,6354.391451
+178,COG,Congo,Sub-Saharan Africa,Coffee,2019,10972.28573,4791.348595
+178,COG,Congo,Sub-Saharan Africa,Coffee,2020,10132.7436,4444.668088
+178,COG,Congo,Sub-Saharan Africa,Coffee,2021,13760.2563,4582.18187
+178,COG,Congo,Sub-Saharan Africa,Coffee,2022,13083.06104,3186.669704
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2000,29831.08018,20960.807
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2001,13143.59357,11084.94
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2002,5179.51755,4966.45
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2003,5820.979914,5474.874
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2004,10791.2504,7953.701
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2005,11143.25885,7698.026
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2006,11197.31824,6225.329
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2007,8833.18907,4497.583
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2008,18280.47624,7221.363
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2009,16117.41435,7112.487
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2010,14156.71854,5566.5695
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2011,16161.00619,4136.27835
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2012,15442.96057,4081.241
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2013,10479.01642,3451.1624
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2014,14922.82655,4298.656
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2015,19099.52766,6776.633389
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2016,16220.84906,6904.872344
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2017,23543.36894,9146.703588
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2018,19537.84368,8598.541157
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2019,19443.99526,9536.534665
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2020,19611.28787,9684.649145
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2021,21446.4262,8686.356463
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2022,32119.61418,7948.971628
 184,COK,Cook Islands,Oceania (excl. Australia and New Zealand),Coffee,2001,0.345837,0.019
 184,COK,Cook Islands,Oceania (excl. Australia and New Zealand),Coffee,2003,0.433303,0.019
 184,COK,Cook Islands,Oceania (excl. Australia and New Zealand),Coffee,2006,3.212,1.035
