@@ -567,29 +567,29 @@ Importer M.49,Importer ISO3,Importer,Importer region,Resource,Year,Value (1000US
 86,IOT,British Indian Ocean Territory,,Coffee,2008,,
 86,IOT,British Indian Ocean Territory,,Coffee,2013,,
 86,IOT,British Indian Ocean Territory,,Coffee,2014,,
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2000,,
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2001,,
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2002,5.894,1.444
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2003,0.947,0.13
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2004,6.061,3.343
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2005,14.998,3.199
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2006,43.797,19.688
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2007,3.28,0.118
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2008,4.835,1.323
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2009,782.93233,86.7521427
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2010,313.884,193.564
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2011,1787.208066,265.1270566
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2012,2767.253928,213.9774556
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2013,3027.742109,81.9706053
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2014,2578.221221,351.9721634
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2015,2834.64884,624.8792096
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2016,3201.855209,477.7202859
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2017,2540.477541,335.3862238
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2018,2312.523542,330.1084293
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2019,39.011327,1.9727
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2020,,
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2021,,
-90,SLB,Solomon Islands,Oceania (excl. Australia and New Zealand),Coffee,2022,,
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2000,,
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2001,,
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2002,5.894,1.444
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2003,0.947,0.13
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2004,6.061,3.343
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2005,14.998,3.199
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2006,43.797,19.688
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2007,3.28,0.118
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2008,4.835,1.323
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2009,782.93233,86.7521427
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2010,313.884,193.564
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2011,1787.208066,265.1270566
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2012,2767.253928,213.9774556
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2013,3027.742109,81.9706053
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2014,2578.221221,351.9721634
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2015,2834.64884,624.8792096
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2016,3201.855209,477.7202859
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2017,2540.477541,335.3862238
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2018,2312.523542,330.1084293
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2019,39.011327,1.9727
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2020,,
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2021,,
+90,SLB,Solomon Is.,Oceania (excl. Australia and New Zealand),Coffee,2022,,
 92,VGB,British Virgin Islands,Latin America and the Caribbean,Coffee,2000,832.58909,332.25
 92,VGB,British Virgin Islands,Latin America and the Caribbean,Coffee,2001,84.869,52.489
 92,VGB,British Virgin Islands,Latin America and the Caribbean,Coffee,2002,213.82447,206.942
@@ -843,29 +843,29 @@ Importer M.49,Importer ISO3,Importer,Importer region,Resource,Year,Value (1000US
 136,CYM,Cayman Islands,Latin America and the Caribbean,Coffee,2020,2653.773815,682.4656311
 136,CYM,Cayman Islands,Latin America and the Caribbean,Coffee,2021,3564.108996,913.8029216
 136,CYM,Cayman Islands,Latin America and the Caribbean,Coffee,2022,2036.862863,294.65491
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2000,2.904,0.481
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2001,49.603,34.106
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2002,145.881,124.685
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2003,90.264,60.839
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2004,35.462,10.601
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2005,75.945,28.202
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2006,605.095,698.216
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2007,216.717,85.92
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2008,219.756,42.89
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2009,184.4423,26.768197
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2010,184.243,38.895
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2011,76.199,12.972
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2012,94.228,19.231
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2013,111.783,23.881
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2014,120.637417,51.432
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2015,85.171794,13.51452304
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2016,79.182099,13.25
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2017,79.59769,16.6896438
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2018,134.985859,17.706507
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2019,214.8227437,54.85218689
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2020,235.479675,86.449
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2021,122.799278,70.683047
-140,CAF,Central African Republic,Sub-Saharan Africa,Coffee,2022,138.503568,29.088418
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2000,2.904,0.481
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2001,49.603,34.106
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2002,145.881,124.685
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2003,90.264,60.839
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2004,35.462,10.601
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2005,75.945,28.202
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2006,605.095,698.216
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2007,216.717,85.92
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2008,219.756,42.89
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2009,184.4423,26.768197
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2010,184.243,38.895
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2011,76.199,12.972
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2012,94.228,19.231
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2013,111.783,23.881
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2014,120.637417,51.432
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2015,85.171794,13.51452304
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2016,79.182099,13.25
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2017,79.59769,16.6896438
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2018,134.985859,17.706507
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2019,214.8227437,54.85218689
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2020,235.479675,86.449
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2021,122.799278,70.683047
+140,CAF,Central African Rep.,Sub-Saharan Africa,Coffee,2022,138.503568,29.088418
 144,LKA,Sri Lanka,Central and Southern Asia,Coffee,2000,1126.495695,386.1027651
 144,LKA,Sri Lanka,Central and Southern Asia,Coffee,2001,807.5233897,265.2939198
 144,LKA,Sri Lanka,Central and Southern Asia,Coffee,2002,157.0451836,35.09360969
@@ -1035,52 +1035,52 @@ Importer M.49,Importer ISO3,Importer,Importer region,Resource,Year,Value (1000US
 175,MYT,Mayotte,Sub-Saharan Africa,Coffee,2011,598.789445,56.05
 175,MYT,Mayotte,Sub-Saharan Africa,Coffee,2012,406.196914,15.431
 175,MYT,Mayotte,Sub-Saharan Africa,Coffee,2013,556.83134,22.772
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2000,154.550065,64.913
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2001,238.236546,102.446
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2002,339.305473,137.72
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2003,870.401102,446.04
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2004,466.392654,143.861
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2005,312.842165,45.251
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2006,482.658179,63.129
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2007,206.6753929,38.47925686
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2008,204.163935,28.56555051
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2009,321.5475511,50.99534375
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2010,410.0584312,64.73797958
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2011,711.4748001,112.1466149
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2012,819.831125,202.6562321
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2013,625.9742529,96.81999841
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2014,864.8910253,146.2727471
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2015,879.8607653,169.0222586
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2016,561.4213084,149.4393842
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2017,569.9831062,153.9439011
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2018,724.4641627,175.5340307
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2019,815.9756668,224.5616817
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2020,905.2531425,141.7317831
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2021,356.4687384,81.6837839
-178,COG,"Congo, Republic",Sub-Saharan Africa,Coffee,2022,529.33588,57.6034
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2000,399.578,205.818
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2001,307.110524,151.786
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2002,535.18,425.556
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2003,686.76,337.141
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2004,424.489,85.679
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2005,779.148083,232.216
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2006,933.138569,251.732
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2007,756.742018,202.45769
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2008,852.566,345.708
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2009,2780.850531,340.3993
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2010,843.413795,76.962911
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2011,991.448601,84.8678
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2012,1319.681016,220.73765
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2013,1214.575225,213.84715
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2014,829.135865,94.006497
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2015,906.0342066,191.3744181
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2016,552.6866918,90.4695214
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2017,467.9843943,119.2582052
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2018,740.8218631,151.9198973
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2019,444.5760976,91.95666319
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2020,528.9840991,96.92564651
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2021,6927.472107,1161.81811
-180,COD,"Congo, Democratic Republic",Sub-Saharan Africa,Coffee,2022,1123.883838,316.8942891
+178,COG,Congo,Sub-Saharan Africa,Coffee,2000,154.550065,64.913
+178,COG,Congo,Sub-Saharan Africa,Coffee,2001,238.236546,102.446
+178,COG,Congo,Sub-Saharan Africa,Coffee,2002,339.305473,137.72
+178,COG,Congo,Sub-Saharan Africa,Coffee,2003,870.401102,446.04
+178,COG,Congo,Sub-Saharan Africa,Coffee,2004,466.392654,143.861
+178,COG,Congo,Sub-Saharan Africa,Coffee,2005,312.842165,45.251
+178,COG,Congo,Sub-Saharan Africa,Coffee,2006,482.658179,63.129
+178,COG,Congo,Sub-Saharan Africa,Coffee,2007,206.6753929,38.47925686
+178,COG,Congo,Sub-Saharan Africa,Coffee,2008,204.163935,28.56555051
+178,COG,Congo,Sub-Saharan Africa,Coffee,2009,321.5475511,50.99534375
+178,COG,Congo,Sub-Saharan Africa,Coffee,2010,410.0584312,64.73797958
+178,COG,Congo,Sub-Saharan Africa,Coffee,2011,711.4748001,112.1466149
+178,COG,Congo,Sub-Saharan Africa,Coffee,2012,819.831125,202.6562321
+178,COG,Congo,Sub-Saharan Africa,Coffee,2013,625.9742529,96.81999841
+178,COG,Congo,Sub-Saharan Africa,Coffee,2014,864.8910253,146.2727471
+178,COG,Congo,Sub-Saharan Africa,Coffee,2015,879.8607653,169.0222586
+178,COG,Congo,Sub-Saharan Africa,Coffee,2016,561.4213084,149.4393842
+178,COG,Congo,Sub-Saharan Africa,Coffee,2017,569.9831062,153.9439011
+178,COG,Congo,Sub-Saharan Africa,Coffee,2018,724.4641627,175.5340307
+178,COG,Congo,Sub-Saharan Africa,Coffee,2019,815.9756668,224.5616817
+178,COG,Congo,Sub-Saharan Africa,Coffee,2020,905.2531425,141.7317831
+178,COG,Congo,Sub-Saharan Africa,Coffee,2021,356.4687384,81.6837839
+178,COG,Congo,Sub-Saharan Africa,Coffee,2022,529.33588,57.6034
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2000,399.578,205.818
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2001,307.110524,151.786
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2002,535.18,425.556
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2003,686.76,337.141
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2004,424.489,85.679
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2005,779.148083,232.216
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2006,933.138569,251.732
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2007,756.742018,202.45769
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2008,852.566,345.708
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2009,2780.850531,340.3993
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2010,843.413795,76.962911
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2011,991.448601,84.8678
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2012,1319.681016,220.73765
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2013,1214.575225,213.84715
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2014,829.135865,94.006497
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2015,906.0342066,191.3744181
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2016,552.6866918,90.4695214
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2017,467.9843943,119.2582052
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2018,740.8218631,151.9198973
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2019,444.5760976,91.95666319
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2020,528.9840991,96.92564651
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2021,6927.472107,1161.81811
+180,COD,Dem. Rep. Congo,Sub-Saharan Africa,Coffee,2022,1123.883838,316.8942891
 184,COK,Cook Islands,Oceania (excl. Australia and New Zealand),Coffee,2000,34.947,9.444
 184,COK,Cook Islands,Oceania (excl. Australia and New Zealand),Coffee,2001,55.55,10.631
 184,COK,Cook Islands,Oceania (excl. Australia and New Zealand),Coffee,2002,54.969,11.47
@@ -1472,28 +1472,28 @@ Importer M.49,Importer ISO3,Importer,Importer region,Resource,Year,Value (1000US
 234,FRO,Faeroe Islands,Europe,Coffee,2020,2567.356888,324.337073
 234,FRO,Faeroe Islands,Europe,Coffee,2021,3175.713007,368.860769
 234,FRO,Faeroe Islands,Europe,Coffee,2022,3084.51898,344.432402
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2000,46.587,22.216
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2002,70.886,113.165
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2003,1.182,0.104
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2004,4.863,0.144
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2005,2.933,0.19
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2006,5.329,0.783
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2007,6.308,0.643
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2008,24.771,0.914
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2009,6.729,0.421
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2010,,
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2011,24.617,1.192
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2012,44.134,3.238
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2013,47.537,4.673
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2014,59.544,6.268
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2015,22.032254,2.737
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2016,26.17,2.125
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2017,24.892548,2.862
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2018,22.927652,2.037
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2019,32.179261,2.791
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2020,18.609302,1.509
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2021,21.839864,2.617
-238,FLK,Falkland Islands (Malvinas),Latin America and the Caribbean,Coffee,2022,36.413812,3.867
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2000,46.587,22.216
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2002,70.886,113.165
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2003,1.182,0.104
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2004,4.863,0.144
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2005,2.933,0.19
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2006,5.329,0.783
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2007,6.308,0.643
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2008,24.771,0.914
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2009,6.729,0.421
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2010,,
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2011,24.617,1.192
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2012,44.134,3.238
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2013,47.537,4.673
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2014,59.544,6.268
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2015,22.032254,2.737
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2016,26.17,2.125
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2017,24.892548,2.862
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2018,22.927652,2.037
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2019,32.179261,2.791
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2020,18.609302,1.509
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2021,21.839864,2.617
+238,FLK,Falkland Is.,Latin America and the Caribbean,Coffee,2022,36.413812,3.867
 239,SGS,South Georgia and the South Sandwich Islands,,Coffee,2001,43.344,36.614
 239,SGS,South Georgia and the South Sandwich Islands,,Coffee,2002,48.625,24.2
 239,SGS,South Georgia and the South Sandwich Islands,,Coffee,2004,11.497,33.0
@@ -2233,29 +2233,29 @@ Importer M.49,Importer ISO3,Importer,Importer region,Resource,Year,Value (1000US
 381,ITA,Italy,Europe,Coffee,2020,1567260.193,609729.3711
 381,ITA,Italy,Europe,Coffee,2021,1809861.53,644419.3781
 381,ITA,Italy,Europe,Coffee,2022,2552926.946,687169.9161
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2000,422.10278,194.1191182
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2001,189.390559,66.31087972
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2002,305.0662635,150.0286904
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2003,509.6488254,142.492918
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2004,574.2644867,105.2518333
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2005,524.8927443,72.36093755
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2006,640.1712895,102.3168556
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2007,1579.935088,154.3425167
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2008,1594.04951,240.599592
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2009,1382.732219,145.9924516
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2010,1485.483908,154.3065833
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2011,1565.368865,161.0489132
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2012,1905.057383,210.6849253
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2013,1636.637945,126.4211314
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2014,3342.688761,633.9021302
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2015,3794.16033,928.7304931
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2016,2529.520634,414.2745937
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2017,3017.826435,383.4380512
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2018,3235.782432,246.1195379
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2019,2857.284951,268.0251632
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2020,2468.900422,304.1366253
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2021,3467.91671,336.2549021
-384,CIV,Cote d'Ivoire,Sub-Saharan Africa,Coffee,2022,4231.776285,369.0736486
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2000,422.10278,194.1191182
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2001,189.390559,66.31087972
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2002,305.0662635,150.0286904
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2003,509.6488254,142.492918
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2004,574.2644867,105.2518333
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2005,524.8927443,72.36093755
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2006,640.1712895,102.3168556
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2007,1579.935088,154.3425167
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2008,1594.04951,240.599592
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2009,1382.732219,145.9924516
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2010,1485.483908,154.3065833
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2011,1565.368865,161.0489132
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2012,1905.057383,210.6849253
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2013,1636.637945,126.4211314
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2014,3342.688761,633.9021302
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2015,3794.16033,928.7304931
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2016,2529.520634,414.2745937
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2017,3017.826435,383.4380512
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2018,3235.782432,246.1195379
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2019,2857.284951,268.0251632
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2020,2468.900422,304.1366253
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2021,3467.91671,336.2549021
+384,CIV,Côte d'Ivoire,Sub-Saharan Africa,Coffee,2022,4231.776285,369.0736486
 388,JAM,Jamaica,Latin America and the Caribbean,Coffee,2000,813.2624537,290.5054934
 388,JAM,Jamaica,Latin America and the Caribbean,Coffee,2001,1089.10639,515.273433
 388,JAM,Jamaica,Latin America and the Caribbean,Coffee,2002,774.7343484,502.5158702
@@ -2371,52 +2371,52 @@ Importer M.49,Importer ISO3,Importer,Importer region,Resource,Year,Value (1000US
 404,KEN,Kenya,Sub-Saharan Africa,Coffee,2020,10559.1948,3843.208241
 404,KEN,Kenya,Sub-Saharan Africa,Coffee,2021,22082.64445,5927.797344
 404,KEN,Kenya,Sub-Saharan Africa,Coffee,2022,10568.93483,2472.107604
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2000,7229.3021,3875.706
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2001,5679.8435,4267.48
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2002,6836.145201,5303.831
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2003,7882.766316,5845.644
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2004,11283.06285,7256.288
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2005,12463.46095,5803.69308
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2006,14782.26836,6693.071
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2007,17711.61604,7778.104
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2008,2917.694988,1125.63
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2009,17545.63433,6926.244
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2010,6063.794094,1942.7804
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2011,6815.264833,1420.887
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2012,1838.383286,387.135
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2013,1659.425304,979.966
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2014,16065.69686,5506.715
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2015,6056.639787,1706.526813
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2016,9965.729622,3809.176
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2017,10021.65763,3215.461
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2018,7773.487376,3029.1358
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2019,10436.53323,4351.7915
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2020,2303.03895,665.257
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2021,2725.097106,701.132
-408,PRK,"Korea, Democratic People’s Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2022,831.943464,69.484
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2000,90882.4207,64252.41092
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2001,60131.49523,54671.29752
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2002,61352.32692,61195.93393
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2003,75713.33626,62104.61687
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2004,83099.70577,57829.98873
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2005,120072.1136,65021.32647
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2006,149250.0592,79574.02482
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2007,177271.8004,77434.04333
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2008,279225.0346,100393.4289
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2009,265862.5823,98490.51479
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2010,371031.5237,112944.0005
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2011,589961.3602,118591.2666
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2012,462691.7131,106398.3583
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2013,403289.6057,113475.1995
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2014,524023.4129,136814.2354
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2015,512327.2038,136084.3551
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2016,552535.2212,153709.4354
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2017,615256.6842,155832.652
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2018,579891.9946,141236.5431
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2019,620724.842,165413.4821
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2020,736128.9018,177531.5088
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2021,916028.1181,189032.4753
-410,KOR,"Korea, Republic",Eastern and South-Eastern Asia (excl. China),Coffee,2022,1263708.612,203492.7475
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2000,7229.3021,3875.706
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2001,5679.8435,4267.48
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2002,6836.145201,5303.831
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2003,7882.766316,5845.644
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2004,11283.06285,7256.288
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2005,12463.46095,5803.69308
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2006,14782.26836,6693.071
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2007,17711.61604,7778.104
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2008,2917.694988,1125.63
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2009,17545.63433,6926.244
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2010,6063.794094,1942.7804
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2011,6815.264833,1420.887
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2012,1838.383286,387.135
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2013,1659.425304,979.966
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2014,16065.69686,5506.715
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2015,6056.639787,1706.526813
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2016,9965.729622,3809.176
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2017,10021.65763,3215.461
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2018,7773.487376,3029.1358
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2019,10436.53323,4351.7915
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2020,2303.03895,665.257
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2021,2725.097106,701.132
+408,PRK,North Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2022,831.943464,69.484
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2000,90882.4207,64252.41092
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2001,60131.49523,54671.29752
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2002,61352.32692,61195.93393
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2003,75713.33626,62104.61687
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2004,83099.70577,57829.98873
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2005,120072.1136,65021.32647
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2006,149250.0592,79574.02482
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2007,177271.8004,77434.04333
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2008,279225.0346,100393.4289
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2009,265862.5823,98490.51479
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2010,371031.5237,112944.0005
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2011,589961.3602,118591.2666
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2012,462691.7131,106398.3583
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2013,403289.6057,113475.1995
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2014,524023.4129,136814.2354
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2015,512327.2038,136084.3551
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2016,552535.2212,153709.4354
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2017,615256.6842,155832.652
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2018,579891.9946,141236.5431
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2019,620724.842,165413.4821
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2020,736128.9018,177531.5088
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2021,916028.1181,189032.4753
+410,KOR,South Korea,Eastern and South-Eastern Asia (excl. China),Coffee,2022,1263708.612,203492.7475
 414,KWT,Kuwait,Northern Africa and Western Asia,Coffee,2000,3634.457106,1897.26
 414,KWT,Kuwait,Northern Africa and Western Asia,Coffee,2001,3837.034104,2615.638
 414,KWT,Kuwait,Northern Africa and Western Asia,Coffee,2002,4733.050067,3751.091
@@ -3828,29 +3828,29 @@ Importer M.49,Importer ISO3,Importer,Importer region,Resource,Year,Value (1000US
 642,ROU,Romania,Europe,Coffee,2020,271784.3257,56749.51676
 642,ROU,Romania,Europe,Coffee,2021,309046.8754,55681.6624
 642,ROU,Romania,Europe,Coffee,2022,346238.7085,54180.50066
-643,RUS,Russian Federation,Europe,Coffee,2000,34218.04607,18990.78794
-643,RUS,Russian Federation,Europe,Coffee,2001,38168.11958,22570.27381
-643,RUS,Russian Federation,Europe,Coffee,2002,39615.81706,24907.47802
-643,RUS,Russian Federation,Europe,Coffee,2003,41894.30477,25976.50733
-643,RUS,Russian Federation,Europe,Coffee,2004,52218.99275,24844.60703
-643,RUS,Russian Federation,Europe,Coffee,2005,84293.80766,36880.36877
-643,RUS,Russian Federation,Europe,Coffee,2006,128577.3738,51500.07774
-643,RUS,Russian Federation,Europe,Coffee,2007,179604.9864,64237.08884
-643,RUS,Russian Federation,Europe,Coffee,2008,265716.9667,81293.45287
-643,RUS,Russian Federation,Europe,Coffee,2009,256435.0082,93184.58519
-643,RUS,Russian Federation,Europe,Coffee,2010,344933.1633,105342.1625
-643,RUS,Russian Federation,Europe,Coffee,2011,496018.3611,109245.843
-643,RUS,Russian Federation,Europe,Coffee,2012,498001.9669,122131.183
-643,RUS,Russian Federation,Europe,Coffee,2013,511251.5542,140941.0488
-643,RUS,Russian Federation,Europe,Coffee,2014,556936.679,149378.7356
-643,RUS,Russian Federation,Europe,Coffee,2015,499987.5992,153889.6314
-643,RUS,Russian Federation,Europe,Coffee,2016,504653.4236,170773.639
-643,RUS,Russian Federation,Europe,Coffee,2017,611112.4685,185176.1287
-643,RUS,Russian Federation,Europe,Coffee,2018,535960.1451,150205.9929
-643,RUS,Russian Federation,Europe,Coffee,2019,597354.4778,213108.7922
-643,RUS,Russian Federation,Europe,Coffee,2020,615973.1487,220127.7485
-643,RUS,Russian Federation,Europe,Coffee,2021,737456.6835,228830.5396
-643,RUS,Russian Federation,Europe,Coffee,2022,809717.9903,226516.2928
+643,RUS,Russia,Europe,Coffee,2000,34218.04607,18990.78794
+643,RUS,Russia,Europe,Coffee,2001,38168.11958,22570.27381
+643,RUS,Russia,Europe,Coffee,2002,39615.81706,24907.47802
+643,RUS,Russia,Europe,Coffee,2003,41894.30477,25976.50733
+643,RUS,Russia,Europe,Coffee,2004,52218.99275,24844.60703
+643,RUS,Russia,Europe,Coffee,2005,84293.80766,36880.36877
+643,RUS,Russia,Europe,Coffee,2006,128577.3738,51500.07774
+643,RUS,Russia,Europe,Coffee,2007,179604.9864,64237.08884
+643,RUS,Russia,Europe,Coffee,2008,265716.9667,81293.45287
+643,RUS,Russia,Europe,Coffee,2009,256435.0082,93184.58519
+643,RUS,Russia,Europe,Coffee,2010,344933.1633,105342.1625
+643,RUS,Russia,Europe,Coffee,2011,496018.3611,109245.843
+643,RUS,Russia,Europe,Coffee,2012,498001.9669,122131.183
+643,RUS,Russia,Europe,Coffee,2013,511251.5542,140941.0488
+643,RUS,Russia,Europe,Coffee,2014,556936.679,149378.7356
+643,RUS,Russia,Europe,Coffee,2015,499987.5992,153889.6314
+643,RUS,Russia,Europe,Coffee,2016,504653.4236,170773.639
+643,RUS,Russia,Europe,Coffee,2017,611112.4685,185176.1287
+643,RUS,Russia,Europe,Coffee,2018,535960.1451,150205.9929
+643,RUS,Russia,Europe,Coffee,2019,597354.4778,213108.7922
+643,RUS,Russia,Europe,Coffee,2020,615973.1487,220127.7485
+643,RUS,Russia,Europe,Coffee,2021,737456.6835,228830.5396
+643,RUS,Russia,Europe,Coffee,2022,809717.9903,226516.2928
 646,RWA,Rwanda,Sub-Saharan Africa,Coffee,2000,19.472,18.699
 646,RWA,Rwanda,Sub-Saharan Africa,Coffee,2001,684.301,1060.959
 646,RWA,Rwanda,Sub-Saharan Africa,Coffee,2002,20.20609503,22.45844031
@@ -4382,16 +4382,16 @@ Importer M.49,Importer ISO3,Importer,Importer region,Resource,Year,Value (1000US
 724,ESP,Spain,Europe,Coffee,2020,1046043.08,322653.5565
 724,ESP,Spain,Europe,Coffee,2021,1136494.019,296414.5761
 724,ESP,Spain,Europe,Coffee,2022,1381000.952,315831.2968
-728,SSD,South Sudan,Sub-Saharan Africa,Coffee,2013,1233.631991,645.907
-728,SSD,South Sudan,Sub-Saharan Africa,Coffee,2014,456.589,211.22
-728,SSD,South Sudan,Sub-Saharan Africa,Coffee,2015,413.30568,205.051
-728,SSD,South Sudan,Sub-Saharan Africa,Coffee,2016,651.88197,405.172
-728,SSD,South Sudan,Sub-Saharan Africa,Coffee,2017,840.23587,401.304
-728,SSD,South Sudan,Sub-Saharan Africa,Coffee,2018,1052.090327,811.506
-728,SSD,South Sudan,Sub-Saharan Africa,Coffee,2019,3798.858247,3381.362042
-728,SSD,South Sudan,Sub-Saharan Africa,Coffee,2020,2653.374955,1911.2342
-728,SSD,South Sudan,Sub-Saharan Africa,Coffee,2021,2034.699065,1140.75509
-728,SSD,South Sudan,Sub-Saharan Africa,Coffee,2022,2003.635522,1266.65372
+728,SSD,S. Sudan,Sub-Saharan Africa,Coffee,2013,1233.631991,645.907
+728,SSD,S. Sudan,Sub-Saharan Africa,Coffee,2014,456.589,211.22
+728,SSD,S. Sudan,Sub-Saharan Africa,Coffee,2015,413.30568,205.051
+728,SSD,S. Sudan,Sub-Saharan Africa,Coffee,2016,651.88197,405.172
+728,SSD,S. Sudan,Sub-Saharan Africa,Coffee,2017,840.23587,401.304
+728,SSD,S. Sudan,Sub-Saharan Africa,Coffee,2018,1052.090327,811.506
+728,SSD,S. Sudan,Sub-Saharan Africa,Coffee,2019,3798.858247,3381.362042
+728,SSD,S. Sudan,Sub-Saharan Africa,Coffee,2020,2653.374955,1911.2342
+728,SSD,S. Sudan,Sub-Saharan Africa,Coffee,2021,2034.699065,1140.75509
+728,SSD,S. Sudan,Sub-Saharan Africa,Coffee,2022,2003.635522,1266.65372
 729,SDN,Sudan,Northern Africa and Western Asia,Coffee,2011,9.057465,0.36605
 729,SDN,Sudan,Northern Africa and Western Asia,Coffee,2012,74283.693,30368.11157
 729,SDN,Sudan,Northern Africa and Western Asia,Coffee,2013,58582.75532,29388.61778
@@ -4993,29 +4993,29 @@ Importer M.49,Importer ISO3,Importer,Importer region,Resource,Year,Value (1000US
 839,,Special Categories,,Coffee,2020,66.425247,11.33741
 839,,Special Categories,,Coffee,2021,2.191671,0.33588
 839,,Special Categories,,Coffee,2022,61.981832,9.95991
-842,USA,United States,Northern America,Coffee,2000,2561635.066,1300696.035
-842,USA,United States,Northern America,Coffee,2001,1528727.5,978135.048
-842,USA,United States,Northern America,Coffee,2002,1639362.083,1149609.524
-842,USA,United States,Northern America,Coffee,2003,1844462.527,1245580.612
-842,USA,United States,Northern America,Coffee,2004,2148519.159,1293018.732
-842,USA,United States,Northern America,Coffee,2005,2728703.348,1344956.935
-842,USA,United States,Northern America,Coffee,2006,3129333.013,1319598.214
-842,USA,United States,Northern America,Coffee,2007,3577607.739,1352790.529
-842,USA,United States,Northern America,Coffee,2008,4143624.263,1408650.6
-842,USA,United States,Northern America,Coffee,2009,3819162.606,1306583.523
-842,USA,United States,Northern America,Coffee,2010,4615831.618,1315548.067
-842,USA,United States,Northern America,Coffee,2011,7613892.201,1442666.831
-842,USA,United States,Northern America,Coffee,2012,6405807.873,1431908.358
-842,USA,United States,Northern America,Coffee,2013,5299249.924,1475760.001
-842,USA,United States,Northern America,Coffee,2014,5925267.11,1512965.941
-842,USA,United States,Northern America,Coffee,2015,5837378.443,1542753.8
-842,USA,United States,Northern America,Coffee,2016,5605873.385,1602579.043
-842,USA,United States,Northern America,Coffee,2017,6151445.208,1606492.307
-842,USA,United States,Northern America,Coffee,2018,5494613.926,1493009.603
-842,USA,United States,Northern America,Coffee,2019,5674257.867,1692382.324
-842,USA,United States,Northern America,Coffee,2020,5515670.632,1526014.934
-842,USA,United States,Northern America,Coffee,2021,6897908.764,1602347.229
-842,USA,United States,Northern America,Coffee,2022,9430725.823,1602787.328
+842,USA,United States of America,Northern America,Coffee,2000,2561635.066,1300696.035
+842,USA,United States of America,Northern America,Coffee,2001,1528727.5,978135.048
+842,USA,United States of America,Northern America,Coffee,2002,1639362.083,1149609.524
+842,USA,United States of America,Northern America,Coffee,2003,1844462.527,1245580.612
+842,USA,United States of America,Northern America,Coffee,2004,2148519.159,1293018.732
+842,USA,United States of America,Northern America,Coffee,2005,2728703.348,1344956.935
+842,USA,United States of America,Northern America,Coffee,2006,3129333.013,1319598.214
+842,USA,United States of America,Northern America,Coffee,2007,3577607.739,1352790.529
+842,USA,United States of America,Northern America,Coffee,2008,4143624.263,1408650.6
+842,USA,United States of America,Northern America,Coffee,2009,3819162.606,1306583.523
+842,USA,United States of America,Northern America,Coffee,2010,4615831.618,1315548.067
+842,USA,United States of America,Northern America,Coffee,2011,7613892.201,1442666.831
+842,USA,United States of America,Northern America,Coffee,2012,6405807.873,1431908.358
+842,USA,United States of America,Northern America,Coffee,2013,5299249.924,1475760.001
+842,USA,United States of America,Northern America,Coffee,2014,5925267.11,1512965.941
+842,USA,United States of America,Northern America,Coffee,2015,5837378.443,1542753.8
+842,USA,United States of America,Northern America,Coffee,2016,5605873.385,1602579.043
+842,USA,United States of America,Northern America,Coffee,2017,6151445.208,1606492.307
+842,USA,United States of America,Northern America,Coffee,2018,5494613.926,1493009.603
+842,USA,United States of America,Northern America,Coffee,2019,5674257.867,1692382.324
+842,USA,United States of America,Northern America,Coffee,2020,5515670.632,1526014.934
+842,USA,United States of America,Northern America,Coffee,2021,6897908.764,1602347.229
+842,USA,United States of America,Northern America,Coffee,2022,9430725.823,1602787.328
 854,BFA,Burkina Faso,Sub-Saharan Africa,Coffee,2000,126.549186,136.285393
 854,BFA,Burkina Faso,Sub-Saharan Africa,Coffee,2001,100.0616937,90.4556989
 854,BFA,Burkina Faso,Sub-Saharan Africa,Coffee,2002,154.8064563,119.4152339

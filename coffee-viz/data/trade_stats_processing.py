@@ -6,6 +6,35 @@
 import pandas as pd
 import json
 
+countryNameEdits = {
+    "original": [
+        "Russian Federation",
+        "Korea, Democratic People’s Republic",
+        "Korea, Republic",
+        "Cote d'Ivoire",
+        "United States",
+        "Solomon Islands",
+        "Central African Republic",
+        "Falkland Islands (Malvinas)",
+        "South Sudan",
+        "Congo, Republic",
+        "Congo, Democratic Republic",
+    ],
+    "new": [
+        "Russia",
+        "North Korea",
+        "South Korea",
+        "Côte d'Ivoire",
+        "United States of America",
+        "Solomon Is.",
+        "Central African Rep.",
+        "Falkland Is.",
+        "S. Sudan",
+        "Congo",
+        "Dem. Rep. Congo",
+    ]
+}
+
 def merge_stats(stats: list[pd.DataFrame], sort_headers: list[str]) -> pd.DataFrame:
     return pd.concat(stats, ignore_index=True).sort_values(by=sort_headers, ascending=True)
 
@@ -22,7 +51,9 @@ def process_all_trade_stats():
         for year in years:
             df = pd.read_csv(f"resourcetradeearth_csv/{table}-{year}.csv")
             stats.append(df)
-        merged_stats[table] = merge_stats(stats, sort_headers[table])
+        df = merge_stats(stats, sort_headers[table])
+        df.replace(countryNameEdits["original"], countryNameEdits["new"], inplace=True)
+        merged_stats[table] = df
     return merged_stats
 
 # Write full csv files as results
@@ -41,6 +72,8 @@ def write_trade_stats():
 
 
 def load_country_coords(json_path="trade_countries.json"):
+    # read trade_countries.json, which should be a list of dictionaries like [{"country": "Japan", "lat": 123, "lng": 0.5}]
+    # and then flatten it into a large dictionary with country as key, lat lngs as item.
     with open(json_path, "r", encoding="utf-8") as f:
         countries = json.load(f)
     coords = {entry["country"]: [entry["lat"], entry["lng"]] for entry in countries}
@@ -49,12 +82,10 @@ def load_country_coords(json_path="trade_countries.json"):
     print("Flattened country coordinates written to country_coords_flat.json.")
 
 
-# if __name__ == "__main__":
-#     write_trade_stats()
-#     print("Trade stats processing complete.")
-# write into a json file
-load_country_coords()
-# read trade_countries.json, which should be a list of dictionaries like [{"country": "Japan", "lat": 123, "lng": 0.5}]
-# and then flatten it into a large dictionary with country as key, lat lngs as item.
+if __name__ == "__main__":
+    write_trade_stats()
+    print("Trade stats processing complete.")
+    # load_country_coords()
+
 
 

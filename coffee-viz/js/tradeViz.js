@@ -1,3 +1,9 @@
+var showExporters = true;
+var hoveredCountry = null;
+var hoveredArrowCountries = [null, null];
+var hoverlessShowCount = 2;
+var hoveredShowCount = 10;
+
 // Trade visualization
 function initializeTradeViz(data) {
     if (!data || data.length === 0) {
@@ -30,397 +36,254 @@ function initializeTradeViz(data) {
     // Create tooltip
     const tooltip = d3.select('body').append('div')
         .attr('class', 'tooltip')
+        .attr('id', 'trade-tooltip')
         .style('opacity', 0);
 
     // Load world map data
     d3.json('https://unpkg.com/world-atlas@2/countries-110m.json')
         .then(world => {
-            var hoveredCountry = null;
-            // Draw base map
-            console.log("World!: ", world);
-            svg.append('g')
-                .attr('id', 'trade-viz-svg-g')
-                .selectAll('path')
-                .data(topojson.feature(world, world.objects.countries).features)
-                .enter()
-                .append('path')
-                .attr('class', 'country')   
-                .attr('d', path)
-                .attr('fill', '#e0e0e0') // Default fill color for countries
-                .on('mouseover', function(event, d) {
-                    d3.select(this)
-                        .style('fill', "c0c0c0");
-                    console.log(event, d)
-                    hoveredCountry = d.properties.name;
-                    console.log(hoveredCountry)
-                    tooltip.transition()
-                        .duration(200)
-                        .style('opacity', .9);
-            
-                    tooltip.html(`
-                        <strong>Trade Flow</strong><br/>
-                        From: ${showExporters ? d.exporter : d.importer}<br/>
-                        To: ${showExporters ? d.importer : d.exporter}<br/>
-                        Value: $${formatValue(d.value)}<br/>
-                    `)
-                    .style('left', (event.pageX + 10) + 'px')
-                    .style('top', (event.pageY - 28) + 'px');
-                })
-                .on('mouseout', function() {
-                    d3.select(this)
-                        .style('stroke-opacity', 0.6);
-                    hoveredCountry = null;
-                });
+            showExporters = true;
             // Process trade data for selected year
-            const latestYear = d3.max(data, d => d.year);
-            const tradeFlows = data.filter(d => d.year === latestYear);
+            const year = d3.max(data, d => d.year);
+            const tradeFlows = data.filter(d => d.year === year);
+            console.log('Trade data for Year:', year, tradeFlows);
+            // console.log('Trade Flows for Year:', year, tradeFlows);
 
-            // find top 5 exporters and importers for each country
-            const topExporters = d3.rollups(tradeFlows, t => d3.sum(t, d => d.value), d => d.exporter, d => d.importer)
-                .map(d => ({
-                    country: d[0], 
-                    destinations: (d[1].sort((a, b) => d3.descending(a[1], b[1]) || d3.ascending(a[0], b[0]))).slice(0, 5)
-                })).filter((d, i) => hoveredCountry == null || hoveredCountry == d[0])
-            console.log('Top Exporters:', topExporters);
+            let result = drawMap(world, projection, path, tradeFlows);
+            // console.log('Map Draw Result:', result);
 
-            // find max export amount in top exporters
-            const maxExportValue = d3.max(topExporters, d => d3.max(d.destinations, e => e[1]));
+            const topTrades = getTrades(hoveredCountry, tradeFlows, showExporters, hoverlessShowCount);
+            // console.log('Top Trades:', topTrades);
 
-            const topImporters = d3.rollups(tradeFlows, t => d3.sum(t, d => d.value), d => d.importer, d => d.exporter)
-                .map(d => ({
-                    country: d[0],
-                    destinations: d[1].sort((a, b) => d3.descending(a[1], b[1]) || d3.ascending(a[0], b[0])).slice(5)
-                }));
-            console.log('Top Importers:', topImporters);
+            const maxTradeValue = d3.max(topTrades, d => d3.max(d.destinations, e => e[1]));
+            // console.log('Max Trade Value:', maxTradeValue);
 
-            let showExporters = true;
-            // Create trade flow lines
-            // const lines = svg.selectAll('path.trade-flow')
-            //     // .data(tradeFlows)
-            //     .data((tradeFlows).filter(d =>
-            //         topExporters.includes(d.exporter) && topImporters.includes(d.importer)
-            //     ))
-            //     .enter()
-            //     .append('path')
-            //     .attr('class', 'trade-flow')
-            //     .attr('d', d => {
-            //         const source = getCountryCoordinates(d.exporter);
-            //         const target = getCountryCoordinates(d.importer);
-            //         if (!source || !target) return null;
+            const allFlows = getFlows(topTrades, showExporters);
+            // console.log('All Flows:', allFlows);
 
-            //         const sourcePos = projection(source);
-            //         const targetPos = projection(target);
-
-            //         // Create curved path
-            //         const dx = targetPos[0] - sourcePos[0];
-            //         const dy = targetPos[1] - sourcePos[1];
-            //         const dr = Math.sqrt(dx * dx + dy * dy);
-
-            //         return `M${sourcePos[0]},${sourcePos[1]}A${dr},${dr} 0 0,1 ${targetPos[0]},${targetPos[1]}`;
-            //     })
-            //     .style('stroke', d => getTradeValueColor(d.value))
-            //     .style('stroke-width', d => getTradeValueWidth(d.value));
-
-            // Flatten all flows into an array of {source, target, value, exporter}
-            const allFlows = [];
-            topExporters.forEach(exporter => {
-                const source = getCountryCoordinates(exporter.country);
-                if (!source) return;
-                exporter.destinations.forEach(t => {
-                    const importer = t[0];
-                    const value = t[1];
-                    const target = getCountryCoordinates(importer);
-                    if (!target) return;
-                    allFlows.push({
-                        source: [source[1], source[0]],
-                        target: [target[1], target[0]],
-                        value: value,
-                        exporter: exporter.country,
-                        importer: importer
-                    });
-                });
-            });
-            
-            // Define marker only once
-            // svg.append('defs')
-            //     .append('marker')
-            //     .attr('id', 'triangle')
-            //     .attr('viewBox', '0 0 10 10')
-            //     .attr('refX', "5")
-            //     .attr('refY', "5")
-            //     .attr('markerUnits', "strokeWidth")
-            //     .attr('markerWidth', 2)
-            //     .attr('markerHeight', 2)
-            //     .attr('orient', 'auto')
-            //     .append('path')
-            //     .attr('d', 'M 0 0 L 10 5 L 0 10 z')
-            //     .style('stroke', '#4682b4')
-            //     .style('fill', '#4682b4')
-            //     .style('fill-opacity', 1);
-            
-            // Draw all trade flows
-            svg_paths = svg.data(allFlows)
-                .enter()
-                .append('svg')
-                .attr('class', 'svg-svg')
-                .append('path')
-                .attr('class', 'trade-flow')
-                .attr('d', d => {
-                    const sourcePos = projection(d.source);
-                    const targetPos = projection(d.target);
-                    const dx = targetPos[1] - sourcePos[1];
-                    const dy = targetPos[0] - sourcePos[0];
-                    const dr = Math.sqrt(dx * dx + dy * dy);
-                    console.log(`M${sourcePos[1]},${sourcePos[0]}A${dr},${dr} 0 0,1 ${targetPos[1]},${targetPos[0]}`);
-                    return `M${sourcePos[0]},${sourcePos[1]}A${dr},${dr} 0 0,1 ${targetPos[0]},${targetPos[1]}`;
-                })
-                .style('stroke', d => getTradeValueColor(d.value, maxExportValue))
-                .style('stroke-width', d => getTradeValueWidth(d.value, maxExportValue))
-                .style('stroke-linecap', 'round')
-                .style('stroke-opacity', 0.6)
-                .style('marker-end', `url(#triangle)`)
-                .style('fill', 'none')
-                .on('mouseover', function(event, d) {
-                    d3.select(this)
-                        .style('stroke-opacity', 1);
-            
-                    tooltip.transition()
-                        .duration(200)
-                        .style('opacity', .9);
-            
-                    tooltip.html(`
-                        <strong>Trade Flow</strong><br/>
-                        From: ${showExporters ? d.exporter : d.importer}<br/>
-                        To: ${showExporters ? d.importer : d.exporter}<br/>
-                        Value: $${formatValue(d.value)}<br/>
-                    `)
-                    .style('left', (event.pageX + 10) + 'px')
-                    .style('top', (event.pageY - 28) + 'px');
-                })
-                .on('mouseout', function() {
-                    d3.select(this)
-                        .style('stroke-opacity', 0.6);
-            
-                    tooltip.transition()
-                        .duration(500)
-                        .style('opacity', 0);
-                });
-
-
-            // For each trade flow, create a group SVG with path and defs
-            allFlows.forEach(d => {
-                const groupSvg = svg.append('svg')
-                    .attr('class', 'trade-flow-group')
-                    .attr('overflow', 'visible');
-
-                // Add marker definition for each group (optional, but can be shared)
-                const defs = groupSvg.append('defs');
-                defs.append('marker')
-                    .attr('id', `triangle-${d.exporter.replace(/\s/g, '')}-${d.importer.replace(/\s/g, '')}`)
-                    .attr('viewBox', '0 0 10 10')
-                    .attr('refX', 5)
-                    .attr('refY', 5)
-                    .attr('markerUnits', "strokeWidth")
-                    .attr('markerWidth', 2)
-                    .attr('markerHeight', 2)
-                    .attr('orient', 'auto')
-                    .append('path')
-                    .attr('d', 'M 0 0 L 10 5 L 0 10 z')
-                    .style('fill', getTradeValueColor(d.value, maxExportValue))
-                    .style('fill-opacity', 1);
-
-                // Draw the trade flow path
-                const sourcePos = projection(d.source);
-                const targetPos = projection(d.target);
-                const dx = targetPos[0] - sourcePos[0];
-                const dy = targetPos[1] - sourcePos[1];
-                const dr = Math.sqrt(dx * dx + dy * dy);
-
-                groupSvg.append('path')
-                    .attr('class', 'trade-flow')
-                    .attr('d', `M${sourcePos[0]},${sourcePos[1]}A${dr},${dr} 0 0,1 ${targetPos[0]},${targetPos[1]}`)
-                    .style('stroke', getTradeValueColor(d.value, maxExportValue))
-                    .style('stroke-width', getTradeValueWidth(d.value, maxExportValue))
-                    .style('stroke-linecap', 'round')
-                    .style('stroke-opacity', 0.6)
-                    .style('marker-end', `url(#triangle-${d.exporter.replace(/\s/g, '')}-${d.importer.replace(/\s/g, '')})`)
-                    .style('fill', 'none')
-                    .on('mouseover', function(event) {
-                        d3.select(this)
-                            .style('stroke-opacity', 1);
-
-                        tooltip.transition()
-                            .duration(200)
-                            .style('opacity', .9);
-
-                        tooltip.html(`
-                            <strong>Trade Flow</strong><br/>
-                            From: ${showExporters ? d.exporter : d.importer}<br/>
-                            To: ${showExporters ? d.importer : d.exporter}<br/>
-                            Value: $${formatValue(d.value)}<br/>
-                        `)
-                        .style('left', (event.pageX + 10) + 'px')
-                        .style('top', (event.pageY - 28) + 'px');
-                    })
-                    .on('mouseout', function() {
-                        d3.select(this)
-                            .style('stroke-opacity', 0.6);
-
-                        tooltip.transition()
-                            .duration(500)
-                            .style('opacity', 0);
-                    });
-            });
-
-
-
-            svg.selectAll('.svg-svg')
-                .data(allFlows)
-                .append('defs')
-                .append('marker')
-                .attr('id', 'triangle')
-                .attr('viewBox', '0 0 10 10')
-                .attr('refX', "5")
-                .attr('refY', "5")
-                .attr('markerUnits', "strokeWidth")
-                .attr('markerWidth', 2)
-                .attr('markerHeight', 2)
-                .attr('orient', 'auto')
-                .append('path')
-                .attr('d', 'M 0 0 L 10 5 L 0 10 z')
-                .style('stroke', '#4682b4')
-                .style('fill', '#4682b4')
-                .style('fill-opacity', 1);
-
-
-
-
-            // Add interactions
-            // lines.on('mouseover', function(event, d) {
-            //     console.log("d:", d);
-            //     d3.select(this)
-            //         .style('stroke-opacity', 1)
-            //         .style('stroke-width', d => getTradeValueWidth(d.value) * 1.5);
-
-            //     tooltip.transition()
-            //         .duration(200)
-            //         .style('opacity', .9);
-
-            //     tooltip.html(`
-            //         <strong>Trade Flow</strong><br/>
-            //         From: ${showExporters && d.country}<br/>
-            //         To: ${d.importer}<br/>
-            //         Value: $${formatValue(d.value)}<br/>
-            //         Weight: ${formatWeight(d.weight)} tons
-            //     `)
-            //     .style('left', (event.pageX + 10) + 'px')
-            //     .style('top', (event.pageY - 28) + 'px');
-            // })
-            // .on('mouseout', function() {
-            //     d3.select(this)
-            //         .style('stroke-opacity', 0.6)
-            //         .style('stroke-width', d => getTradeValueWidth(d.value));
-
-            //     tooltip.transition()
-            //         .duration(500)
-            //         .style('opacity', 0);
-            // });
+            getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
 
             // Add legend
             addTradeLegend(svg, width);
         });
 }
 
+
+function drawMap(world, projection, contours, tradeFlows) {
+    // tooltip = d3.select(.tooltip#trade-tooltip);
+    const svg = d3.select('#trade-viz-svg');
+    svg.append('g')
+        .attr('id', 'trade-viz-svg-g')
+        .selectAll('path')
+        .data(topojson.feature(world, world.objects.countries).features)
+        .enter()
+        .append('path')
+        .attr('class', 'country')   
+        .attr('d', contours)
+        .attr('fill', '#e0e0e0') // Default fill color for countries
+        .on('mouseover', function(event, d) {
+            d3.select(this)
+                .style('fill', "c0c0c0");
+            hoveredCountry = d.properties.name;
+            hoveredArrowCountries = [null, null];
+            console.log("Hovered Country:", hoveredCountry);
+            console.log("Hovered Arrow Countries:", hoveredArrowCountries);
+
+            const topTrades = getTrades(hoveredCountry, tradeFlows, showExporters, hoveredShowCount);
+            const maxTradeValue = d3.max(topTrades, d => d3.max(d.destinations, e => e[1]));
+            const allFlows = getFlows(topTrades, showExporters);
+            getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
+
+            
+            // Update tooltip with country name
+            // tooltip = d3.select(.tooltip#trade-tooltip);
+            // tooltip.transition()
+            //     .duration(200)
+            //     .style('opacity', .9);
+            // getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
+            // tooltip.html(`
+            //     <strong>Trade Flow</strong><br/>
+            //     From: ${showExporters ? d.exporter : d.importer}<br/>
+            //     To: ${showExporters ? d.importer : d.exporter}<br/>
+            //     Value: $${formatValue(d.value)}<br/>
+            // `)
+            // .style('left', (event.pageX + 10) + 'px')
+            // .style('top', (event.pageY - 28) + 'px');
+        })
+        .on('mouseout', function() {
+            d3.select(this)
+                .style('stroke-opacity', 0.6);
+            
+            if (!hoveredCountry in hoveredArrowCountries) {
+                console.log("Hovered Country Reset:", hoveredCountry);
+                hoveredCountry = null;
+            }
+
+            const topTrades = getTrades(hoveredCountry, tradeFlows, showExporters, hoveredShowCount);
+            const maxTradeValue = d3.max(topTrades, d => d3.max(d.destinations, e => e[1]));
+            const allFlows = getFlows(topTrades, showExporters);
+            getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
+
+            // tooltip.transition()
+            // .duration(500)
+            // .style('opacity', 0);
+        });
+    return tradeFlows == null ? "error" : "success";
+}
+
+
+function  getTrades(hoveredCountry, tradeFlows, showExporters, showCount = 5) {
+    const exportList = d3.rollups(
+        tradeFlows, t => d3.sum(t, d => d.value), d => d.exporter, d => d.importer
+    ).map(d => ({
+        country: d[0], 
+        destinations: showCount == "all"
+            ? d[1].sort(
+                (a, b) => d3.descending(a[1], b[1]) || d3.ascending(a[0], b[0])
+            )
+            : d[1].sort(
+                (a, b) => d3.descending(a[1], b[1]) || d3.ascending(a[0], b[0])
+            ).slice(0, showCount)
+    })).filter((d, i) => (hoveredCountry == null || hoveredCountry == d.country))
+    console.log('Export List:', exportList);
+    const exporters = d3.rollups(
+        tradeFlows, t => d3.sum(t, d => d.value), d => d.exporter, d => d.importer
+    ).map(d => ({
+        country: d[0], 
+        destinations: showCount == "all"
+            ? d[1].sort(
+                (a, b) => d3.descending(a[1], b[1]) || d3.ascending(a[0], b[0])
+            )
+            : d[1].sort(
+                (a, b) => d3.descending(a[1], b[1]) || d3.ascending(a[0], b[0])
+            ).slice(0, showCount)
+    })).filter((d, i) => (hoveredCountry == null || hoveredCountry == d.country))
+
+    const importers = d3.rollups(
+        tradeFlows, t => d3.sum(t, d => d.value), d => d.importer, d => d.exporter
+    ).map(d => ({
+        country: d[0],
+        destinations: showCount == "all"
+            ? d[1].sort(
+                (a, b) => d3.descending(a[1], b[1]) || d3.ascending(a[0], b[0])
+            )
+            : d[1].sort(
+                (a, b) => d3.descending(a[1], b[1]) || d3.ascending(a[0], b[0])
+            ).slice(0, showCount)
+    })).filter((d, i) => (hoveredCountry == null || hoveredCountry == d.country));
+
+    return showExporters ? exporters : importers;
+}
+
+function getFlows(topTrades, showExporters) {
+    const allFlows = [];
+    topTrades.forEach(trader => {
+        const source = getCountryCoordinates(trader.country);
+        if (!source) return;
+        trader.destinations.forEach(t => {
+            const d = t[0];
+            const value = t[1];
+            const target = getCountryCoordinates(d);
+            if (!target) return;
+            allFlows.push({
+                source: [source[1], source[0]],
+                target: [target[1], target[0]],
+                value: value,
+                exporter: (showExporters && trader.country || d),
+                importer: (showExporters && d || trader.country)
+            });
+        });
+    });
+    return allFlows;
+}
+
+
+function getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters) {
+    const svg = d3.select('#trade-viz-svg')
+    // Clear arrows
+    svg.selectAll('.trade-flow-group').remove();
+
+    // Rebuild arrows
+    allFlows.forEach(d => {
+        const groupSvg = svg.append('svg')
+            .attr('class', 'trade-flow-group')
+            .attr('overflow', 'visible');
+
+        // Add marker definition for each group
+        const defs = groupSvg.append('defs');
+        defs.append('marker')
+            .attr('id', `triangle-${d.exporter.replace(/\s/g, '')}-${d.importer.replace(/\s/g, '')}`)
+            .attr('viewBox', '0 0 10 10')
+            .attr('refX', 5)
+            .attr('refY', 5)
+            .attr('markerUnits', "strokeWidth")
+            .attr('markerWidth', 2)
+            .attr('markerHeight', 2)
+            .attr('orient', 'auto')
+            .append('path')
+            .attr('d', 'M 0 0 L 10 5 L 0 10 z')
+            .style('fill', getTradeValueColor(d.value, maxTradeValue))
+            .style('fill-opacity', 1);
+
+        // Draw the trade flow path
+        const sourcePos = projection(d.source);
+        const targetPos = projection(d.target);
+        const dx = targetPos[0] - sourcePos[0];
+        const dy = targetPos[1] - sourcePos[1];
+        const dr = Math.sqrt(dx * dx + dy * dy);
+
+        groupSvg.append('path')
+            .attr('class', 'trade-flow')
+            .attr('d', `M${sourcePos[0]},${sourcePos[1]}A${dr},${dr} 0 0,1 ${targetPos[0]},${targetPos[1]}`)
+            .style('stroke', getTradeValueColor(d.value, maxTradeValue))
+            .style('stroke-width', getTradeValueWidth(d.value, maxTradeValue))
+            .style('stroke-linecap', 'round')
+            .style('stroke-opacity', 0.6)
+            .style('marker-end', `url(#triangle-${d.exporter.replace(/\s/g, '')}-${d.importer.replace(/\s/g, '')})`)
+            .style('fill', 'none')
+            .on('mouseover', function(event) {
+                hoveredArrowCountries = [d.exporter, d.importer];
+                console.log("Hovered Arrow Countries:", hoveredArrowCountries);
+
+                d3.select(this)
+                    .style('stroke-opacity', 1);
+
+                tooltip = d3.selectAll(".tooltip#trade-tooltip")
+                tooltip.transition()
+                    .duration(200)
+                    .style('opacity', .9);
+
+                tooltip.html(`
+                    <strong>Trade Flow</strong><br/>
+                    From: ${showExporters ? d.exporter : d.importer}<br/>
+                    To: ${showExporters ? d.importer : d.exporter}<br/>
+                    Value: ${formatValue(d.value)} USD<br/>
+                `)
+                .style('left', (event.pageX + 10) + 'px')
+                .style('top', (event.pageY - 28) + 'px');
+            })
+            .on('mouseout', function() {
+                hoveredArrowCountries = [null, null];
+                console.log("Hovered Arrow Countries Reset:", hoveredArrowCountries);
+                
+                // const topTrades = getTrades(hoveredCountry, tradeFlows, showExporters, hoverlessShowCount);
+                // const maxTradeValue = d3.max(topTrades, d => d3.max(d.destinations, e => e[1]));
+                // const allFlows = getFlows(topTrades, showExporters);
+                // getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
+
+                d3.select(this)
+                    .style('stroke-opacity', 0.6);
+
+                tooltip.transition()
+                    .duration(500)
+                    .style('opacity', 0);
+            });
+    });
+}
+
 // Helper functions
 function getCountryCoordinates(countryName) {
-    // const coordinates = {
-    //     // Major Coffee Producers
-    //     'Brazil': [-51.9253, -14.2350],
-    //     'Vietnam': [108.2772, 14.0583],
-    //     'Colombia': [-74.2973, 4.5709],
-    //     'Indonesia': [113.9213, -0.7893],
-    //     'Ethiopia': [40.4897, 9.1450],
-    //     'Honduras': [-86.2419, 15.1994],
-    //     'India': [78.9629, 20.5937],
-    //     'Uganda': [32.2903, 1.3733],
-    //     'Mexico': [-102.5528, 23.6345],
-    //     'Guatemala': [-90.2308, 15.7835],
-    //     'Peru': [-75.0152, -9.1900],
-    //     'Nicaragua': [-85.2072, 12.8654],
-    //     'Costa Rica': [-84.0739, 9.7489],
-    //     'Kenya': [37.9062, -0.0236],
-    //     'Tanzania': [34.8888, -6.3690],
-    //     'Papua New Guinea': [143.9555, -6.3149],
-    //     'El Salvador': [-88.8965, 13.7942],
-    //     'Ecuador': [-78.1834, -1.8312],
-    //     'Laos': [102.4955, 19.8563],
-    //     'Thailand': [100.9925, 15.8700],
-        
-    //     // Major Importers
-    //     'United States': [-95.7129, 37.0902],
-    //     'Germany': [10.4515, 51.1657],
-    //     'Italy': [12.5674, 41.8719],
-    //     'Japan': [138.2529, 36.2048],
-    //     'Belgium': [4.4699, 50.5039],
-    //     'Spain': [-3.7492, 40.4637],
-    //     'France': [2.2137, 46.2276],
-    //     'Netherlands': [5.2913, 52.1326],
-    //     'United Kingdom': [-3.4359, 55.3781],
-    //     'Switzerland': [8.2275, 46.8182],
-    //     'Canada': [-106.3468, 56.1304],
-    //     'Russia': [105.3188, 61.5240],
-    //     'South Korea': [127.7669, 35.9078],
-    //     'Poland': [19.1451, 51.9194],
-    //     'Austria': [14.5501, 47.5162],
-    //     'Sweden': [18.6435, 60.1282],
-    //     'Australia': [133.7751, -25.2744],
-    //     'Denmark': [9.5018, 56.2639],
-    //     'Portugal': [-8.2245, 39.3999],
-    //     'Finland': [25.7482, 61.9241],
-    //     'Greece': [21.8243, 39.0742],
-    //     'Ireland': [-8.2439, 53.4129],
-    //     'Romania': [24.9668, 45.9432],
-    //     'Czech Republic': [15.4730, 49.8175],
-    //     'Slovakia': [19.6990, 48.6690],
-    //     'Norway': [8.4689, 60.4720],
-    //     'China': [104.1954, 35.8617],
-    //     'Malaysia': [101.9758, 4.2105],
-    //     'Singapore': [103.8198, 1.3521],
-    //     'Taiwan': [120.9605, 23.6978],
-    //     'Hong Kong': [114.1095, 22.3964],
-    //     'New Zealand': [174.8860, -40.9006],
-    //     'Israel': [34.8516, 31.0461],
-    //     'South Africa': [22.9375, -30.5595],
-    //     'Morocco': [-7.0926, 31.7917],
-    //     'Algeria': [1.6596, 28.0339],
-    //     'Egypt': [30.8025, 26.8206],
-    //     'Saudi Arabia': [45.0792, 23.8859],
-    //     'UAE': [53.8478, 23.4241],
-    //     'Turkey': [35.2433, 38.9637],
-    //     'Ukraine': [31.1656, 48.3794],
-    //     'Argentina': [-63.6167, -38.4161],
-    //     'Chile': [-71.5430, -35.6751],
-    //     'Uruguay': [-55.7658, -32.5228],
-    //     'Philippines': [121.7740, 12.8797],
-    //     'Cambodia': [104.9910, 12.5657],
-    //     'Myanmar': [95.9560, 21.9162],
-    //     'Bangladesh': [90.3563, 23.6850],
-    //     'Sri Lanka': [80.7718, 7.8731],
-    //     'Nepal': [84.1240, 28.3949],
-    //     'Yemen': [48.5164, 15.5527],
-    //     'Ivory Coast': [-5.5471, 7.5400],
-    //     'Ghana': [-1.0232, 7.9465],
-    //     'Nigeria': [8.6753, 9.0820],
-    //     'Cameroon': [12.3547, 7.3697],
-    //     'Rwanda': [29.8739, -1.9403],
-    //     'Burundi': [29.9189, -3.3731],
-    //     'Congo': [15.8277, -0.2280],
-    //     'Angola': [17.8739, -11.2027]
-    // };
-
     const coordinates = getCoordinates();
-;
-    console.log(coordinates);
     if (coordinates[countryName]) return coordinates[countryName]
 
     // Normalize country name
@@ -480,7 +343,11 @@ function getTradeValueWidth(value, maxValue = 1e8, minValue = 1) {
 }
 
 function formatValue(value) {
-    return value > 10 ? d3.format(',.0f')(value) : value > 1 ? d3.format('.1f')(value) : d3.format('.2f')(value);
+    return value > 1000 ? 
+        d3.format(',.2f')(value/1000) + 'M' : 
+        value > 1 ? 
+        d3.format('.2f')(value) + 'K' : 
+        d3.format('.1f')(value * 1000);
 }
 
 function formatWeight(weight) {
@@ -573,10 +440,10 @@ function getCoordinates() {
     17.060816,
     -61.796428
   ],
-  "Areas, nes": [
-    0.0,
-    0.0
-  ],
+//   "Areas, nes": [
+//     0.0,
+//     0.0
+//   ],
   "Argentina": [
     -38.416097,
     -63.616672
@@ -713,7 +580,7 @@ function getCoordinates() {
     19.3133,
     -81.2546
   ],
-  "Central African Republic": [
+  "Central African Rep.": [
     6.611111,
     20.939444
   ],
@@ -753,11 +620,11 @@ function getCoordinates() {
     -11.875001,
     43.872219
   ],
-  "Congo, Democratic Republic": [
+  "Dem. Rep. Congo": [
     -4.038333,
     21.758664
   ],
-  "Congo, Republic": [
+  "Congo": [
     -0.228021,
     15.827659
   ],
@@ -769,7 +636,7 @@ function getCoordinates() {
     9.748917,
     -83.753428
   ],
-  "Cote d'Ivoire": [
+  "Côte d'Ivoire": [
     7.539989,
     -5.54708
   ],
@@ -845,7 +712,7 @@ function getCoordinates() {
     62.0,
     -6.783333
   ],
-  "Falkland Islands (Malvinas)": [
+  "Falkland Is.": [
     -51.796253,
     -59.523613
   ],
@@ -865,10 +732,10 @@ function getCoordinates() {
     46.603354,
     1.888334
   ],
-  "Free Zones": [
-    0.0,
-    0.0
-  ],
+//   "Free Zones": [
+//     0.0,
+//     0.0
+//   ],
   "French Polynesia": [
     -17.679742,
     -149.406843
@@ -1009,11 +876,11 @@ function getCoordinates() {
     -3.370417,
     -168.734039
   ],
-  "Korea, Democratic People’s Republic": [
+  "North Korea": [
     40.339852,
     127.510093
   ],
-  "Korea, Republic": [
+  "South Korea": [
     35.907757,
     127.766922
   ],
@@ -1030,8 +897,8 @@ function getCoordinates() {
     102.495496
   ],
   "Latin American Integration Association, nes": [
-    0.0,
-    0.0
+    -13.235004,
+    -50.92528
   ],
   "Latvia": [
     56.879635,
@@ -1186,8 +1053,8 @@ function getCoordinates() {
     167.954712
   ],
   "North America and Central America, nes": [
-    0.0,
-    0.0
+    22.634501,
+    -101.552784
   ],
   "North Macedonia": [
     41.608635,
@@ -1202,25 +1069,25 @@ function getCoordinates() {
     8.468946
   ],
   "Oceania, nes": [
-    0.0,
-    0.0
+    -24.274398,
+    134.775136
   ],
   "Oman": [
     21.512583,
     55.923255
   ],
-  "Other Africa, nes": [
-    0.0,
-    0.0
-  ],
-  "Other Asia, nes": [
-    0.0,
-    0.0
-  ],
-  "Other Europe, nes": [
-    0.0,
-    0.0
-  ],
+//   "Other Africa, nes": [
+//     0.0,
+//     0.0
+//   ],
+//   "Other Asia, nes": [
+//     0.0,
+//     0.0
+//   ],
+//   "Other Europe, nes": [
+//     0.0,
+//     0.0
+//   ],
   "Pakistan": [
     30.375321,
     69.345116
@@ -1269,7 +1136,7 @@ function getCoordinates() {
     45.943161,
     24.96676
   ],
-  "Russian Federation": [
+  "Russia": [
     61.52401,
     105.318756
   ],
@@ -1353,7 +1220,7 @@ function getCoordinates() {
     46.151241,
     14.995463
   ],
-  "Solomon Islands": [
+  "Solomon Is.": [
     -9.64571,
     160.156194
   ],
@@ -1369,7 +1236,7 @@ function getCoordinates() {
     -54.429579,
     -36.587909
   ],
-  "South Sudan": [
+  "S. Sudan": [
     6.876991,
     31.306978
   ],
@@ -1377,10 +1244,10 @@ function getCoordinates() {
     40.463667,
     -3.74922
   ],
-  "Special Categories": [
-    0.0,
-    0.0
-  ],
+//   "Special Categories": [
+//     0.0,
+//     0.0
+//   ],
   "Sri Lanka": [
     7.873054,
     80.771797
@@ -1477,14 +1344,14 @@ function getCoordinates() {
     55.378051,
     -3.435973
   ],
-  "United States": [
+  "United States of America": [
     37.09024,
     -95.712891
   ],
-  "United States Minor Outlying Islands": [
-    0.0,
-    0.0
-  ],
+//   "United States Minor Outlying Islands": [
+//     0.0,
+//     0.0
+//   ],
   "Uruguay": [
     -32.522779,
     -55.765835
@@ -1526,4 +1393,9 @@ function getCoordinates() {
     29.154857
   ]
 }}
+
+
+// function updateTradeArrows() {
+//     reload();
+// }
 refresh();
