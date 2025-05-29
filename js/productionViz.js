@@ -209,42 +209,46 @@ function initializeProductionViz(data) {
             .lower();
     });
 
-    // Legend with toggle functionality
+    // Updated legend with better spacing and vertical alignment
     const legend = svg.append('g')
-        .attr('transform', `translate(${margin.left},${height - margin.bottom + 40})`)
-        .selectAll('g')
-        .data([...topCountries, 'Rest of World'])
-        .enter().append('g')
-        .attr('transform', (d, i) => `translate(${i * 120}, 0)`)
-        .style('cursor', 'pointer')
-        .on('click', function(event, d) {
-            excludedCountries = excludedCountries.includes(d) 
-                ? excludedCountries.filter(c => c !== d)
-                : [...excludedCountries, d];
-            updateChart();
-            updateLegend();
-        });
+    .attr('transform', `translate(${margin.left},${height - margin.bottom + 40})`)
+    .selectAll('g')
+    .data([...topCountries, 'Rest of World'])
+    .enter().append('g')
+    .attr('transform', (d, i) => `translate(${i * 90}, 0)`)  // Reduced gap between tags
+    .style('cursor', 'pointer')
+    .on('click', function(event, d) {
+        excludedCountries = excludedCountries.includes(d) 
+            ? excludedCountries.filter(c => c !== d)
+            : [...excludedCountries, d];
+        updateChart();
+        updateLegend();
+    });
 
+    // Color boxes centered vertically
     legend.append('rect')
-        .attr('width', 12)
-        .attr('height', 12)
-        .attr('fill', d => colorScale(d));
+    .attr('width', 12)
+    .attr('height', 12)
+    .attr('y', 0)
+    .attr('fill', d => colorScale(d));
 
+    // Country names aligned with color boxes
     const legendText = legend.append('text')
-        .attr('x', 18)
-        .attr('y', 9)
-        .attr('dy', '0.32em')
-        .style('font-size', '13px')
-        .text(d => d);
+    .attr('x', 18)
+    .attr('y', 6)  // Vertically centered alignment
+    .attr('dy', '0.35em')  // Fine-tuned vertical positioning
+    .style('font-size', '12px')
+    .text(d => d);
 
+    // Strike-through lines aligned with text
     legend.append('line')
-        .attr('x1', -4)
-        .attr('x2', d => d.length * 6 + 20)
-        .attr('y1', 9)
-        .attr('y2', 9)
-        .attr('stroke', '#999')
-        .attr('stroke-width', 1)
-        .style('opacity', 0);
+    .attr('x1', -4)
+    .attr('x2', d => d.length * 6 + 20)
+    .attr('y1', 6)
+    .attr('y2', 6)
+    .attr('stroke', '#999')
+    .attr('stroke-width', 1)
+    .style('opacity', 0);
 
     // Update functions
     function updateChart() {
