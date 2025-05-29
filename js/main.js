@@ -12,37 +12,19 @@ async function loadData() {
             d3.csv('data/coffee-prices-historical-chart-data.csv')
         ]);
 
+        // Initialize button default states
         const score_buttons = document.querySelectorAll('#score_buttons .button');
         // Initialize - set first button as selected by default (optional)
         if (score_buttons.length > 0) {
             score_buttons[0].classList.add('selected');
         }
-        
 
         const import_export_buttons = document.querySelectorAll('#import_export_buttons .button');
         // Initialize - set first button as selected by default (optional)
         if (import_export_buttons.length > 0) {
             import_export_buttons[0].classList.add('selected');
         }
-        // import_export_buttons.forEach(button => {
-        //     button.addEventListener('click', function() {
-        //         if (this.classList.contains('selected')) return;
 
-        //         import_export_buttons.forEach(btn => btn.classList.remove('selected'));
-        //         this.classList.add('selected');
-        //     });
-        // });
-        
-        // // Process and initialize visualizations
-        // const processedCoffee = coffee.map(d => ({
-        //     ...d,
-        //     latitude: +d.latitude || 0,
-        //     longitude: +d.longitude || 0,
-        //     altitude: +d.altitude_mean_meters || 0,
-        //     total_cup_points: +d.total_cup_points || 0
-        // })).filter(d => d.latitude && d.longitude); // Remove entries without coordinates
-
-        
 
         const processedProduction = processProductionData(production);
 
@@ -142,6 +124,28 @@ async function loadTradeData() {
             weight: +d["Weight (1000kg)"] || +d["Export weight, where quarantined"] || +d["Import weight, where quarantined"] || 0,
         })).filter(d => d.value > 0 && d.weight > 0 && d.exporter); // Remove entries without valid trade value
 
+        const year_count = 23
+        const starting_year = 2000;
+
+        var years = [...Array(year_count).keys()].map(i => i + starting_year)
+        // dropDown(years);
+        var dropDown = d3.select("#dropdown_container")
+            .append("select")
+            .attr("class", "selection")
+            .attr("name", "year-select")
+            .on('change', function() {
+                const selectedYear = +d3.select(this).property('value');
+                console.log("Selected Year:", selectedYear);
+                initializeTradeViz(processedTrade, selectedYear);
+            });
+
+        var options = dropDown.selectAll("option")
+            .data(years)
+            .enter()
+            .append("option");
+        options.text(function(d) { return d; })
+            .attr("value", function(d) { return d; });
+
         // Set up import/export button event listeners
         const import_export_buttons = document.querySelectorAll('#import_export_buttons .button');
         import_export_buttons.forEach(button => {
@@ -154,11 +158,11 @@ async function loadTradeData() {
                 this.classList.add('selected');
 
                 // Reload trade data based on selection
-                initializeTradeViz(processedTrade);
+                initializeTradeViz(processedTrade, +year_dropdown.value);
             });
         });
 
-        initializeTradeViz(processedTrade);
+        initializeTradeViz(processedTrade, 2000);
     } catch (error) {
         console.error('Error loading trade data:', error);
         displayErrorMessage('Trade data could not be loaded', 'trade-viz');
@@ -204,8 +208,6 @@ function processTradeData(trade, commodities, exporters) {
 
         const coffeeIds = new Set(coffeeCommodities.map(d => d.id));
         const validTrade = trade.filter(d => coffeeIds.has(d.commodity_id));
-
-        console.log('Processed trade data:', validTrade); // Debug log
         
         return validTrade.map(d => ({
             year: +d.year || new Date().getFullYear(),
@@ -283,11 +285,6 @@ function calculateAverageScores(data, scoreType) {
     return averages;
 }
 
-
-function adjustDimensions() {
-    // This does not seem like the right way to dynamically adjust item sizes
-
-}
 
 
 // Initialize when DOM is loaded

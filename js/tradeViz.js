@@ -5,7 +5,7 @@ var hoverlessShowCount = 2;
 var hoveredShowCount = 10;
 
 // Trade visualization
-function initializeTradeViz(data) {
+function initializeTradeViz(data, year) {
     if (!data || data.length === 0) {
         console.error('No trade data available');
         return;
@@ -70,8 +70,6 @@ function initializeTradeViz(data) {
     // Load world map data
     d3.json('https://unpkg.com/world-atlas@2/countries-110m.json')
         .then(world => {
-            // Process trade data for selected year
-            const year = d3.max(data, d => d.year);
             const tradeFlows = data.filter(d => d.year === year);
             console.log('Trade data for Year:', year, tradeFlows);
             // console.log('Trade Flows for Year:', year, tradeFlows);
