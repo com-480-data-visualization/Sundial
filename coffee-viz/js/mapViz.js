@@ -313,6 +313,10 @@ function displayBarChart(averageScores, property) {
 
     // Apply custom color to country labels
 
+    const tooltip = d3.select('body').append('div')
+        .attr('class', 'tooltip')
+        .style('opacity', 0);
+
 
     svg.append("g")
         .attr("transform", `translate(${marginLeft},0)`)
@@ -320,21 +324,50 @@ function displayBarChart(averageScores, property) {
         .call(g => g.select(".domain").remove());
 
     // Create bars with animation
-    svg.append("g")
-        .attr("fill", "steelblue")
-        .selectAll("rect")
+    bars_g = svg.append("g")
+    bars_g.selectAll("rect")
         .data(data)
         .join("rect")
-            .attr('fill',d=>barColor(averageScores, d.score))
-            .attr("x", d => x(d.country))
-            .attr("width", x.bandwidth())
-            .attr("y", height - marginBottom) // Start from bottom
-            .attr("height", 0) // Start with zero height
-            .transition()
-            .duration(800)
-            .delay((d, i) => i * 50) // Staggered animation
-            .attr("y", d => y(d.score))
-            .attr("height", d => height - marginBottom - y(d.score))
+        .attr('fill',d=>barColor(averageScores, d.score))
+        .attr("x", d => x(d.country))
+        .attr("width", x.bandwidth())
+        .attr("y", height - marginBottom) // Start from bottom
+        .attr("height", 0) // Start with zero height
+        .transition()
+        .duration(800)
+        .delay((d, i) => i * 50) // Staggered animation
+        .attr("y", d => y(d.score))
+        .attr("height", d => height - marginBottom - y(d.score))
+        
+    bars_g.selectAll('rect')
+        .data(data)
+        .on("mouseover", function(event, d) {
+                // Show tooltip
+                tooltip.transition()
+                        .duration(200)
+                        .style('opacity', 0.9);
+                tooltip.html(d.score)
+                    .style('left', (event.pageX + 10) + 'px')
+                    .style('top', (event.pageY - 28) + 'px');
+                
+                // Highlight bar
+                d3.select(this).attr("fill", "#ff0000"); // Change color on hover
+            })
+        .on("mousemove", function(event) {
+            // Move tooltip with mouse
+            tooltip.style("top", (event.pageY-10)+"px")
+                .style("left",(event.pageX+10)+"px");
+        })
+        .on("mouseout", function(event, d) {
+            // Hide tooltip
+            tooltip.transition()
+                        .duration(500)
+                        .style('opacity', 0);
+            // Restore original color
+            d3.select(this).attr("fill", barColor(averageScores, d.score));
+        });; // Default fill color for countries
+
+    
             
     const xAxisGroup = svg.append("g")
         .attr("transform", `translate(0,${height - marginBottom})`)
