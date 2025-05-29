@@ -158,7 +158,7 @@ async function loadTradeData() {
                 this.classList.add('selected');
 
                 // Reload trade data based on selection
-                initializeTradeViz(processedTrade, +year_dropdown.value);
+                initializeTradeViz(processedTrade, +dropDown.value);
             });
         });
 

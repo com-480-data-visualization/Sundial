@@ -105,9 +105,9 @@ function drawMap(world, projection, contours, tradeFlows) {
         .append('path')
         .attr('class', 'country')   
         .attr('d', contours)
-        .attr('stroke', '#ffffff') // Default fill color for countries
-        .attr('stroke-width', 0.5)
-        .attr('stroke-opacity', 0.5)
+        .attr('stroke', '#000000') // Default fill color for countries
+        .attr('stroke-width', 1)
+        .attr('stroke-opacity', 1)
         .attr('fill', '#e0e0e0') // Default fill color for countries
         .on('mouseover', function(event, d) {
             d3.select(this)
