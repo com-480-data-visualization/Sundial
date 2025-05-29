@@ -133,6 +133,7 @@ async function loadTradeData() {
             .append("select")
             .attr("class", "selection")
             .attr("name", "year-select")
+            .property("value", 2000)
             .on('change', function() {
                 const selectedYear = +d3.select(this).property('value');
                 console.log("Selected Year:", selectedYear);
@@ -158,7 +159,7 @@ async function loadTradeData() {
                 this.classList.add('selected');
 
                 // Reload trade data based on selection
-                initializeTradeViz(processedTrade, +dropDown.value);
+                initializeTradeViz(processedTrade, +dropDown.property('value'));
             });
         });
 

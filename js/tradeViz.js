@@ -89,7 +89,7 @@ function initializeTradeViz(data, year) {
             getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
 
             // Add legend
-            addTradeLegend(svg, width);
+            addTradeLegend(svg, document.getElementById('trade-viz').clientWidth, maxTradeValue);
         });
 }
 
@@ -121,6 +121,7 @@ function drawMap(world, projection, contours, tradeFlows) {
             const maxTradeValue = d3.max(topTrades, d => d3.max(d.destinations, e => e[1]));
             const allFlows = getFlows(topTrades, showExporters);
             getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
+            addTradeLegend(svg, document.getElementById('trade-viz').clientWidth, maxTradeValue);
 
             
             // Update tooltip with country name
@@ -151,6 +152,7 @@ function drawMap(world, projection, contours, tradeFlows) {
             const maxTradeValue = d3.max(topTrades, d => d3.max(d.destinations, e => e[1]));
             const allFlows = getFlows(topTrades, showExporters);
             getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
+            addTradeLegend(svg, document.getElementById('trade-viz').clientWidth, maxTradeValue);
 
             // tooltip.transition()
             // .duration(500)
@@ -373,11 +375,23 @@ function formatWeight(weight) {
 }
 
 function addTradeLegend(svg, width, maxValue = 1e8) {
-    const legend = svg.append('g')
+    // Remove existing legend if any
+    svg.selectAll('.legend').remove();
+    var legend = svg.append('g')
         .attr('class', 'legend')
         .attr('transform', `translate(${width - 150}, 20)`);
+    console.log('Adding Trade Legend with maxValue:', maxValue);
 
-    const valueRanges = [maxValue * 0.01, maxValue * 0.1, maxValue];
+    var startExp = 8;
+    const legendCount = 3; // Number of legend lines
+    const valueRanges = [];
+    while (maxValue / Math.pow(10, startExp) < 1) {
+        startExp--;
+    }
+    valueRanges.push(maxValue);
+    for (let exp = 0; exp <= legendCount; exp++) {
+      valueRanges.push(Math.pow(10, startExp - exp));
+    }
     
     legend.selectAll('line')
         .data(valueRanges)
