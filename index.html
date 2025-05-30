@@ -31,8 +31,8 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h2>Coffee Production & Quality</h2>
-                        <div id="score_buttons">
+                        <h2 class="m-2">Coffee Production & Quality</h2>
+                        <div class="max-2 my-4" id="score_buttons">
                             <button class="button" id='Data.Scores.Total'>Total Score</button>
                             <button class="button" id='Data.Scores.Aroma'>Aroma</button>
                             <button class="button" id='Data.Scores.Flavor'>Flavor</button>
@@ -75,8 +75,13 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h2 id="trade-header">Global Trade Flows</h2>
-                        <div class="row" id="trade_buttons">
+                        <div class="m-2">
+                            <h2 id="trade-header">Global Trade Flows</h2>
+                            <h5 class="text-secondary" id="trade-subheader" style="font-weight: normal;">
+                                Hover on top of countries to see their specific trade data.
+                            </h5>
+                        </div>
+                        <div class="row max-2 my-4" id="trade_buttons">
                             <div class="col" id="import_export_buttons">
                                 <button class="button" id='display_import'>Import</button>
                                 <button class="button" id='display_export'>Export</button>
@@ -92,7 +97,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h2>Production Trends</h2>
+                        <h2 class="m-2">Production Trends</h2>
                         <div id="production-viz" class="viz-container"></div>
                     </div>
                 </div>
@@ -103,7 +108,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h2>Price Analysis</h2>
+                        <h2 class="m-2">Price Analysis</h2>
                         <div id="price-viz" class="viz-container"></div>
                     </div>
                 </div>

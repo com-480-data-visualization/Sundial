@@ -2,7 +2,19 @@ var showExporters = false;
 var hoveredCountry = null;
 var hoveredArrowCountries = [null, null];
 var hoverlessShowCount = 2;
-var hoveredShowCount = 10;
+var hoveredShowCount = 15;
+var exports = [];
+var imports = [];
+Promise.all([
+    d3.csv('data/exports_full.csv'),
+    d3.csv('data/imports_full.csv')
+]).then(([exportsData, importsData]) => {
+    exports = exportsData;
+    imports = importsData;
+    // You may want to initialize your visualization here, e.g.:
+    // initializeTradeViz(exports, someYear);
+});
+
 
 // Trade visualization
 function initializeTradeViz(data, year) {
@@ -61,11 +73,25 @@ function initializeTradeViz(data, year) {
     const path = d3.geoPath()
         .projection(projection);
 
-    // Create tooltip
-    const tooltip = d3.select('body').append('div')
-        .attr('class', 'tooltip')
-        .attr('id', 'trade-tooltip')
-        .style('opacity', 0);
+    // Clear previous content
+    const flow_tooltip = d3.selectAll(".tooltip#trade-flow-tooltip");
+    if (flow_tooltip.empty()) {
+        // Create tooltip
+        const tooltip = d3.select('body').append('div')
+            .attr('class', 'tooltip')
+            .attr('id', 'trade-flow-tooltip')
+            .style('opacity', 0);
+    }
+
+    const country_tooltip = d3.selectAll(".tooltip#trade-country-tooltip");
+    if (country_tooltip.empty()) {
+        // Create tooltip
+        const tooltip = d3.select('body').append('div')
+            .attr('class', 'tooltip')
+            .attr('id', 'trade-country-tooltip')
+            .style('opacity', 0);
+    }
+    
 
     // Load world map data
     d3.json('https://unpkg.com/world-atlas@2/countries-110m.json')
@@ -74,7 +100,7 @@ function initializeTradeViz(data, year) {
             console.log('Trade data for Year:', year, tradeFlows);
             // console.log('Trade Flows for Year:', year, tradeFlows);
 
-            let result = drawMap(world, projection, path, tradeFlows);
+            let result = drawMap(world, projection, path, tradeFlows, year);
             // console.log('Map Draw Result:', result);
 
             const topTrades = getTrades(hoveredCountry, tradeFlows, showExporters, hoverlessShowCount);
@@ -94,8 +120,8 @@ function initializeTradeViz(data, year) {
 }
 
 
-function drawMap(world, projection, contours, tradeFlows) {
-    // tooltip = d3.select(.tooltip#trade-tooltip);
+function drawMap(world, projection, contours, tradeFlows, year) {
+    tooltip = d3.select('.tooltip#trade-country-tooltip');
     const svg = d3.select('#trade-viz-svg');
     svg.append('g')
         .attr('id', 'trade-viz-svg-g')
@@ -116,32 +142,42 @@ function drawMap(world, projection, contours, tradeFlows) {
             hoveredArrowCountries = [null, null];
             console.log("Hovered Country:", hoveredCountry);
             console.log("Hovered Arrow Countries:", hoveredArrowCountries);
-
+            // const exportAmount = exports.filter(d => d.Exporter === hoveredCountry && d.year === year)[0];
             const topTrades = getTrades(hoveredCountry, tradeFlows, showExporters, hoveredShowCount);
             const maxTradeValue = d3.max(topTrades, d => d3.max(d.destinations, e => e[1]));
             const allFlows = getFlows(topTrades, showExporters);
             getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
             addTradeLegend(svg, document.getElementById('trade-viz').clientWidth, maxTradeValue);
 
+            // fetch export_full.csv/import_full.csv
+            const tradeRecord = showExporters 
+                ? exports.filter(d => d['Exporter'] == hoveredCountry && +d['Year'] == year) 
+                : imports.filter(d => d['Importer'] == hoveredCountry && +d['Year'] == year);
+            var tradeAmount = tradeRecord.length === 0 ?
+                null :
+                [tradeRecord[0]['Value (1000USD)'], tradeRecord[0]['Weight (1000kg)']];
+            console.log("Trade Amount:", tradeAmount);
             
             // Update tooltip with country name
-            // tooltip = d3.select(.tooltip#trade-tooltip);
-            // tooltip.transition()
-            //     .duration(200)
-            //     .style('opacity', .9);
-            // getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
-            // tooltip.html(`
-            //     <strong>Trade Flow</strong><br/>
-            //     From: ${showExporters ? d.exporter : d.importer}<br/>
-            //     To: ${showExporters ? d.importer : d.exporter}<br/>
-            //     Value: $${formatValue(d.value)}<br/>
-            // `)
-            // .style('left', (event.pageX + 10) + 'px')
-            // .style('top', (event.pageY - 28) + 'px');
+            tooltip = d3.select('.tooltip#trade-country-tooltip');
+            tooltip.transition()
+                .duration(200)
+                .style('opacity', .9)
+                .style('stroke-opacity', 1);
+            tooltip.html(`
+                <strong>${hoveredCountry}</strong><br/>
+                ${
+                  tradeAmount == null ? "" :
+                  `Total ${showExporters ? "export" : "import"} amount: ${formatValue(tradeAmount[0])} USD<br/>
+                  Total ${showExporters ? "export" : "import"} weight: ${formatWeight(tradeAmount[1])}<br/>`
+                }
+            `)
+            .style('left', (event.pageX + 10) + 'px')
+            .style('top', (event.pageY - 28) + 'px');
         })
         .on('mouseout', function() {
-            // d3.select(this)
-            //     .style('stroke-opacity', 0.6);
+            d3.select(this)
+                .style('stroke-opacity', 0.6);
             
             if (!hoveredCountry in hoveredArrowCountries) {
                 console.log("Hovered Country Reset:", hoveredCountry);
@@ -154,9 +190,9 @@ function drawMap(world, projection, contours, tradeFlows) {
             getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
             addTradeLegend(svg, document.getElementById('trade-viz').clientWidth, maxTradeValue);
 
-            // tooltip.transition()
-            // .duration(500)
-            // .style('opacity', 0);
+            tooltip.transition()
+            .duration(500)
+            .style('opacity', 0);
         });
     return tradeFlows == null ? "error" : "success";
 }
@@ -268,7 +304,7 @@ function getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExp
                 d3.select(this)
                     .style('stroke-opacity', 1);
 
-                tooltip = d3.selectAll(".tooltip#trade-tooltip")
+                tooltip = d3.selectAll(".tooltip#trade-flow-tooltip")
                 tooltip.transition()
                     .duration(200)
                     .style('opacity', .9);
@@ -371,7 +407,11 @@ function formatValue(value) {
 }
 
 function formatWeight(weight) {
-    return d3.format(',.0f')(weight);
+    return weight > 100 ? 
+        d3.format(',.0f')(weight) + ' kg' :
+        weight > 1 ?
+        d3.format('.1f')(weight) + ' kg':
+        d3.format('.0f')(weight * 1000) + ' g';
 }
 
 function addTradeLegend(svg, width, maxValue = 1e8) {

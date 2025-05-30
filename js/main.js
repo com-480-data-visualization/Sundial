@@ -1,13 +1,10 @@
 // Global variables for storing data
 let coffeeData, tradeData, productionData, priceData;
+
 // Load all data files
 async function loadData() {
     try {
-        const [coffee, trade, exports, imports, production, priceData] = await Promise.all([
-            d3.csv('data/coffee.csv'),
-            d3.csv('data/trades_full.csv'),
-            d3.csv('data/exports_full.csv'),
-            d3.csv('data/imports_full.csv'),
+        const [production, priceData] = await Promise.all([
             d3.csv('data/coffee_production.csv'),
             d3.csv('data/coffee-prices-historical-chart-data.csv')
         ]);
@@ -39,6 +36,7 @@ async function loadData() {
         loadTradeData();
         initializeProductionViz(processedProduction);
         initializePriceViz(processedPrice);
+        
     } catch (error) {
         console.error('Error loading data:', error);
         displayErrorMessage('Failed to load data. Please check the console for details.');
@@ -126,6 +124,7 @@ async function loadTradeData() {
 
         const year_count = 23
         const starting_year = 2000;
+        const ending_year = starting_year + year_count - 1;
 
         var years = [...Array(year_count).keys()].map(i => i + starting_year)
         // dropDown(years);
@@ -133,11 +132,11 @@ async function loadTradeData() {
             .append("select")
             .attr("class", "selection")
             .attr("name", "year-select")
-            .property("value", 2000)
+            .property("value", ending_year)
             .on('change', function() {
                 const selectedYear = +d3.select(this).property('value');
                 console.log("Selected Year:", selectedYear);
-                initializeTradeViz(processedTrade, selectedYear);
+                initializeTradeViz(processedTrade.filter(d => d.year === selectedYear), selectedYear);
             });
 
         var options = dropDown.selectAll("option")
@@ -159,11 +158,11 @@ async function loadTradeData() {
                 this.classList.add('selected');
 
                 // Reload trade data based on selection
-                initializeTradeViz(processedTrade, +dropDown.property('value'));
+                initializeTradeViz(processedTrade.filter(d => d.year === +dropDown.property('value')), +dropDown.property('value'));
             });
         });
 
-        initializeTradeViz(processedTrade, 2000);
+        initializeTradeViz(processedTrade.filter(d => d.year === ending_year), ending_year);
     } catch (error) {
         console.error('Error loading trade data:', error);
         displayErrorMessage('Trade data could not be loaded', 'trade-viz');
