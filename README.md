@@ -63,7 +63,7 @@ The website prototype: [Page Prototype](https://com-480-data-visualization.githu
 ## Milestone 3 (30th May, 5pm)
 
 The Final Webpage:[Web](https://com-480-data-visualization.github.io/Sundial/).
-The Process Book:.
+The Process Book:[Process Book](Process_Book_Final.pdf).
 The Screencast:[Video](COM_480_screencast.mp4).
 
 This webpage is designed for coffee lovers curious about what makes their favorite origins special; industry pros tracking market trends; students learning about global agricultural trade; researchers studying economic and environmental factors affecting coffee farms.
