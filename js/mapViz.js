@@ -145,8 +145,8 @@ function barColor(averageScores, countryScore){
     const minScore = d3.min(Object.values(averageScores));
     const maxScore = d3.max(Object.values(averageScores));
     const colorScale = d3.scaleSequential()
-      .domain([minScore, maxScore])
-      .interpolator(d3.interpolateYlOrBr);
+        .domain([minScore, maxScore+(maxScore-minScore)*0.4])
+        .interpolator(d3.interpolateYlOrBr);
     return colorScale(countryScore);
 }
 function bar_textcolor(averageScores, countryScore) {
@@ -378,10 +378,13 @@ function displayBarChart(averageScores, property) {
     .attr("text-anchor", "end")
     .attr("dy", "-0.5em")
     .attr("dx", "-0.5em")
+    // .attr("stroke", "#000000")
+    // .attr("stroke-width", 0.1)
     .attr("color", function(d) {
         try {
             const dataPoint = data.find(item => item.country == d);
-            return bar_textcolor(averageScores, dataPoint.score);
+            // return bar_textcolor(averageScores, dataPoint.score);
+             return "#31119c"; // Default text color
         } catch (error) {
             console.error("Error in textcolor:", error);
             return "#e0e0e0"; // fallback color
