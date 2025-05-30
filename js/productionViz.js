@@ -1,5 +1,4 @@
 function initializeProductionViz(data) {
-    // Filter top 10 producing countries
     const countryProduction = d3.rollup(data,
         v => d3.sum(v, d => d.production),
         d => d.country
@@ -13,7 +12,6 @@ function initializeProductionViz(data) {
     let excludedCountries = [];
     const reversedCountries = [...topCountries].reverse();
 
-    // Calculate annual data with rest of world
     const years = Array.from(new Set(data.map(d => d.year))).sort();
     let annualData = years.map(year => {
         const yearData = { year };
@@ -30,20 +28,17 @@ function initializeProductionViz(data) {
         return yearData;
     });
 
-    // Setup dimensions
     const container = document.getElementById('production-viz');
     const width = container.clientWidth;
     const height = 500;
     const margin = { top: 40, right: 30, bottom: 100, left: 60 };
 
-    // Create SVG
     const svg = d3.select(container)
         .html('')
         .append('svg')
         .attr('width', width)
         .attr('height', height);
 
-    // Create tooltip
     const tooltip = d3.select(container)
         .append('div')
         .style('position', 'absolute')
@@ -55,7 +50,6 @@ function initializeProductionViz(data) {
         .style('pointer-events', 'none')
         .style('display', 'none');
 
-    // Create scales
     const xScale = d3.scaleLinear()
         .domain(d3.extent(years))
         .range([margin.left, width - margin.right]);
@@ -64,7 +58,6 @@ function initializeProductionViz(data) {
         .domain([0, 200000])
         .range([height - margin.bottom, margin.top]);
 
-    // Color scale with brand colors
     const colorScale = d3.scaleOrdinal()
         .domain([...topCountries, 'Rest of World'])
         .range([
@@ -73,20 +66,17 @@ function initializeProductionViz(data) {
             '#503795', '#3AB54B', '#DCDEE1'
         ]);
 
-    // Stack generator
     let stack = d3.stack()
         .keys(['Rest of World', ...reversedCountries])
         .order(d3.stackOrderNone)
         .offset(d3.stackOffsetNone);
 
-    // Area generator
     const area = d3.area()
         .x(d => xScale(d.data.year))
         .y0(d => yScale(d[0]))
         .y1(d => yScale(d[1]))
         .curve(d3.curveMonotoneX);
 
-    // Draw initial chart
     let stackedData = stack(annualData);
     svg.selectAll('path')
         .data(stackedData)
@@ -94,7 +84,6 @@ function initializeProductionViz(data) {
         .attr('fill', d => colorScale(d.key))
         .attr('d', area);
 
-    // Hover interaction
     const hoverLine = svg.append('line')
         .attr('stroke', '#333')
         .attr('stroke-width', 1)
@@ -114,15 +103,12 @@ function initializeProductionViz(data) {
             
             if (!closest) return;
 
-            // Update hover line
             hoverLine.attr('x1', xScale(year))
                     .attr('x2', xScale(year))
                     .style('display', null);
 
-            // Remove previous circles
             svg.selectAll('.hover-circle').remove();
 
-            // Create new interaction circles
             let totalProduction = 0;
             const activeCountries = [...topCountries, 'Rest of World']
                 .filter(c => !excludedCountries.includes(c));
@@ -131,7 +117,6 @@ function initializeProductionViz(data) {
                 const production = closest[country];
                 totalProduction += production;
                 
-                // Find y-position based on stack height
                 const stackLayer = stackedData.find(d => d.key === country);
                 if (stackLayer) {
                     const stackValue = stackLayer.find(d => d.data.year === year);
@@ -148,7 +133,6 @@ function initializeProductionViz(data) {
                 }
             });
 
-            // Update tooltip
             tooltip.style('display', 'block')
                 .html(`
                     <div style="margin-bottom: 8px; font-weight: bold; border-bottom: 1px solid #ddd;">
@@ -175,8 +159,6 @@ function initializeProductionViz(data) {
             svg.selectAll('.hover-circle').remove();
         });
 
-    // Axes and Grid Lines
-    // X-axis with black line
     svg.append('g')
         .attr('transform', `translate(0,${height - margin.bottom})`)
         .call(d3.axisBottom(xScale).tickFormat(d3.format('d')))
@@ -185,7 +167,6 @@ function initializeProductionViz(data) {
             .attr('stroke-width', 1))
         .call(g => g.selectAll('.tick line').remove());
 
-    // Y-axis with light grey line
     svg.append('g')
         .attr('transform', `translate(${margin.left},0)`)
         .call(d3.axisLeft(yScale)
@@ -197,7 +178,6 @@ function initializeProductionViz(data) {
             .attr('stroke-width', 1))
         .call(g => g.selectAll('.tick line').remove());
 
-    // Horizontal grid lines
     [50000, 100000, 150000].forEach(value => {
         svg.append('line')
             .attr('x1', margin.left)
@@ -209,13 +189,12 @@ function initializeProductionViz(data) {
             .lower();
     });
 
-    // Updated legend with better spacing and vertical alignment
     const legend = svg.append('g')
     .attr('transform', `translate(${margin.left},${height - margin.bottom + 40})`)
     .selectAll('g')
     .data([...topCountries, 'Rest of World'])
     .enter().append('g')
-    .attr('transform', (d, i) => `translate(${i * 108}, 0)`)  // Reduced gap between tags
+    .attr('transform', (d, i) => `translate(${i * 108}, 0)`)  
     .style('cursor', 'pointer')
     .on('click', function(event, d) {
         excludedCountries = excludedCountries.includes(d) 
@@ -225,22 +204,19 @@ function initializeProductionViz(data) {
         updateLegend();
     });
 
-    // Color boxes centered vertically
     legend.append('rect')
     .attr('width', 12)
     .attr('height', 12)
     .attr('y', 0)
     .attr('fill', d => colorScale(d));
 
-    // Country names aligned with color boxes
     const legendText = legend.append('text')
     .attr('x', 18)
-    .attr('y', 6)  // Vertically centered alignment
-    .attr('dy', '0.35em')  // Fine-tuned vertical positioning
+    .attr('y', 6)  
+    .attr('dy', '0.35em')  
     .style('font-size', '12px')
     .text(d => d);
 
-    // Strike-through lines aligned with text
     legend.append('line')
     .attr('x1', -4)
     .attr('x2', d => d.length * 6 + 20)
@@ -253,11 +229,9 @@ function initializeProductionViz(data) {
     function updateChart() {
         const activeCountries = [...topCountries, 'Rest of World'].filter(c => !excludedCountries.includes(c));
         
-        // Corrected stack key handling
         const countriesWithoutRoW = activeCountries.filter(c => c !== 'Rest of World');
         const reversedActive = countriesWithoutRoW.reverse();
         
-        // Only include 'Rest of World' if it's still active
         const stackKeys = activeCountries.includes('Rest of World') 
             ? ['Rest of World', ...reversedActive] 
             : [...reversedActive];
@@ -281,7 +255,6 @@ function initializeProductionViz(data) {
             .style('fill', d => excludedCountries.includes(d) ? '#999' : '#000');
     }
 
-    // Y-axis label
     svg.append('text')
         .attr('transform', 'rotate(-90)')
         .attr('x', -height/2)

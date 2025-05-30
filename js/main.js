@@ -1,7 +1,5 @@
-// Global variables for storing data
 let coffeeData, tradeData, productionData, priceData;
 
-// Load all data files
 async function loadData() {
     try {
         const [production, priceData] = await Promise.all([
@@ -9,15 +7,12 @@ async function loadData() {
             d3.csv('data/coffee-prices-historical-chart-data.csv')
         ]);
 
-        // Initialize button default states
         const score_buttons = document.querySelectorAll('#score_buttons .button');
-        // Initialize - set first button as selected by default (optional)
         if (score_buttons.length > 0) {
             score_buttons[0].classList.add('selected');
         }
 
         const import_export_buttons = document.querySelectorAll('#import_export_buttons .button');
-        // Initialize - set first button as selected by default (optional)
         if (import_export_buttons.length > 0) {
             import_export_buttons[0].classList.add('selected');
         }
@@ -43,11 +38,9 @@ async function loadData() {
     }
 }
 
-// Load coffee quality data
 async function loadCoffeeData() {
     try {
         d3.csv('data/coffee.csv').then(data => {
-        // Convert scores to numbers
         data.forEach(d => {
             d['Data.Scores.Aroma'] = +d['Data.Scores.Aroma'];
             d['Data.Scores.Flavor'] = +d['Data.Scores.Flavor'];
@@ -73,17 +66,13 @@ async function loadCoffeeData() {
             }
         });
 
-        // Set up score button event listeners
         const score_buttons = document.querySelectorAll('#score_buttons .button');
         score_buttons.forEach(button => {
             button.addEventListener('click', function() {
-                // If already selected, do nothing
                 if (this.classList.contains('selected')) return;
 
-                // Remove selected class from all buttons
                 score_buttons.forEach(btn => btn.classList.remove('selected'));
                 
-                // Add selected class to clicked button
                 this.classList.add('selected');
                 const scoreType = button.id;
                 const averageScores = calculateAverageScores(data, scoreType);
@@ -104,7 +93,6 @@ async function loadCoffeeData() {
     }
 }
 
-// Load trade data
 async function loadTradeData() {
     try {
         const [exports, imports, trades] = await Promise.all([
@@ -117,17 +105,15 @@ async function loadTradeData() {
             year: +d.Year,
             exporter: d.Exporter, 
             importer: d.Importer,
-            // resource_type: d.Resource,
             value: +d["Value (1000USD)"] || +d["Export value, where quarantined"] || +d["Import value, where quarantined"] || 0,
             weight: +d["Weight (1000kg)"] || +d["Export weight, where quarantined"] || +d["Import weight, where quarantined"] || 0,
-        })).filter(d => d.value > 0 && d.weight > 0 && d.exporter); // Remove entries without valid trade value
+        })).filter(d => d.value > 0 && d.weight > 0 && d.exporter);
 
         const year_count = 23
         const starting_year = 2000;
         const ending_year = starting_year + year_count - 1;
 
         var years = [...Array(year_count).keys()].map(i => i + starting_year)
-        // dropDown(years);
         var dropDown = d3.select("#dropdown_container")
             .append("select")
             .attr("class", "selection")
@@ -146,18 +132,14 @@ async function loadTradeData() {
         options.text(function(d) { return d; })
             .attr("value", function(d) { return d; });
 
-        // Set up import/export button event listeners
         const import_export_buttons = document.querySelectorAll('#import_export_buttons .button');
         import_export_buttons.forEach(button => {
             button.addEventListener('click', function() {
-                // If already selected, do nothing
                 if (this.classList.contains('selected')) return;
 
-                // Change selected state
                 import_export_buttons.forEach(btn => btn.classList.remove('selected'));
                 this.classList.add('selected');
 
-                // Reload trade data based on selection
                 initializeTradeViz(processedTrade.filter(d => d.year === +dropDown.property('value')), +dropDown.property('value'));
             });
         });
@@ -169,7 +151,6 @@ async function loadTradeData() {
     }
 }
 
-// Load production data
 async function loadProductionData() {
     try {
         const production = await d3.csv('data/coffee_production.csv');
@@ -181,11 +162,8 @@ async function loadProductionData() {
     }
 }
 
-// Load price data
 async function loadPriceData() {
     try {
-        // Since we don't have direct access to price data, we'll create a placeholder
-        // You would typically load this from an API or CSV file
         const priceData = generatePlaceholderPriceData();
         initializePriceViz(priceData);
     } catch (error) {
@@ -194,7 +172,6 @@ async function loadPriceData() {
     }
 }
 
-// Process trade data
 function processTradeData(trade, commodities, exporters) {
     try {
         const coffeeCommodities = commodities.filter(d => 
@@ -224,7 +201,6 @@ function processTradeData(trade, commodities, exporters) {
 
 
 
-// Process production data
 function processProductionData(production) {
     return production.flatMap(country => {
         const countryName = country.Country;
@@ -238,18 +214,16 @@ function processProductionData(production) {
     }).filter(d => !isNaN(d.year) && d.production > 0);
 }
 
-// Generate placeholder price data
 function generatePlaceholderPriceData() {
     const years = d3.range(2000, 2024);
     return years.map(year => ({
         year: year,
-        price: 1 + Math.sin(year * 0.5) + Math.random() * 0.5, // Generate some realistic-looking price data
+        price: 1 + Math.sin(year * 0.5) + Math.random() * 0.5, 
         event: year === 2011 ? '2011 Price Peak' : 
                year === 2019 ? '2019 Price Crisis' : null
     }));
 }
 
-// Error handling
 function displayErrorMessage(message, containerId) {
     const container = document.getElementById(containerId);
     if (container) {
@@ -276,7 +250,6 @@ function calculateAverageScores(data, scoreType) {
         countryScores[country].count += 1;
     });
 
-    // Calculate averages
     const averages = {};
     for (const country in countryScores) {
         averages[country] = countryScores[country].total / countryScores[country].count;
@@ -287,5 +260,4 @@ function calculateAverageScores(data, scoreType) {
 
 
 
-// Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', loadData); 

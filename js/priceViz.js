@@ -1,12 +1,10 @@
 function initializePriceViz(data) {
-    // Visualization dimensions and margins
     const width = document.getElementById('price-viz').clientWidth;
     const height = 500;
     const margin = { top: 40, right: 40, bottom: 60, left: 60 };
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
 
-    // Create SVG container
     const svg = d3.select('#price-viz')
         .append('svg')
         .attr('width', width)
@@ -15,7 +13,6 @@ function initializePriceViz(data) {
     const g = svg.append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    // Set up scales
     const xScale = d3.scaleTime()
         .domain(d3.extent(data, d => d.date))
         .range([0, innerWidth]);
@@ -24,7 +21,6 @@ function initializePriceViz(data) {
         .domain([0, d3.max(data, d => d.price) * 1.1])
         .range([innerHeight, 0]);
 
-    // Create axes
     const xAxis = d3.axisBottom(xScale)
         .ticks(d3.timeYear.every(5))
         .tickFormat(d3.timeFormat('%Y'));
@@ -32,7 +28,6 @@ function initializePriceViz(data) {
     const yAxis = d3.axisLeft(yScale)
         .tickFormat(d => `$${d3.format('.2f')(d)}`);
 
-    // Draw axes
     g.append('g')
         .attr('class', 'x-axis')
         .attr('transform', `translate(0,${innerHeight})`)
@@ -54,12 +49,10 @@ function initializePriceViz(data) {
         .attr('text-anchor', 'middle')
         .text('Price per Pound (USD)');
 
-    // Create line generator
     const line = d3.line()
         .x(d => xScale(d.date))
         .y(d => yScale(d.price));
 
-    // Draw price line
     g.append('path')
         .datum(data)
         .attr('class', 'price-line')
@@ -68,13 +61,11 @@ function initializePriceViz(data) {
         .style('stroke-width', 1.5)
         .style('fill', 'none');
 
-    // Create area generator
     const area = d3.area()
         .x(d => xScale(d.date))
         .y0(innerHeight)
         .y1(d => yScale(d.price));
 
-    // Draw area
     g.append('path')
         .datum(data)
         .attr('class', 'price-area')
@@ -82,7 +73,6 @@ function initializePriceViz(data) {
         .style('fill', '#0072FF')
         .style('opacity', 0.1);
 
-    // Tooltip setup
     const tooltip = d3.select('body')
         .append('div')
         .attr('class', 'tooltip price-tooltip')
@@ -94,7 +84,6 @@ function initializePriceViz(data) {
         .style('pointer-events', 'none')
         .style('opacity', 0);
 
-    // Interactive elements
     const bisect = d3.bisector(d => d.date).left;
     const hoverLine = g.append('line')
         .style('stroke', '#666')
@@ -106,7 +95,6 @@ function initializePriceViz(data) {
         .style('fill', '#0D0D0D')
         .style('opacity', 0);
 
-    // Mouse interaction overlay (fixed positioning)
     g.append('rect')
         .attr('class', 'overlay')
         .attr('x', 0)
@@ -154,7 +142,6 @@ function initializePriceViz(data) {
         tooltip.style('opacity', 0);
     }
 
-    // Add annotations and event markers
     addAnnotations(g, xScale, yScale, data);
     addEventMarkers(g, xScale, yScale, data, tooltip, hoverLine, hoverPoint);
 }
@@ -204,7 +191,6 @@ function addEventMarkers(g, xScale, yScale, data, tooltip, hoverLine, hoverPoint
             endYear: 1978,
             type: "max"
         },
-        // New event 1
         {
             title: "1979-1980 Brazilian Frost & Central American Turmoil",
             description: "1979 frost in Brazil damaged crops while political instability (e.g., Nicaragua's Sandinista Revolution) disrupted exports. Prices surged due to tightened supply.",
@@ -212,7 +198,6 @@ function addEventMarkers(g, xScale, yScale, data, tooltip, hoverLine, hoverPoint
             endYear: 1980,
             type: "max"
         },
-        // Existing 1980s event
         {
             title: "Market Instability",
             description: "Price volatility from Central American droughts, African political conflicts, and dissolution of global coffee quotas (1989).",
@@ -220,7 +205,6 @@ function addEventMarkers(g, xScale, yScale, data, tooltip, hoverLine, hoverPoint
             endYear: 1992,
             type: "max"
         },
-        // New event 2
         {
             title: "1985-1986 Droughts and Economic Shifts",
             description: "Severe droughts in Brazil (1985) reduced yields. Currency devaluations in African nations incentivized rapid exports, creating price swings.",
@@ -228,7 +212,6 @@ function addEventMarkers(g, xScale, yScale, data, tooltip, hoverLine, hoverPoint
             endYear: 1986,
             type: "max"
         },
-        // New event 3
         {
             title: "1994-1995 Brazilian Real Plan Devaluation",
             description: "Brazil's 1994 'Plano Real' devaluation made coffee cheaper globally. Increased exports from Brazil/Colombia pressured prices downward.",
@@ -236,7 +219,6 @@ function addEventMarkers(g, xScale, yScale, data, tooltip, hoverLine, hoverPoint
             endYear: 1995,
             type: "max"
         },
-        // New event 4
         {
             title: "1997 Asian Financial Crisis",
             description: "Currency collapse in key robusta consumers (Indonesia/Thailand) slashed demand. Vietnam's rising output intensified oversupply.",
@@ -244,7 +226,6 @@ function addEventMarkers(g, xScale, yScale, data, tooltip, hoverLine, hoverPoint
             endYear: 1997,
             type: "max"
         },
-        // Existing 2002 event
         {
             title: "Vietnam’s Coffee Boom",
             description: "Vietnam’s rapid robusta production surge flooded markets, driving prices to a historic low ($0.42).",
@@ -252,7 +233,6 @@ function addEventMarkers(g, xScale, yScale, data, tooltip, hoverLine, hoverPoint
             endYear: 2003,
             type: "min"
         },
-        // New event 5
         {
             title: "2022 Post-Pandemic Surge & Climate Shocks",
             description: "Global reopening spiked demand while Brazilian droughts (2021-2022) and Russia-Ukraine war fertilizer shortages strained supply.",

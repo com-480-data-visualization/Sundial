@@ -11,19 +11,15 @@ Promise.all([
 ]).then(([exportsData, importsData]) => {
     exports = exportsData;
     imports = importsData;
-    // You may want to initialize your visualization here, e.g.:
-    // initializeTradeViz(exports, someYear);
-});
+    });
 
 
-// Trade visualization
 function initializeTradeViz(data, year) {
     if (!data || data.length === 0) {
         console.error('No trade data available');
         return;
     }
 
-    // Check import / export mode
     const button = document.querySelector('#import_export_buttons .selected');
     if (!button) {
         console.error('No button selected');
@@ -44,18 +40,15 @@ function initializeTradeViz(data, year) {
             return;
     }
 
-    // Reset hoveredCountry & hoveredArrowCountries
     hoveredCountry = null;
     hoveredArrowCountries = [null, null];
 
-    // TODO: width & height should be dynamically updated!
     const width = document.getElementById('trade-viz').clientWidth;
     const height = width * 0.65;
     const map_scale_factor = (width - 3) / (2 * Math.PI)
     const map_translate_factor = [width / 2, height / 1.6]
     const margin = { top: 20, right: 20, bottom: 30, left: 40 };
 
-    // Select existing SVG or create a new one
     var svg = d3.select('#trade-viz-svg');
     if (svg.empty()) {
         svg = d3.select('#trade-viz')
@@ -65,7 +58,6 @@ function initializeTradeViz(data, year) {
             .attr('id', 'trade-viz-svg');
     }
 
-    // Create map projection
     const projection = d3.geoMercator()
         .scale(map_scale_factor)
         .translate(map_translate_factor);
@@ -73,10 +65,8 @@ function initializeTradeViz(data, year) {
     const path = d3.geoPath()
         .projection(projection);
 
-    // Clear previous content
     const flow_tooltip = d3.selectAll(".tooltip#trade-flow-tooltip");
     if (flow_tooltip.empty()) {
-        // Create tooltip
         const tooltip = d3.select('body').append('div')
             .attr('class', 'tooltip')
             .attr('id', 'trade-flow-tooltip')
@@ -85,7 +75,6 @@ function initializeTradeViz(data, year) {
 
     const country_tooltip = d3.selectAll(".tooltip#trade-country-tooltip");
     if (country_tooltip.empty()) {
-        // Create tooltip
         const tooltip = d3.select('body').append('div')
             .attr('class', 'tooltip')
             .attr('id', 'trade-country-tooltip')
@@ -93,28 +82,21 @@ function initializeTradeViz(data, year) {
     }
     
 
-    // Load world map data
     d3.json('https://unpkg.com/world-atlas@2/countries-110m.json')
         .then(world => {
             const tradeFlows = data.filter(d => d.year === year);
             console.log('Trade data for Year:', year, tradeFlows);
-            // console.log('Trade Flows for Year:', year, tradeFlows);
-
+            
             let result = drawMap(world, projection, path, tradeFlows, year);
-            // console.log('Map Draw Result:', result);
-
+            
             const topTrades = getTrades(hoveredCountry, tradeFlows, showExporters, hoverlessShowCount);
-            // console.log('Top Trades:', topTrades);
-
+            
             const maxTradeValue = d3.max(topTrades, d => d3.max(d.destinations, e => e[1]));
-            // console.log('Max Trade Value:', maxTradeValue);
-
+            
             const allFlows = getFlows(topTrades, showExporters);
-            // console.log('All Flows:', allFlows);
-
+            
             getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
 
-            // Add legend
             addTradeLegend(svg, document.getElementById('trade-viz').clientWidth, maxTradeValue);
         });
 }
@@ -131,10 +113,10 @@ function drawMap(world, projection, contours, tradeFlows, year) {
         .append('path')
         .attr('class', 'country')   
         .attr('d', contours)
-        .attr('stroke', '#000000') // Default fill color for countries
+        .attr('stroke', '#000000') 
         .attr('stroke-width', 1)
         .attr('stroke-opacity', 1)
-        .attr('fill', '#e0e0e0') // Default fill color for countries
+        .attr('fill', '#e0e0e0') 
         .on('mouseover', function(event, d) {
             d3.select(this)
                 .style('fill', "c0c0c0");
@@ -142,14 +124,12 @@ function drawMap(world, projection, contours, tradeFlows, year) {
             hoveredArrowCountries = [null, null];
             console.log("Hovered Country:", hoveredCountry);
             console.log("Hovered Arrow Countries:", hoveredArrowCountries);
-            // const exportAmount = exports.filter(d => d.Exporter === hoveredCountry && d.year === year)[0];
             const topTrades = getTrades(hoveredCountry, tradeFlows, showExporters, hoveredShowCount);
             const maxTradeValue = d3.max(topTrades, d => d3.max(d.destinations, e => e[1]));
             const allFlows = getFlows(topTrades, showExporters);
             getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
             addTradeLegend(svg, document.getElementById('trade-viz').clientWidth, maxTradeValue);
 
-            // fetch export_full.csv/import_full.csv
             const tradeRecord = showExporters 
                 ? exports.filter(d => d['Exporter'] == hoveredCountry && +d['Year'] == year) 
                 : imports.filter(d => d['Importer'] == hoveredCountry && +d['Year'] == year);
@@ -158,7 +138,6 @@ function drawMap(world, projection, contours, tradeFlows, year) {
                 [tradeRecord[0]['Value (1000USD)'], tradeRecord[0]['Weight (1000kg)']];
             console.log("Trade Amount:", tradeAmount);
             
-            // Update tooltip with country name
             tooltip = d3.select('.tooltip#trade-country-tooltip');
             tooltip.transition()
                 .duration(200)
@@ -256,16 +235,13 @@ function getFlows(topTrades, showExporters) {
 
 function getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters) {
     const svg = d3.select('#trade-viz-svg')
-    // Clear arrows
     svg.selectAll('.trade-flow-group').remove();
 
-    // Rebuild arrows
     allFlows.forEach(d => {
         const groupSvg = svg.append('svg')
             .attr('class', 'trade-flow-group')
             .attr('overflow', 'visible');
 
-        // Add marker definition for each group
         const defs = groupSvg.append('defs');
         defs.append('marker')
             .attr('id', `triangle-${d.exporter.replace(/\s/g, '')}-${d.importer.replace(/\s/g, '')}`)
@@ -281,7 +257,6 @@ function getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExp
             .style('fill', getTradeValueColor(d.value, maxTradeValue))
             .style('fill-opacity', 1);
 
-        // Draw the trade flow path
         const sourcePos = projection(d.source);
         const targetPos = projection(d.target);
         const dx = targetPos[0] - sourcePos[0];
@@ -322,11 +297,7 @@ function getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExp
                 hoveredArrowCountries = [null, null];
                 console.log("Hovered Arrow Countries Reset:", hoveredArrowCountries);
                 
-                // const topTrades = getTrades(hoveredCountry, tradeFlows, showExporters, hoverlessShowCount);
-                // const maxTradeValue = d3.max(topTrades, d => d3.max(d.destinations, e => e[1]));
-                // const allFlows = getFlows(topTrades, showExporters);
-                // getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExporters)
-
+                
                 d3.select(this)
                     .style('stroke-opacity', 0.6);
 
@@ -337,23 +308,19 @@ function getTradeArrows(allFlows, tradeFlows, maxTradeValue, projection, showExp
     });
 }
 
-// Helper functions
 function getCountryCoordinates(countryName) {
     const coordinates = getCoordinates();
     if (coordinates[countryName]) return coordinates[countryName]
 
-    // Normalize country name
     const normalizedName = countryName.trim()
         .replace(/\s+/g, ' ')
         .replace(/^The\s+/i, '')
         .replace(/\s*\([^)]*\)/g, '');
         
-    // Try exact match first
     if (coordinates[normalizedName]) {
         return coordinates[normalizedName];
     }
     
-    // Try case-insensitive match
     const lowercaseName = normalizedName.toLowerCase();
     const match = Object.keys(coordinates).find(key => 
         key.toLowerCase() === lowercaseName
@@ -363,12 +330,6 @@ function getCountryCoordinates(countryName) {
 }
 
 function getTradeValueColor(value, maxValue = 1e8, minValue = 1) {
-    // const colorScale = d3.scaleSequential()
-    //     .domain([0, maxValue])
-    //     .interpolator(d3.interpolateBlues);
-    // return colorScale(value);
-
-    // Weighted average for better color distribution
     const v = 0.5 * d3.scaleLinear()
         .domain([0, maxValue])
         .range([0, 1])(value) + 
@@ -382,11 +343,6 @@ function getTradeValueColor(value, maxValue = 1e8, minValue = 1) {
 }
 
 function getTradeValueWidth(value, maxValue = 1e8, minValue = 1) {
-    // return d3.scaleSequential()
-    //     .domain([1, maxValue])
-    //     .range([2, 10])(value);
-
-    // Weighted average for better width distribution
     return (0.8 * d3.scaleLinear()
         .domain([0, maxValue])
         .range([1, 10])(value) +
@@ -415,7 +371,6 @@ function formatWeight(weight) {
 }
 
 function addTradeLegend(svg, width, maxValue = 1e8) {
-    // Remove existing legend if any
     svg.selectAll('.legend').remove();
     var legend = svg.append('g')
         .attr('class', 'legend')
@@ -423,7 +378,7 @@ function addTradeLegend(svg, width, maxValue = 1e8) {
     console.log('Adding Trade Legend with maxValue:', maxValue);
 
     var startExp = 8;
-    const legendCount = 3; // Number of legend lines
+    const legendCount = 3; 
     const valueRanges = [];
     while (maxValue / Math.pow(10, startExp) < 1) {
         startExp--;
@@ -512,11 +467,7 @@ function getCoordinates() {
     17.060816,
     -61.796428
   ],
-//   "Areas, nes": [
-//     0.0,
-//     0.0
-//   ],
-  "Argentina": [
+ "Argentina": [
     -38.416097,
     -63.616672
   ],
@@ -804,11 +755,7 @@ function getCoordinates() {
     46.603354,
     1.888334
   ],
-//   "Free Zones": [
-//     0.0,
-//     0.0
-//   ],
-  "French Polynesia": [
+ "French Polynesia": [
     -17.679742,
     -149.406843
   ],
@@ -1148,19 +1095,7 @@ function getCoordinates() {
     21.512583,
     55.923255
   ],
-//   "Other Africa, nes": [
-//     0.0,
-//     0.0
-//   ],
-//   "Other Asia, nes": [
-//     0.0,
-//     0.0
-//   ],
-//   "Other Europe, nes": [
-//     0.0,
-//     0.0
-//   ],
-  "Pakistan": [
+ "Pakistan": [
     30.375321,
     69.345116
   ],
@@ -1316,10 +1251,6 @@ function getCoordinates() {
     40.463667,
     -3.74922
   ],
-//   "Special Categories": [
-//     0.0,
-//     0.0
-//   ],
   "Sri Lanka": [
     7.873054,
     80.771797
@@ -1420,11 +1351,7 @@ function getCoordinates() {
     37.09024,
     -95.712891
   ],
-//   "United States Minor Outlying Islands": [
-//     0.0,
-//     0.0
-//   ],
-  "Uruguay": [
+ "Uruguay": [
     -32.522779,
     -55.765835
   ],
@@ -1467,7 +1394,4 @@ function getCoordinates() {
 }}
 
 
-// function updateTradeArrows() {
-//     reload();
-// }
 refresh();
